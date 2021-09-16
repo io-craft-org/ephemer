@@ -1,0 +1,19 @@
+HELLO
+
+{{ request.user }}
+
+il y a {{ experiments.count }} experiment{{ experiments.count|pluralize }}.
+
+<table>
+    <tr>
+        <th>
+            Title
+        </th>
+    </tr>
+
+    {% for experiment in experiments.all %}
+    <tr>
+        <td><a href="{% url 'experiments-experiment-detail' experiment.pk %}">{{ experiment.title }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
