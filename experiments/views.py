@@ -84,3 +84,10 @@ def session_detail(request, session_id):
         template_name="experiments/session_detail.html",
         context={"session": session},
     )
+
+
+def faq(request):
+    return render(
+        request,
+        template_name="faq.html",
+    )

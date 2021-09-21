@@ -33,6 +33,7 @@ urlpatterns = [
     path("register/", home_views.RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("__debug__/", include(debug_toolbar.urls)),
+    path("faq", experiments_views.faq, name="experiments-faq"),
 ]
 
 urlpatterns.extend(magicauth_urls)
