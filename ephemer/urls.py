@@ -34,6 +34,7 @@ urlpatterns = [
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("__debug__/", include(debug_toolbar.urls)),
     path("faq", experiments_views.faq, name="experiments-faq"),
+    path("", experiments_views.index, name="experiments-index"),
 ]
 
 urlpatterns.extend(magicauth_urls)

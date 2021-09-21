@@ -91,3 +91,7 @@ def faq(request):
         request,
         template_name="faq.html",
     )
+
+
+def index(request):
+    return render(request, template_name="index.html")
