@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "sass_processor",
     "django_bootstrap5",
+    "django_bootstrap_icons",
     "magicauth",
     "home",
     "experiments",
@@ -154,6 +155,7 @@ EMAIL_BACKEND = (
 
 # MAGICAUTH
 LOGIN_URL = "/login/"
+LOGOUT_REDIRECT_URL = "/"
 MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = "home"
 MAGICAUTH_FROM_EMAIL = EMAIL_FROM
 MAGICAUTH_EMAIL_SUBJECT = "Connectez-vous à Ephemer ici"
@@ -163,7 +165,7 @@ MAGICAUTH_TOKEN_DURATION_SECONDS = 60 * 30
 
 # Session Settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
-SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30d * 24h * 60m * 60s
+SESSION_COOKIE_AGE = 60 * 60  # 1h
 
 # DJDT FIXME: move to dev settings
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)

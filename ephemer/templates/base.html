@@ -32,9 +32,19 @@
                         </div>
                     </li>
                 </ul>
+
+                <div>
+                    {% if user.is_authenticated %}
+                    loggé en tant que :
+                    {{ user.email }}
+                    <a href="{% url 'logout' %}">Se déconnecter</a>
+                    {% else %}
+                    <a href="{% url 'magicauth-login' %}">Se connecter</a>
+                    {% endif %}
+                </div>
             </div>
 
-            <div>
+            <div class="flex-grow-1 bg-white">
                 {% block content %}{% endblock %}
             </div>
         </main>

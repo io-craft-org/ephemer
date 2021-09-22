@@ -15,6 +15,7 @@ Including another URLconf
 """
 import debug_toolbar
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from experiments import views as experiments_views
 from home import views as home_views
@@ -23,6 +24,7 @@ from magicauth.urls import urlpatterns as magicauth_urls
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_views.Home.as_view(), name="home"),
+    path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path(
         "experiments/",
         experiments_views.experiment_list,

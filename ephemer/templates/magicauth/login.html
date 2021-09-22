@@ -1,0 +1,41 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% load bootstrap_icons %}
+{% load django_bootstrap5 %}
+
+{% block content %}
+
+<div class="col-10 py-5 mx-auto">
+
+    <h2 class="mb-3">
+        {% bs_icon 'person-circle' size='28px' %}
+        Se connecter ou créer un compte
+    </h2>
+
+    <div class="bd-callout bd-callout-info mb-5">
+        <p>
+        Que vous ayez <strong>déjà un compte</strong> ou que vous <strong>souhaitiez
+            en créer un</strong>, il vous suffit de <strong>renseigner votre courriel</strong>.
+        </p>
+
+        Un <strong>lien</strong> vous sera envoyé dans votre <strong>boîte aux lettres</strong>
+        : vous n'aurez plus qu'à <strong>cliquer dessus pour accéder au site</strong>.
+    </div>
+
+    
+
+    <form method="post" class="form">
+        {% csrf_token %}
+
+        {% bootstrap_form form layout="floating" %}
+
+        <button type="submit" class="btn btn-primary btn-block">
+            {% bs_icon 'envelope' size='20px' extra_classes="align-middle me-1" %}
+            <span class="align-middle">
+                Recevoir mon lien de connexion
+            </span>
+        </button>
+    </form>
+</div>
+{% endblock %}
