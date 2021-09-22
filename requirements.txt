@@ -1,2 +1,3 @@
 django-sass-processor
+libsass
 django-bootstrap5

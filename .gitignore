@@ -1,0 +1,14 @@
+tmp
+.venv
+.vscode
+dist
+*.sqlite3
+*.egg-info
+__pycache__
+*.pyc
+*.swp
+*.swo
+.#*
+.coverage
+development.py
+htmlcov
