@@ -1,0 +1,2 @@
+django-sass-processor
+django-bootstrap5
