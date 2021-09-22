@@ -13,14 +13,16 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+import debug_toolbar
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from experiments import views as experiments_views
 from home import views as home_views
+from magicauth.urls import urlpatterns as magicauth_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", home_views.Home.as_view()),
+    path("", home_views.Home.as_view(), name="home"),
     path(
         "experiments/",
         experiments_views.experiment_list,
@@ -51,4 +53,7 @@ urlpatterns = [
         experiments_views.ExperimentCreate.as_view(),
         name="experiments-experiment-create-cbv",
     ),
+    path("__debug__/", include(debug_toolbar.urls)),
 ]
+
+urlpatterns.extend(magicauth_urls)

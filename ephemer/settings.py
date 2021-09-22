@@ -25,7 +25,7 @@ SECRET_KEY = "django-insecure-yd!l1k_i2mxkasc=6n&906z+63a%0$*4v*iir-wb*@&*4qrefg
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ["*"]  # FIXME: Should be changed before production
 
 
 # Application definition
@@ -37,8 +37,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "debug_toolbar",
     "sass_processor",
     "django_bootstrap5",
+    "magicauth",
     "home",
     "experiments",
 ]
@@ -108,7 +110,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 
-LANGUAGE_CODE = "fr"
+LANGUAGE_CODE = "fr-fr"
 
 TIME_ZONE = "Europe/Paris"
 
@@ -143,3 +145,26 @@ SASS_PRECISION = 8
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# EMAIL
+EMAIL_FROM = "Ephemer <no-reply@ephemer.fr>"
+EMAIL_BACKEND = (
+    "django.core.mail.backends.console.EmailBackend"  # FIXME: toggle if production
+)
+
+# MAGICAUTH
+LOGIN_URL = "/login/"
+MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = "home"
+MAGICAUTH_FROM_EMAIL = EMAIL_FROM
+MAGICAUTH_EMAIL_SUBJECT = "Connectez-vous à Ephemer ici"
+MAGICAUTH_EMAIL_FIELD = "email"
+MAGICAUTH_EMAIL_UNKNOWN_CALLBACK = "home.utils.create_user"
+MAGICAUTH_TOKEN_DURATION_SECONDS = 60 * 30
+
+# Session Settings
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+SESSION_COOKIE_AGE = 30 * 24 * 60 * 60  # 30d * 24h * 60m * 60s
+
+# DJDT FIXME: move to dev settings
+MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
