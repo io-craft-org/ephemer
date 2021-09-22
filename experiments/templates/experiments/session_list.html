@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+Vous avez {{ sessions.count }} session{{ sessions.count|pluralize }}.
+
+<table>
+    <tr>
+        <th>
+            Titre
+        </th>
+    </tr>
+
+    {% for sessions in sessions.all %}
+    <tr>
+        <td><a href="#">{{ session.name }}</a></td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}

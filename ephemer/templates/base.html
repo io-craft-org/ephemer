@@ -1,4 +1,5 @@
 {% load django_bootstrap5 %}
+{% load bootstrap_icons %}
 {% load sass_tags %}
 <!DOCTYPE html>
 <html>
@@ -15,33 +16,45 @@
         <main>
             <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
                 <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                    <svg class="bi me-2" width="30" height="24"><use xlink:href="#bootstrap"/></svg>
-                    <span class="fs-5 fw-semibold">Ephemer</span>
+                    {% bs_icon 'cup-straw' size='25px' extra_classes='align-middle' %}
+                    <span class="fs-5 fw-semibold ms-2 align-middle">Ephemer</span>
                 </a>
+
+
                 <ul class="list-unstyled ps-0">
+                    {% if user.is_authenticated %}
                     <li class="mb-1">
-                        <button class="btn btn-toggle align-items-center rounded collapsed" data-bs-toggle="collapse" data-bs-target="#home-collapse" aria-expanded="true">
-                            Notes
-                        </button>
-                        <div class="collapse show" id="home-collapse">
+                        <span class="fw-bold align-items-center rounded">Expériences</span>
+                        <div class="show">
                             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="#" class="link-dark rounded">XP1</a></li>
-                                <li><a href="#" class="link-dark rounded">XP2</a></li>
-                                <li><a href="#" class="link-dark rounded">XP3</a></li>
+                                <li><a href="{% url 'experiments-session-list' %}" class="link-dark rounded">Historique</a></li>
+                                <li><a href="{% url 'experiments-experiment-list' %}" class="link-dark rounded">Catalogue d'XP</a></li>
                             </ul>
                         </div>
                     </li>
+                    {% endif %}
+
+                    <li class="mb-1">
+                        <span class="fw-bold align-items-center rounded">A propos</span>
+                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
+                            <li><a href="#" class="link-dark rounded">Guide d'utilisation</a></li>
+                            <li><a href="#" class="link-dark rounded">Aide</a></li>
+                            <li><a href="#" class="link-dark rounded">Contact</a></li>
+                        </ul>
+                    </li>
                 </ul>
 
+                {% if user.is_authenticated %}
                 <div>
-                    {% if user.is_authenticated %}
                     loggé en tant que :
                     {{ user.email }}
                     <a href="{% url 'logout' %}">Se déconnecter</a>
-                    {% else %}
-                    <a href="{% url 'magicauth-login' %}">Se connecter</a>
-                    {% endif %}
                 </div>
+                {% else %}
+                <div>
+                    <a href="{% url 'magicauth-login' %}">Se connecter</a>
+                </div>
+                {% endif %}
             </div>
 
             <div class="flex-grow-1 bg-white">

@@ -4,7 +4,6 @@ from django.views.generic import CreateView, DetailView, ListView, TemplateView
 from . import forms, models
 
 
-# Create your views here.
 def experiment_list(request):
     experiments = models.Experiment.objects.all()
     return render(
@@ -66,3 +65,22 @@ class ExperimentDetail(DetailView):
     template_name = "experiments/experiment_detail.html"
     context_object_name = "experiment"
     pk_url_kwarg = "experiment_id"
+
+
+# Sessions
+def session_list(request):
+    sessions = models.Session.objects.all()
+    return render(
+        request,
+        template_name="experiments/session_list.html",
+        context={"sessions": sessions},
+    )
+
+
+def session_detail(request, session_id):
+    session = models.Session.objects.get(pk=session_id)
+    return render(
+        request,
+        template_name="experiments/session_detail.html",
+        context={"session": session},
+    )

@@ -18,44 +18,22 @@ from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from experiments import views as experiments_views
+from experiments.urls import urlpatterns as experiments_urls
 from home import views as home_views
 from magicauth.urls import urlpatterns as magicauth_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_views.Home.as_view(), name="home"),
+    path(
+        "register-or-login/",
+        home_views.RegisterOrLogin.as_view(),
+        name="register-or-login",
+    ),
+    path("register/", home_views.RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
-    path(
-        "experiments/",
-        experiments_views.experiment_list,
-        name="experiments-experiment-list",
-    ),
-    path(
-        "experiments-cbv/",
-        experiments_views.ExperimentList2.as_view(),
-        name="experiments-experiment-list-cbv",
-    ),
-    path(
-        "experiments/<int:experiment_id>/",
-        experiments_views.experiment_detail,
-        name="experiments-experiment-detail",
-    ),
-    path(
-        "experiments-cbv/<int:experiment_id>/",
-        experiments_views.ExperimentDetail.as_view(),
-        name="experiments-experiment-detail-cbv",
-    ),
-    path(
-        "experiments/new/",
-        experiments_views.experiment_create,
-        name="experiments-experiment-create",
-    ),
-    path(
-        "experiments-cbv/new/",
-        experiments_views.ExperimentCreate.as_view(),
-        name="experiments-experiment-create-cbv",
-    ),
     path("__debug__/", include(debug_toolbar.urls)),
 ]
 
 urlpatterns.extend(magicauth_urls)
+urlpatterns.extend(experiments_urls)

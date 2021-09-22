@@ -2,7 +2,6 @@ from django.db import models
 from django.shortcuts import reverse
 
 
-# Create your models here.
 class Experiment(models.Model):
     title = models.CharField(
         max_length=255, verbose_name="Titre", help_text="Le titre de l'expérience"
@@ -13,3 +12,8 @@ class Experiment(models.Model):
         return reverse(
             "experiments-experiment-detail", kwargs={"experiment_id": self.pk}
         )
+
+
+class Session(models.Model):
+    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    name = models.CharField(default="Session Sans Nom", max_length=100)
