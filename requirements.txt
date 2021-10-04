@@ -4,4 +4,5 @@ django-otp
 django-sass-processor
 libsass
 django-bootstrap5
+django_bootstrap_icons
 django-debug-toolbar
