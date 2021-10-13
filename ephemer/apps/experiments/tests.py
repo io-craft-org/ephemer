@@ -33,7 +33,7 @@ def test_experiment_details_not_accessible_as_guest(client):
 
 @pytest.mark.django_db
 def test_experiment_details(client):
-    experiment = Recipe(models.Experiment).make()
+    experiment = Recipe(models.Experiment, title="My Exp").make()
     with login(client, is_staff=True):
         response = client.get(
             reverse("experiments-experiment-detail", args=(experiment.pk,))
