@@ -1,10 +1,9 @@
 from django.shortcuts import redirect, render
 from django.urls import reverse, reverse_lazy
 from django.views.generic import FormView, TemplateView
+from ephemer.apps.home.forms import RegisterForm
 from magicauth.next_url import NextUrlMixin
 from magicauth.send_token import SendTokenMixin
-
-from ephemer.apps.home.forms import RegisterForm
 
 
 class Home(TemplateView):
@@ -25,3 +24,10 @@ class RegisterView(FormView, NextUrlMixin, SendTokenMixin):
             next_url = self.get_next_url(self.request)
             return redirect(next_url)
         return super(RegisterView, self).get(request, *args, **kwargs)
+
+
+def faq(request):
+    return render(
+        request,
+        template_name="faq.html",
+    )

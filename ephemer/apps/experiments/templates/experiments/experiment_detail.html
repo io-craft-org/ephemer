@@ -1,2 +1,14 @@
-<p>experience : {{ experiment.title }}, difficulté : {{ experiment.difficulty }}</p>
-<a href="{% url 'experiments-experiment-list' %}">Liste des XPs</a>
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row mx-auto py-4">
+    <h3 class="fw-bold">{{ experiment.title }}</h3>
+
+    <p>experience : {{ experiment.title }}, difficulté : {{ experiment.difficulty }}</p>
+    <a href="{% url 'experiments-experiment-list' %}">Liste des XPs</a>
+
+
+</div>
+{% endblock %}
+

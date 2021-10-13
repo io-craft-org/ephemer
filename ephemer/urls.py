@@ -17,10 +17,11 @@ import debug_toolbar
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
+from magicauth.urls import urlpatterns as magicauth_urls
+
 from ephemer.apps.experiments import views as experiments_views
 from ephemer.apps.experiments.urls import urlpatterns as experiments_urls
 from ephemer.apps.home import views as home_views
-from magicauth.urls import urlpatterns as magicauth_urls
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -33,8 +34,7 @@ urlpatterns = [
     path("register/", home_views.RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("__debug__/", include(debug_toolbar.urls)),
-    path("faq", experiments_views.faq, name="experiments-faq"),
-    path("", experiments_views.index, name="experiments-index"),
+    path("faq", home_views.faq, name="home-faq"),
 ]
 
 urlpatterns.extend(magicauth_urls)

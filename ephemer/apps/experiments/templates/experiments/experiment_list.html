@@ -1,22 +1,33 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_icons %}
 
 {% block content %}
+<div class="row mx-auto py-4">
+    <h3 class="fw-bold">Catalogue d'expériences</h3>
 
-il y a {{ experiments.count }} experiment{{ experiments.count|pluralize }}.
 
-<table>
-    <tr>
-        <th>
-            Title
-        </th>
-    </tr>
-
-    {% for experiment in experiments.all %}
-    <tr>
-        <td><a href="#">{{ experiment.title }}</a></td>
-    </tr>
-    {% endfor %}
-</table>
+    <div class="row">
+        {% for experiment in experiments.all %}
+        <div class="bg-light round rounded-4 p-4 m-2 position-relative">
+            <h4 class="fw-bold">
+                {% bs_icon 'box' size='25px' extra_classes='align-middle' %}
+                <span class="align-middle">
+                    <a class="stretched-link" href="{% url "experiments-experiment-detail" experiment.id %}">
+                        {{ experiment.title }}
+                    </a>
+                </span>
+            </h4>
+            <p>{{ experiment.description }}</p>
+            <p>But: {{ experiment.goal }}</p>
+            <p>
+                Durée : {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
+                -
+                Nombre de participants : {{ experiment.participant_count }}
+            </p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 
 {% endblock %}

@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render, reverse
+from django.shortcuts import get_object_or_404, redirect, render, reverse
 from django.views.generic import CreateView, DetailView, ListView, TemplateView
 
 from . import forms, models
@@ -14,7 +14,7 @@ def experiment_list(request):
 
 
 def experiment_detail(request, experiment_id):
-    experiment = models.Experiment.objects.get(pk=experiment_id)
+    experiment = get_object_or_404(models.Experiment, pk=experiment_id)
     return render(
         request,
         template_name="experiments/experiment_detail.html",
@@ -38,35 +38,6 @@ def experiment_create(request):
     )
 
 
-class ExperimentList(TemplateView):
-    template_name = "experiments/experiment_list.html"
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["experiments"] = models.Experiment.objects.all()
-
-        return context
-
-
-class ExperimentList2(ListView):
-    template_name = "experiments/experiment_list.html"
-    queryset = models.Experiment.objects.all()
-    context_object_name = "experiments"
-
-
-class ExperimentCreate(CreateView):
-    model = models.Experiment
-    fields = ["title"]
-    template_name = "experiments/experiment_create.html"
-
-
-class ExperimentDetail(DetailView):
-    model = models.Experiment
-    template_name = "experiments/experiment_detail.html"
-    context_object_name = "experiment"
-    pk_url_kwarg = "experiment_id"
-
-
 # Sessions
 def session_list(request):
     sessions = models.Session.objects.all()
@@ -84,14 +55,3 @@ def session_detail(request, session_id):
         template_name="experiments/session_detail.html",
         context={"session": session},
     )
-
-
-def faq(request):
-    return render(
-        request,
-        template_name="faq.html",
-    )
-
-
-def index(request):
-    return render(request, template_name="index.html")
