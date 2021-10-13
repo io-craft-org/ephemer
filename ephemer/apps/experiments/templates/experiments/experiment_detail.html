@@ -1,12 +1,53 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_icons %}
 
 {% block content %}
-<div class="row mx-auto py-4">
-    <h3 class="fw-bold">{{ experiment.title }}</h3>
+<div class="row mx-auto p-4">
+    <h3 class="fw-bold">
+        {% bs_icon 'box' size='25px' extra_classes='align-middle me-1' %}
+        <span class="align-middle">
+            {{ experiment.title|capfirst }}
+        </span>
+    </h3>
+    <p>
+        <span class="badge rounded-pill bg-primary">thème1</span>
+        <span class="badge rounded-pill bg-primary">thème2</span>
+    </p>
+    <p>
+        {% bs_icon 'people' size='16px' extra_classes='align-middle me-1' %}
+        <span class="align-middle">
+            {{ experiment.participant_count }} participant{{ experiment.participant_count|pluralize }}
+        </span>
+        <span class="mx-2"></span>
+        {% bs_icon 'clock' size='16px' extra_classes='align-middle me-1' %}
+        <span class="align-middle">
+            {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
+        </span>
+    </p>
+    <div class="mb-2 bg-light rounded rounded-4 p-4 fs-4">
+        <h4>
+            <span class="align-middle fw-bolder">A propos</span>
+        </h4>
+        {{ experiment.description|capfirst }}
+    </div>
 
-    <p>experience : {{ experiment.title }}, difficulté : {{ experiment.difficulty }}</p>
-    <a href="{% url 'experiments-experiment-list' %}">Liste des XPs</a>
+    <div class="my-2 bg-light rounded rounded-4 p-4">
+        <h4>
+            <span class="align-middle fw-bolder">Objectifs</span>
+        </h4>
+        {{ experiment.goal|capfirst }}
+        XX
+    </div>
+
+    <div class="d-flex justify-content-end m-2">
+        <button class="btn btn-primary">
+            {% bs_icon 'sliders' size='16px' extra_classes='align-middle me-1' %}
+            <span class="align-middle">
+                Configurer et démarrer l'expérience
+            </span>
+        </button>
+    </div>
 
 
 </div>
