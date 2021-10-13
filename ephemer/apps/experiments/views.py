@@ -55,7 +55,7 @@ def session_create(request, experiment_id):
             session.experiment = experiment
             session.save()
 
-        return redirect("experiments-session-detail", id=session.pk)
+        return redirect("experiments-session-detail", session_id=session.pk)
 
     form = forms.SessionCreateForm()
 
