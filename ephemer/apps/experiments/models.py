@@ -1,5 +1,7 @@
+from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
+from django.utils import timezone
 
 
 class ExperimentManager(models.Manager):
@@ -29,5 +31,11 @@ class Experiment(models.Model):
 
 
 class Session(models.Model):
-    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    created_by = models.ForeignKey(
+        User, on_delete=models.CASCADE, related_name="sessions"
+    )
+    created_on = models.DateTimeField(
+        default=timezone.now, verbose_name="date de création"
+    )
     name = models.CharField(default="Session Sans Nom", max_length=100)
+    experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)

@@ -17,7 +17,7 @@ urlpatterns = [
         name="experiments-session-list",
     ),
     path(
-        r"sessions/<int:id>/",
+        r"sessions/<int:session_id>/",
         views.session_detail,
         name="experiments-session-detail",
     ),
@@ -30,5 +30,10 @@ urlpatterns = [
         r"xp/<int:experiment_id>",
         views.experiment_detail,
         name="experiments-experiment-detail",
+    ),
+    path(
+        r"xp/<int:experiment_id>/create",
+        views.session_create,
+        name="experiments-session-create",
     ),
 ]

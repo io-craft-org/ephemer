@@ -40,12 +40,12 @@
     </div>
 
     <div class="d-flex justify-content-end m-2">
-        <button class="btn btn-primary">
+        <a class="btn btn-primary" href="{% url 'experiments-session-create' experiment.pk %}">
             {% bs_icon 'sliders' size='16px' extra_classes='align-middle me-1' %}
             <span class="align-middle">
                 Configurer et démarrer l'expérience
             </span>
-        </button>
+        </a>
     </div>
 
 

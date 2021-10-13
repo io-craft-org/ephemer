@@ -1,22 +1,48 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_icons %}
 
 {% block content %}
+<div class="row mx-auto py-4">
+    <h3 class="fw-bold">Historique d'expériences</h3>
 
-Vous avez {{ sessions.count }} session{{ sessions.count|pluralize }}.
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th>Nom</th>
+                <th>Expérience</th>
+                <th>Créée le</th>
+                <th>Résultats</th>
+                <th>Télécharger</th>
+            </tr>
+            {% for session in sessions %}
+            <tr>
+                <td><a href="{% url 'experiments-session-detail' session.pk %}">{{ session.name }}</a></td>
+                <td>{{ session.experiment.title }}</td>
+                <td>{{ session.created_on }}</td>
+                <td>Resultats</td>
+                <td>Télécharger Res</td>
+            </tr>
+            {% endfor %}
+        </table>
 
-<table>
-    <tr>
-        <th>
-            Titre
-        </th>
-    </tr>
+        <div class="pagination">
+            <span class="step-links">
+                {% if page_obj.has_previous %}
+                <a href="?page=1">&laquo; Premièr</a>
+                <a href="?page={{ sessions.previous_page_number }}">Précédentes</a>
+                {% endif %}
 
-    {% for sessions in sessions.all %}
-    <tr>
-        <td><a href="#">{{ session.name }}</a></td>
-    </tr>
-    {% endfor %}
-</table>
+                <span class="current">
+                    Page {{ sessions.number }} de {{ sessions.paginator.num_pages }}.
+                </span>
+                {% if page_obj.has_next %}
+                <a href="?page={{ sessions.next_page_number }}">Suivant</a>
+                <a href="?page={{ sessions.paginator.num_pages }}">Dernière &raquo;</a>
+                {% endif %}
+            </span>
+        </div>
+    </div>
+</div>
 
 {% endblock %}

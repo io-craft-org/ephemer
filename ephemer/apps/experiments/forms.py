@@ -7,3 +7,9 @@ class ExperimentForm(forms.ModelForm):
     class Meta:
         model = models.Experiment
         fields = ["title", "description", "goals", "duration_min", "participant_count"]
+
+
+class SessionCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.Session
+        fields = ["name"]
