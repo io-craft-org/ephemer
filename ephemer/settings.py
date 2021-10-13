@@ -153,6 +153,8 @@ EMAIL_BACKEND = (
     "django.core.mail.backends.console.EmailBackend"  # FIXME: toggle if production
 )
 
+TEAM_EMAILS = ()
+
 # MAGICAUTH
 LOGIN_URL = "/login/"
 LOGOUT_REDIRECT_URL = "/"
