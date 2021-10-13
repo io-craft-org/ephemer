@@ -11,7 +11,7 @@ from setuptools import find_packages, setup
 import ephemer
 
 setup(
-    name="ephemer-django",
+    name="ephemer",
     version=ephemer.VERSION,
     description="Ephemer application",
     packages=find_packages(),

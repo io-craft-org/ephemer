@@ -4,7 +4,7 @@ from django.views.generic import FormView, TemplateView
 from magicauth.next_url import NextUrlMixin
 from magicauth.send_token import SendTokenMixin
 
-from home.forms import RegisterForm
+from ephemer.apps.home.forms import RegisterForm
 
 
 class Home(TemplateView):

@@ -1,7 +1,7 @@
 # encoding: utf-8
 
 """
-Fabfile to drive development and deployment of ephemer-django
+Fabfile to drive development and deployment of ephemer
 
 authors : raphael.marvie@beta.gouv.fr, guillaume.libersat@beta.gouv.fr
 created : 2021-06-01 09:54:36 CEST
@@ -15,7 +15,7 @@ from fabric import task
 
 import ephemer
 
-PACKAGE = f"ephemer-django-{ephemer.VERSION}.tar.gz"
+PACKAGE = f"ephemer-{ephemer.VERSION}.tar.gz"
 
 # TODO make target folder being
 # - prod if branch == main,
@@ -31,10 +31,10 @@ def upgrade(cnx, site=None):
         return
     cnx.put(
         "./requirements.txt",
-        remote=f"./ephemer-{site}/requirements.txt",
+        remote=f"./www/ephemer-{site}/requirements.txt",
     )
     cnx.run(
-        f"cd ephemer-{site} " "&& venv/bin/pip install --upgrade -r requirements.txt"
+        f"cd www/ephemer-{site} " "&& env/bin/pip install --upgrade -r requirements.txt"
     )
 
 
@@ -47,13 +47,13 @@ def deploy(cnx, site=None):
     run_setup("setup.py", script_args=["sdist"])
     cnx.put(
         f"./dist/{PACKAGE}",
-        remote=f"./ephemer-{site}/dist/{PACKAGE}",
+        remote=f"./www/ephemer-{site}/dist/{PACKAGE}",
     )
     cnx.run(
-        f"cd ephemer-{site} "
-        f"&& ./venv/bin/pip install ./dist/{PACKAGE}"
+        f"cd www/ephemer-{site} "
+        f"&& ./env/bin/pip install ./dist/{PACKAGE}"
         "&& ./manage.py migrate"
-        "&& ./manage.py compilescss"
+        # "&& env/bin/python3 manage.py compilescss"
         "&& ./manage.py collectstatic --noinput"
     )
 

@@ -4,7 +4,7 @@ The server must accept your RSA key. Make sure you can connect passwordless firs
 
 Add to your `~/.ssh/config`:
 
-    Host your_host_alias
+    Host ephemer
      Hostname your_hostname
      User your_user
      IdentityFile ~/.ssh/id_rsa.pub

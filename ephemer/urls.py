@@ -17,9 +17,9 @@ import debug_toolbar
 from django.contrib import admin
 from django.contrib.auth import views as auth_views
 from django.urls import include, path
-from experiments import views as experiments_views
-from experiments.urls import urlpatterns as experiments_urls
-from home import views as home_views
+from ephemer.apps.experiments import views as experiments_views
+from ephemer.apps.experiments.urls import urlpatterns as experiments_urls
+from ephemer.apps.home import views as home_views
 from magicauth.urls import urlpatterns as magicauth_urls
 
 urlpatterns = [

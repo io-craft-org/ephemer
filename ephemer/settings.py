@@ -42,8 +42,8 @@ INSTALLED_APPS = [
     "django_bootstrap5",
     "django_bootstrap_icons",
     "magicauth",
-    "home",
-    "experiments",
+    "ephemer.apps.home",
+    "ephemer.apps.experiments",
 ]
 
 MIDDLEWARE = [
@@ -61,7 +61,7 @@ ROOT_URLCONF = "ephemer.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": ["ephemer/templates/"],
+        "DIRS": [BASE_DIR / "ephemer" / "templates"],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -160,7 +160,7 @@ MAGICAUTH_LOGGED_IN_REDIRECT_URL_NAME = "home"
 MAGICAUTH_FROM_EMAIL = EMAIL_FROM
 MAGICAUTH_EMAIL_SUBJECT = "Connectez-vous à Ephemer ici"
 MAGICAUTH_EMAIL_FIELD = "email"
-MAGICAUTH_EMAIL_UNKNOWN_CALLBACK = "home.utils.create_user"
+MAGICAUTH_EMAIL_UNKNOWN_CALLBACK = "ephemer.apps.home.utils.create_user"
 MAGICAUTH_TOKEN_DURATION_SECONDS = 60 * 30
 
 # Session Settings
