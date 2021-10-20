@@ -172,3 +172,6 @@ SESSION_COOKIE_AGE = 60 * 60  # 1h
 # DJDT FIXME: move to dev settings
 MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
+# OTREE Configuration
+OTREE_API_URL = "http://localhost:8001/api/"

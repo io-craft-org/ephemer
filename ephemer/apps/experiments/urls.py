@@ -22,6 +22,11 @@ urlpatterns = [
         name="experiments-session-detail",
     ),
     path(
+        r"sessions/service-unavailable",
+        views.service_unavailable,
+        name="experiments-service-unavailable",
+    ),
+    path(
         r"xp/",
         views.experiment_list,
         name="experiments-experiment-list",

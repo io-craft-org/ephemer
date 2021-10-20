@@ -1,9 +1,12 @@
+from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.shortcuts import (Http404, get_object_or_404, redirect, render,
                               reverse)
 
-from . import forms, models
+from . import forms, models, otree
+from .otree import exceptions as otree_exceptions
+from .otree.connector import OTreeConnector
 
 
 @login_required
@@ -44,13 +47,23 @@ def experiment_create(request):
 
 
 # Sessions
+@login_required
 def session_create(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
 
     if request.method == "POST":
         form = forms.SessionCreateForm(request.POST)
         if form.is_valid():
+            otree = OTreeConnector(settings.OTREE_API_URL)
+            try:
+                otree_session = otree.create_session()
+            except otree_exceptions.OTreeNotAvailable:
+                return redirect("experiments-service-unavailable")
+
+            # FIXME Should handle backend error here
+
             session = form.save(commit=False)
+            session.otree_handler = otree_session.handler
             session.created_by = request.user
             session.experiment = experiment
             session.save()
@@ -90,3 +103,8 @@ def session_detail(request, session_id):
         template_name="experiments/session_detail.html",
         context={"session": session},
     )
+
+
+## Service Errors
+def service_unavailable(request):
+    return render(request, template_name="experiments/service_unavailable.html")

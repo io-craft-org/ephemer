@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="col-11 mx-auto py-4">
+
+    <h2>Oops!</h2>
+
+    <p>Nous sommes désolés, mais nous n'arrivons pas à créer votre session sur le service oTree :'(</p>
+
+    <p>Notre infrastructure subit probablement des perturbations.</p>
+
+    <p>Vous pouvez <a href="javascript:history.go(-1);">réessayer</a> ou nous <a href="{% url 'home-contact' %}">envoyer un message</a> si l'erreur persiste</p>
+</div>
+
+{% endblock %}

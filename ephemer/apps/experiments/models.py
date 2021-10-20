@@ -39,3 +39,4 @@ class Session(models.Model):
     )
     name = models.CharField(default="Session Sans Nom", max_length=100)
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
+    otree_handler = models.CharField(max_length=50)
