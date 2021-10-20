@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="col-11 mx-auto py-4">
+
+<h2>Rejoindre une session d'Experience</h2>
+
+<form method="POST">
+    {% csrf_token %}
+    {% bootstrap_form form %}
+    <button class="btn btn-primary" type="submit">Entrer</button>
+</form>
+
+{% endblock %}

@@ -16,7 +16,16 @@
     </p>
 
     {% if otree_session %}
+
+    <p>
+        Adresse de participation : <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}" target="_new">{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}</a>
+
+        <br/>
+        Code d'acces : {{ session.participant_code }}
+    </p>
+
     <div>
+        DEBUG OTREE
         <ul>
             <li># de partcipants : {{ otree_session.num_participants }}</li>
             <li>Lien de participation : {{ otree_session.participant_link }}</li>

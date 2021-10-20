@@ -1,3 +1,5 @@
+import random
+
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
@@ -39,6 +41,10 @@ class Experiment(models.Model):
         )
 
 
+def generate_pin():
+    return f"{random.randrange(1, 10**5):05}"
+
+
 class Session(models.Model):
     """A Session represents an instance of an experiment on the oTree side"""
 
@@ -51,3 +57,4 @@ class Session(models.Model):
     name = models.CharField(default="Session Sans Nom", max_length=100)
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     otree_handler = models.CharField(max_length=50)
+    participant_code = models.CharField(max_length=5, default=generate_pin)

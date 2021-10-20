@@ -13,3 +13,10 @@ class SessionCreateForm(forms.ModelForm):
     class Meta:
         model = models.Session
         fields = ["name"]
+
+
+class SessionJoinForm(forms.Form):
+    code = forms.CharField(max_length=5)
+
+    class Meta:
+        fields = ["name"]

@@ -196,6 +196,13 @@ def test_create_session_when_backend_down(client, mocker):
     assert models.Session.objects.count() == 0
 
 
+@pytest.mark.django_db
+def test_session_is_joinable_by_anyone(client):
+    session = Recipe(models.Session).make()
+    response = client.get(reverse("experiments-session-join", args=(session.pk,)))
+    assert response.status_code == 200
+
+
 ##
 # Service
 ##

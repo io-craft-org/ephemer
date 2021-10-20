@@ -115,6 +115,18 @@ def session_detail(request, session_id):
     )
 
 
+def session_join(request, session_id):
+    session = get_object_or_404(models.Session, pk=session_id)
+
+    form = forms.SessionJoinForm()
+
+    return render(
+        request,
+        template_name="experiments/session_join.html",
+        context={"session": session, "form": form},
+    )
+
+
 ## Service Errors
 def service_unavailable(request):
     return render(request, template_name="experiments/service_unavailable.html")
