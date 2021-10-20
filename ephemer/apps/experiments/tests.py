@@ -1,3 +1,5 @@
+import json
+
 import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
@@ -8,6 +10,7 @@ from pytest_mock import mocker
 
 from . import models
 from .otree import exceptions as otree_exceptions
+from .otree.connector import OTreeConnector
 
 
 ######
@@ -74,7 +77,48 @@ def test_session_details_not_accessible_as_guest(client):
 
 
 @pytest.mark.django_db
-def test_owner_can_view_session_details(client):
+def test_owner_can_view_session_details(client, mocker):
+    def mock_get(self, endpoint, data={}):
+        return {
+            "REAL_WORLD_CURRENCY_CODE": "USD",
+            "admin_url": "http://localhost:8001/SessionStartLinks/93r6k4ov",
+            "config": {
+                "app_sequence": ["survey", "payment_info"],
+                "display_name": "survey",
+                "doc": "",
+                "name": "survey",
+                "num_demo_participants": 1,
+                "participation_fee": 0.0,
+                "real_world_currency_per_point": 1.0,
+            },
+            "num_participants": 3,
+            "participants": [
+                {
+                    "code": "3cro7uw4",
+                    "id_in_session": 1,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+                {
+                    "code": "rg77qgh9",
+                    "id_in_session": 2,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+                {
+                    "code": "a8wx034q",
+                    "id_in_session": 3,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+            ],
+            "session_wide_url": "http://localhost:8001/join/juvutiru",
+        }
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get", mock_get
+    )
+
     with login(client, is_staff=True) as user:
         session = Recipe(models.Session, created_by=user).make()
         response = client.get(reverse("experiments-session-detail", args=(session.pk,)))
@@ -109,7 +153,7 @@ def test_create_session_form(client):
 def test_create_session(client, mocker):
     otree_handler = "zz1usouu"
 
-    def mock_call(self, endpoint, data):
+    def mock_post(self, endpoint, data):
         return {
             "admin_url": "http://localhost:8001/SessionStartLinks/zz1usouu",
             "code": otree_handler,
@@ -117,7 +161,7 @@ def test_create_session(client, mocker):
         }
 
     mocker.patch(
-        "ephemer.apps.experiments.otree.connector.OTreeConnector._call", mock_call
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
     )
 
     experiment = Recipe(models.Experiment).make()
@@ -135,11 +179,11 @@ def test_create_session(client, mocker):
 
 @pytest.mark.django_db
 def test_create_session_when_backend_down(client, mocker):
-    def mock_call(self, endpoint, data):
+    def mock_post(self, endpoint, data):
         raise otree_exceptions.OTreeNotAvailable()
 
     mocker.patch(
-        "ephemer.apps.experiments.otree.connector.OTreeConnector._call", mock_call
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
     )
 
     experiment = Recipe(models.Experiment).make()

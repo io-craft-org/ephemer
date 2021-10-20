@@ -5,9 +5,36 @@
 {% block content %}
 <div class="col-11 mx-auto py-4">
 
-    <h3>Expérience en cours</h3>
+    <h3>Expérience en cours : {{ session.name }}</h3>
 
-    {{ session.name }}
+    <p>
+        {% if otree_session %}
+        <span class="badge bg-success">Session en cours</span>
+        {% else %}
+        <span class="badge bg-danger">Session non joignable</span>
+        {% endif %}
+    </p>
+
+    {% if otree_session %}
+    <div>
+        <ul>
+            <li># de partcipants : {{ otree_session.num_participants }}</li>
+            <li>Lien de participation : {{ otree_session.participant_link }}</li>
+            <li>Participants:
+                <ul>
+                    {% for participant in otree_session.participants %}
+                    <li>
+                        #{{ participant.id_in_session }} / Code: {{ participant.access_code }}
+                    </li>
+                    {% endfor %}
+                </ul>
+            </li>
+        </ul>
+    </div>
+    {% else %}
+    <br>
+    Il est possible que ce soit temporaire, n'hésitez pas à réessayer d'ici quelques minutes
+    {% endif %}
 
 </div>
 

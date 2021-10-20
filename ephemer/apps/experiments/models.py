@@ -10,6 +10,11 @@ class ExperimentManager(models.Manager):
 
 
 class Experiment(models.Model):
+    """
+    An available experiment that can be turned into a session using a
+    configuration.
+    """
+
     objects = ExperimentManager()
 
     title = models.CharField(
@@ -24,6 +29,10 @@ class Experiment(models.Model):
         verbose_name="Nombre de participants"
     )
 
+    otree_app_name = models.CharField(
+        max_length=50, verbose_name="Nom de l'application oTree"
+    )
+
     def get_absolute_url(self):
         return reverse(
             "experiments-experiment-detail", kwargs={"experiment_id": self.pk}
@@ -31,6 +40,8 @@ class Experiment(models.Model):
 
 
 class Session(models.Model):
+    """A Session represents an instance of an experiment on the oTree side"""
+
     created_by = models.ForeignKey(
         User, on_delete=models.CASCADE, related_name="sessions"
     )

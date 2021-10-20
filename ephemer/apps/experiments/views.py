@@ -56,7 +56,7 @@ def session_create(request, experiment_id):
         if form.is_valid():
             otree = OTreeConnector(settings.OTREE_API_URL)
             try:
-                otree_session = otree.create_session()
+                otree_session = otree.create_session(experiment.otree_app_name)
             except otree_exceptions.OTreeNotAvailable:
                 return redirect("experiments-service-unavailable")
 
@@ -79,7 +79,9 @@ def session_create(request, experiment_id):
 
 @login_required
 def session_list(request):
-    sessions = models.Session.objects.filter(created_by=request.user)
+    sessions = models.Session.objects.filter(created_by=request.user).order_by(
+        "-created_on"
+    )
     paginator = Paginator(sessions, 10)
 
     page_number = request.GET.get("page")
@@ -98,10 +100,18 @@ def session_detail(request, session_id):
     if session.created_by != request.user:
         raise Http404
 
+    otree_session = None
+
+    otree = OTreeConnector(settings.OTREE_API_URL)
+    try:
+        otree_session = otree.get_session(session.otree_handler)
+    except otree_exceptions.OTreeNotAvailable:
+        pass
+
     return render(
         request,
         template_name="experiments/session_detail.html",
-        context={"session": session},
+        context={"session": session, "otree_session": otree_session},
     )
 
 
