@@ -1,9 +1,13 @@
+import logging
 from urllib.request import urljoin
 
 import requests
 
-from .exceptions import OTreeNotAvailable
+from .exceptions import OTreeNotAvailable, OTreeAPIUsageError
 from .models import Participant, Session
+
+
+logger = logging.getLogger(__name__)
 
 
 class OTreeConnector:
@@ -13,19 +17,31 @@ class OTreeConnector:
         self.api_uri = api_uri
 
     def _get(self, endpoint, json_data={}):
+        return self._call(requests.get, endpoint, json_data)
+
+    def _post(self, endpoint, json_data={}):
+        return self._call(requests.post, endpoint, json_data)
+
+    def _call(self, caller, endpoint, json_data={}):
+        url = urljoin(self.api_uri, endpoint)
         try:
-            resp = requests.get(urljoin(self.api_uri, endpoint), json=json_data)
+            logger.info(f"{caller.__name__.upper()} {url}")
+            resp = caller(url, json=json_data)
         except Exception:
             # XXX Maybe we could report what happened
             raise OTreeNotAvailable()
 
-        return resp.json()
+        if resp.status_code == 400:
+            logger.error(f'''
+                HTTP 400 Client Error
+                endpoint: {endpoint}
+                data: {json_data}
+                error message: {resp.content}
+            ''')
 
-    def _post(self, endpoint, json_data={}):
-        try:
-            resp = requests.post(urljoin(self.api_uri, endpoint), json=json_data)
-        except Exception:
-            # XXX Maybe we could report what happened
+        if 400 <= resp.status_code < 500:
+            raise OTreeAPIUsageError()
+        elif resp.status_code >= 500:
             raise OTreeNotAvailable()
 
         return resp.json()

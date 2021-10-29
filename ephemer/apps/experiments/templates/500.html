@@ -1,0 +1,16 @@
+{% extends 'base.html' %}
+
+{% load django_bootstrap5 %}
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="col-11 mx-auto py-4">
+
+    <h2>Oops!</h2>
+
+    <p>Nous sommes désolés, une erreur s'est produite sur le serveur et nous ne pouvons afficher la page demandée.</p>
+
+    <p>Merci de réessayer plus tard et de nous <a href="{% url 'home-contact' %}">envoyer un message</a> si l'erreur persiste</p>
+</div>
+
+{% endblock %}
