@@ -41,8 +41,11 @@ class Experiment(models.Model):
         )
 
 
+PIN_CODE_LENGTH = 5
+
+
 def generate_pin():
-    return f"{random.randrange(1, 10**5):05}"
+    return f"{random.randrange(1, 10**PIN_CODE_LENGTH):0{PIN_CODE_LENGTH}}"
 
 
 class Session(models.Model):
@@ -57,4 +60,5 @@ class Session(models.Model):
     name = models.CharField(default="Session Sans Nom", max_length=100)
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     otree_handler = models.CharField(max_length=50)
-    participant_code = models.CharField(max_length=5, default=generate_pin)
+    pin_code = models.CharField(max_length=PIN_CODE_LENGTH, default=generate_pin)
+    join_in_code = models.CharField(default="", max_length=50)

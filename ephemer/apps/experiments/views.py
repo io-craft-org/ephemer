@@ -1,8 +1,9 @@
+from urllib.parse import urljoin
+
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.shortcuts import (Http404, get_object_or_404, redirect, render,
-                              reverse)
+from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
 
 from . import forms, models, otree
 from .otree import exceptions as otree_exceptions
@@ -47,6 +48,12 @@ def experiment_create(request):
 
 
 # Sessions
+
+
+def _get_otree_api_uri():
+    return urljoin(settings.OTREE_HOST, settings.OTREE_API_PATH)
+
+
 @login_required
 def session_create(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
@@ -54,7 +61,7 @@ def session_create(request, experiment_id):
     if request.method == "POST":
         form = forms.SessionCreateForm(request.POST)
         if form.is_valid():
-            otree = OTreeConnector(settings.OTREE_API_URL)
+            otree = OTreeConnector(_get_otree_api_uri())
             try:
                 otree_session = otree.create_session(experiment.otree_app_name)
             except otree_exceptions.OTreeNotAvailable:
@@ -64,6 +71,7 @@ def session_create(request, experiment_id):
 
             session = form.save(commit=False)
             session.otree_handler = otree_session.handler
+            session.join_in_code = otree_session.join_in_code
             session.created_by = request.user
             session.experiment = experiment
             session.save()
@@ -102,7 +110,7 @@ def session_detail(request, session_id):
 
     otree_session = None
 
-    otree = OTreeConnector(settings.OTREE_API_URL)
+    otree = OTreeConnector(_get_otree_api_uri())
     try:
         otree_session = otree.get_session(session.otree_handler)
     except otree_exceptions.OTreeNotAvailable:
@@ -124,6 +132,24 @@ def session_join(request, session_id):
         request,
         template_name="experiments/session_join.html",
         context={"session": session, "form": form},
+    )
+
+
+def participant_join_session(request):
+    is_post = request.method == "POST"
+    form = forms.ParticipantJoinSessionForm(request.POST if is_post else None)
+
+    if is_post:
+        if form.is_valid():
+            session = models.Session.objects.get(pin_code=form.cleaned_data["pin_code"])
+            return redirect(
+                urljoin(settings.OTREE_HOST, f"/join/{session.join_in_code}")
+            )
+
+    return render(
+        request,
+        template_name="experiments/participant_join_session.html",
+        context={"form": form},
     )
 
 

@@ -57,7 +57,7 @@ class OTreeConnector:
             },
         )
 
-        return Session(handler=data["code"], participant_link=data["session_wide_url"])
+        return Session(handler=data["code"], join_in_code=data["session_wide_url"].split("/")[-1])
 
     def get_session(self, session_id):
         """Return details of a session"""
@@ -65,7 +65,7 @@ class OTreeConnector:
 
         return Session(
             handler=session_id,
-            participant_link=data["session_wide_url"],
+            join_in_code="/".split(data["session_wide_url"])[-1],
             num_participants=data["num_participants"],
             participants=[
                 Participant.from_otree(p_data) for p_data in data["participants"]

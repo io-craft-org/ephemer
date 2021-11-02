@@ -203,6 +203,18 @@ def test_session_is_joinable_by_anyone(client):
     assert response.status_code == 200
 
 
+@pytest.mark.django_db
+def test_guest_can_join_session(client):
+    pin_code = "12345"
+    join_in_code = "abcdef"
+    Recipe(models.Session, pin_code=pin_code, join_in_code=join_in_code).make()
+    response = client.post(
+        reverse("experiments-participant-join-session"), data={"pin_code": pin_code}
+    )
+    assert response.status_code == 302
+    assert join_in_code in response.url
+
+
 ##
 # Service
 ##

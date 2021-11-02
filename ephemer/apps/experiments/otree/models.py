@@ -18,6 +18,6 @@ class Participant:
 @dataclass
 class Session:
     handler: str
-    participant_link: str
+    join_in_code: str
     participants: List[Participant] = field(default_factory=list)
     num_participants: int = 0

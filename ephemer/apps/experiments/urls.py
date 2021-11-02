@@ -46,4 +46,9 @@ urlpatterns = [
         views.session_create,
         name="experiments-session-create",
     ),
+    path(
+        r"join-session",
+        views.participant_join_session,
+        name="experiments-participant-join-session",
+    ),
 ]
