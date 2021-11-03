@@ -23,21 +23,24 @@ class OTreeConnector:
         return self._call(requests.post, endpoint, json_data)
 
     def _call(self, caller, endpoint, json_data={}):
-        url = urljoin(self.api_uri, endpoint)
+        url = self.api_uri + "/" + endpoint
         try:
             logger.info(f"{caller.__name__.upper()} {url}")
             resp = caller(url, json=json_data)
-        except Exception:
+        except Exception as error:
             # XXX Maybe we could report what happened
-            raise OTreeNotAvailable()
+            logger.error(error)
+            raise OTreeNotAvailable(error)
 
         if resp.status_code == 400:
-            logger.error(f'''
+            logger.error(
+                f"""
                 HTTP 400 Client Error
                 endpoint: {endpoint}
                 data: {json_data}
                 error message: {resp.content}
-            ''')
+            """
+            )
 
         if 400 <= resp.status_code < 500:
             raise OTreeAPIUsageError()
@@ -57,7 +60,9 @@ class OTreeConnector:
             },
         )
 
-        return Session(handler=data["code"], join_in_code=data["session_wide_url"].split("/")[-1])
+        return Session(
+            handler=data["code"], join_in_code=data["session_wide_url"].split("/")[-1]
+        )
 
     def get_session(self, session_id):
         """Return details of a session"""
