@@ -135,7 +135,7 @@ def session_participants_state_json(request, session_id):
     try:
         session_participants = otree.get_session_participants(session.otree_handler)
     except otree_exceptions.OTreeNotAvailable:
-        pass
+        session_participants = []
 
     state_json = [participant.to_dict() for participant in session_participants]
 
