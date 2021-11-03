@@ -10,6 +10,9 @@
     <form method="POST">
         {% csrf_token %}
         {% bootstrap_form form %}
+        {% if error %}
+            <div class="alert alert-danger">{{ error }}</div>
+        {% endif %}
         <button class="btn btn-primary" type="submit">Rejoindre</button>
     </form>
 
