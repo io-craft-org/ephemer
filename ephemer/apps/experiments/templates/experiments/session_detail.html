@@ -1,5 +1,40 @@
 {% extends 'base.html' %}
 
+{% block javascript %}
+<script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js"></script>
+
+
+<script>
+ document.addEventListener('alpine:init', () => {
+     Alpine.data('session', () => ({
+         init() {
+             this.refreshState(interval=2000)
+         },
+
+         error: false,
+         refreshState(interval=0) {
+             session_this = this
+             setInterval(function(){
+                 fetch('{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-participants-state-json' session.pk %}')
+                     .then(res => res.json())
+                     .then(data => {
+                         session_this.error = false;
+                         session_this.participants = data;
+                     })
+                     .catch((error) => {
+                         session_this.error = "Erreur de connexion à oTree";
+                     });
+             }, interval);
+         },
+         participants: [],
+         toggle() {
+             this.open = ! this.open
+         }
+     }))
+ });
+</script>
+{% endblock %}
+
 {% load bootstrap_icons %}
 
 {% block content %}
@@ -17,11 +52,61 @@
 
     {% if otree_session %}
 
+    <div class="row my-5 align-items-center justify-content-center">
+        <div class="col-4 ">
+            <div class="px-5">
+                Les participants peuvent accéder à l'expérience en indiquant le code dans l'onglet « Accès participant » :
+            </div>
+        </div>
+        <div class="col-3">
+            <div class="bg-light rounded p-3">
+                <span class="fs-4 px-4">Code d'accès :</span>
+                <span class="fs-3 bg-white rounded p-2">
+                    {{ session.pin_code }}
+                </span>
+            </div>
+        </div>
+    </div>
+
+
+    <div x-data="session">
+        <div x-show="error" x-transition class="alert alert-warning" style="display:none;" role="alert">
+            {% bs_icon 'exclamation-triangle' size='1.5em' extra_classes="align-middle" %}
+            <span class="align-middle ms-2" x-text="error"></span>
+        </div>
+        <table class="table">
+            <tr>
+                <th>
+                    Identifiant participant
+                </th>
+                <th>
+                    Connecté ?
+                </th>
+                <th>
+                    Étape en cours
+                </th>
+                <th>
+                    Terminé ?
+                </th>
+                <th>
+                    Faire avancer
+                </th>
+            </tr>
+            <template x-for="participant in participants">
+                <tr>
+                    <td x-text="participant.id_in_session"></td>
+                    <td x-text="participant.last_page_timestamp"></td>
+                    <td x-text="participant.current_page_name"></td>
+                    <td x-text="participant.finished"></td>
+                    <td><button type="btn btn-secondary">Avancer</button></td>
+                </tr>
+            </template>
+        </table>
+    </div>
+
     <p>
         Adresse de participation : <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}" target="_new">{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}</a>
 
-        <br/>
-        Code d'acces : {{ session.pin_code }}
     </p>
 
     <div>

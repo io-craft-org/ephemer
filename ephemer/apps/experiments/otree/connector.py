@@ -3,9 +3,8 @@ from urllib.request import urljoin
 
 import requests
 
-from .exceptions import OTreeNotAvailable, OTreeAPIUsageError
+from .exceptions import OTreeAPIUsageError, OTreeNotAvailable
 from .models import Participant, Session
-
 
 logger = logging.getLogger(__name__)
 
@@ -24,6 +23,7 @@ class OTreeConnector:
 
     def _call(self, caller, endpoint, json_data={}):
         url = self.api_uri + "/" + endpoint
+
         try:
             logger.info(f"{caller.__name__.upper()} {url}")
             resp = caller(url, json=json_data)
@@ -76,3 +76,9 @@ class OTreeConnector:
                 Participant.from_otree(p_data) for p_data in data["participants"]
             ],
         )
+
+    def get_session_participants(self, session_id):
+        """Return current participant details of a session"""
+        data = self._get(f"sessions/{session_id}/participants")
+
+        return [Participant.from_otree(p_data) for p_data in data]

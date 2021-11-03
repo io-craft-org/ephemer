@@ -7,3 +7,4 @@ django-bootstrap5
 django_bootstrap_icons
 django-debug-toolbar
 requests
+dataclasses-json

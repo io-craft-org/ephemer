@@ -227,6 +227,39 @@ def test_guest_input_wrong_pin(client):
 
 
 ##
+# JSON
+##
+@pytest.mark.django_db
+def test_owner_can_access_session_participants_state_json_endpoint(client, mocker):
+    def mock_get(self, endpoint, data={}):
+        return [
+            {
+                "_numeric_label": "P1",
+                "code": "1votfepp",
+                "label": None,
+                "_current_page": "2/20",
+                "_current_app_name": "FGES_Louvain",
+                "_round_number": 1,
+                "_current_page_name": "Test1_Page",
+                "_monitor_note": None,
+                "_last_page_timestamp": 1635954202,
+                "id_in_session": 1,
+            }
+        ]
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get", mock_get
+    )
+
+    with login(client, is_staff=True) as user:
+        session = Recipe(models.Session, created_by=user).make()
+        response = client.get(
+            reverse("experiments-session-participants-state-json", args=(session.pk,))
+        )
+    assert response.status_code == 200
+
+
+##
 # Service
 ##
 def test_service_unavailable_page(client):

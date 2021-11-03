@@ -22,6 +22,11 @@ urlpatterns = [
         name="experiments-session-detail",
     ),
     path(
+        r"sessions/<int:session_id>/state.json",
+        views.session_participants_state_json,
+        name="experiments-session-participants-state-json",
+    ),
+    path(
         r"sessions/<int:session_id>/join",
         views.session_join,
         name="experiments-session-join",
