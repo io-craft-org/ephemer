@@ -56,7 +56,7 @@ class OTreeConnector:
             "sessions",
             {
                 "session_config_name": f"{app_name}",
-                "num_participants": 1,
+                "num_participants": 5,
             },
         )
 
