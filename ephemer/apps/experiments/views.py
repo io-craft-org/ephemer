@@ -139,8 +139,6 @@ def session_participants_state_json(request, session_id):
 
     state_json = [participant.to_dict() for participant in session_participants]
 
-    print(state_json)
-
     return JsonResponse(state_json, safe=False)
 
 
