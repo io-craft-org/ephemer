@@ -20,3 +20,13 @@ class SessionJoinForm(forms.Form):
 
     class Meta:
         fields = ["name"]
+
+
+class ParticipantJoinSessionForm(forms.Form):
+    pin_code = forms.CharField(
+        min_length=models.PIN_CODE_LENGTH,
+        max_length=models.PIN_CODE_LENGTH,
+    )
+
+    class Meta:
+        fields = ["pin_code"]

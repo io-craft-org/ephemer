@@ -174,4 +174,5 @@ MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 # OTREE Configuration
-OTREE_API_URL = "http://localhost:8001/api/"
+OTREE_HOST = "http://localhost:8001"
+OTREE_API_PATH = "/api"

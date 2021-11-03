@@ -1,5 +1,7 @@
 from dataclasses import dataclass, field
 
+from typing import List
+
 
 @dataclass
 class Participant:
@@ -16,6 +18,6 @@ class Participant:
 @dataclass
 class Session:
     handler: str
-    participant_link: str
-    participants: list[Participant] = field(default_factory=list)
+    join_in_code: str
+    participants: List[Participant] = field(default_factory=list)
     num_participants: int = 0

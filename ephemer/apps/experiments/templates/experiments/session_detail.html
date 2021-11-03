@@ -21,7 +21,7 @@
         Adresse de participation : <a href="{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}" target="_new">{{ request.scheme }}://{{ request.get_host }}{% url 'experiments-session-join' session.pk %}</a>
 
         <br/>
-        Code d'acces : {{ session.participant_code }}
+        Code d'acces : {{ session.pin_code }}
     </p>
 
     <div>
