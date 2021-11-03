@@ -215,6 +215,17 @@ def test_guest_can_join_session(client):
     assert join_in_code in response.url
 
 
+@pytest.mark.django_db
+def test_guest_input_wrong_pin(client):
+    wrong_pin_code = "12345"
+    Recipe(models.Session).make()
+    response = client.post(
+        reverse("experiments-participant-join-session"),
+        data={"pin_code": wrong_pin_code},
+    )
+    assert response.status_code == 200
+
+
 ##
 # Service
 ##
