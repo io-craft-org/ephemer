@@ -3,7 +3,7 @@ from urllib.parse import urljoin
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import (Http404, get_object_or_404, redirect, render,
                               reverse)
 
@@ -140,6 +140,24 @@ def session_participants_state_json(request, session_id):
     state_json = [participant.to_dict() for participant in session_participants]
 
     return JsonResponse(state_json, safe=False)
+
+
+@login_required
+def session_advance_participant(request, session_id: int, participant_code: str):
+    """Advance a participant to the next step"""
+    # XXX We might have a security issue here if the caller supply a session_id
+    # she's owner and a participant code from another session
+    session = get_object_or_404(models.Session, pk=session_id)
+    if session.created_by != request.user:
+        raise Http404
+
+    otree = OTreeConnector(_get_otree_api_uri())
+    try:
+        response = otree.session_advance_participant(participant_code)
+    except otree_exceptions.OTreeNotAvailable:
+        return HttpResponse(status=500)
+
+    return HttpResponse(status=200)
 
 
 def session_join(request, session_id):

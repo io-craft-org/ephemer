@@ -82,3 +82,10 @@ class OTreeConnector:
         data = self._get(f"sessions/{session_id}/participants")
 
         return [Participant.from_otree(p_data) for p_data in data]
+
+    def session_advance_participant(self, participant_code):
+        data = self._post(f"participants/{participant_code}/advance")
+
+        print(data)
+
+        return data

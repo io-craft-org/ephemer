@@ -7,6 +7,8 @@
         <title>Ephemer</title>
         {% bootstrap_css %}
         <link rel="stylesheet" href="{% sass_src 'css/base.scss' %}" type="text/css" media="screen" />
+        {% block css %}
+        {% endblock %}
     </head>
 
     <body>
