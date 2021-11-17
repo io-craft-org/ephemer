@@ -141,6 +141,10 @@ STATICFILES_FINDERS = [
 
 SASS_PRECISION = 8
 
+# MEDIA FILES
+
+MEDIA_ROOT = BASE_DIR / "media"
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field

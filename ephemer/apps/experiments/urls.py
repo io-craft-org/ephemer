@@ -32,6 +32,11 @@ urlpatterns = [
         name="experiments-session-advance-participant",
     ),
     path(
+        r"sessions/<int:session_id>/export.csv",
+        views.session_results_as_csv,
+        name="experiments-session-results-csv",
+    ),
+    path(
         r"sessions/<int:session_id>/join",
         views.session_join,
         name="experiments-session-join",

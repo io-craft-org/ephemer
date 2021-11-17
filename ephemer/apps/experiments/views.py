@@ -1,9 +1,10 @@
+import os
 from urllib.parse import urljoin
 
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
-from django.http import HttpResponse, JsonResponse
+from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import (Http404, get_object_or_404, redirect, render,
                               reverse)
 
@@ -126,7 +127,7 @@ def session_detail(request, session_id):
 
 
 @login_required
-def session_participants_state_json(request, session_id):
+def session_participants_state_json(request, session_id: int):
     session = get_object_or_404(models.Session, pk=session_id)
     if session.created_by != request.user:
         raise Http404
@@ -158,6 +159,36 @@ def session_advance_participant(request, session_id: int, participant_code: str)
         return HttpResponse(status=500)
 
     return HttpResponse(status=200)
+
+
+@login_required
+def session_results_as_csv(request, session_id: int):
+    """Get raw results of a sesssion, as CSV"""
+    session = get_object_or_404(models.Session, pk=session_id)
+    if session.created_by != request.user:
+        raise Http404
+
+    otree = OTreeConnector(_get_otree_api_uri())
+    try:
+        response = otree.get_session_results_as_csv(session.otree_handler)
+    except otree_exceptions.OTreeNotAvailable:
+        response = None
+
+    base_dir = models.get_csv_path()
+    os.makedirs(base_dir, exist_ok=True)
+    filepath = os.path.join(base_dir, f"{session.id}.csv")
+
+    if response:
+        with open(filepath, "wb") as f:
+            f.write(response.content)
+
+        session.csv = filepath
+        session.save()
+    else:
+        if not session.csv:
+            return HttpResponse(status=404)
+
+    return FileResponse(open(session.csv, "rb"))
 
 
 def session_join(request, session_id):

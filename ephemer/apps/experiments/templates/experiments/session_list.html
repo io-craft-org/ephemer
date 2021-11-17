@@ -20,7 +20,7 @@
                 <td><a href="{% url 'experiments-session-detail' session.pk %}">{{ session.name }}</a></td>
                 <td>{{ session.experiment.title }}</td>
                 <td>{{ session.created_on }}</td>
-                <td>Resultats</td>
+                <td><a href="{% url 'experiments-session-results-csv' session.pk %}">CSV</a></td>
                 <td>Télécharger Res</td>
             </tr>
             {% endfor %}

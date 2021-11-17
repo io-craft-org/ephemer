@@ -15,13 +15,13 @@ class OTreeConnector:
     def __init__(self, api_uri):
         self.api_uri = api_uri
 
-    def _get(self, endpoint, json_data={}):
-        return self._call(requests.get, endpoint, json_data)
+    def _get(self, endpoint, json_data={}, json_response=False):
+        return self._call(requests.get, endpoint, json_data, json_response)
 
-    def _post(self, endpoint, json_data={}):
-        return self._call(requests.post, endpoint, json_data)
+    def _post(self, endpoint, json_data={}, json_response=False):
+        return self._call(requests.post, endpoint, json_data, json_response)
 
-    def _call(self, caller, endpoint, json_data={}):
+    def _call(self, caller, endpoint, json_data={}, json_response=True):
         url = self.api_uri + "/" + endpoint
 
         try:
@@ -47,7 +47,10 @@ class OTreeConnector:
         elif resp.status_code >= 500:
             raise OTreeNotAvailable()
 
-        return resp.json()
+        if json_response:
+            return resp.json()
+        else:
+            return resp
 
     def create_session(self, app_name):
         """Create a new session"""
@@ -84,8 +87,9 @@ class OTreeConnector:
         return [Participant.from_otree(p_data) for p_data in data]
 
     def session_advance_participant(self, participant_code):
-        data = self._post(f"participants/{participant_code}/advance")
+        """Advance a given participant"""
+        return self._post(f"participants/{participant_code}/advance")
 
-        print(data)
-
-        return data
+    def get_session_results_as_csv(self, session_id):
+        """Return the CSV results of a session"""
+        return self._get(f"sessions/{session_id}/export", json_response=False)

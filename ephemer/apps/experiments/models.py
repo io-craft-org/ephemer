@@ -1,5 +1,7 @@
+import os
 import random
 
+from django.conf import settings
 from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
@@ -48,6 +50,10 @@ def generate_pin():
     return f"{random.randrange(1, 10**PIN_CODE_LENGTH):0{PIN_CODE_LENGTH}}"
 
 
+def get_csv_path():
+    return f"{settings.MEDIA_ROOT}/sessions/exports/"
+
+
 class Session(models.Model):
     """A Session represents an instance of an experiment on the oTree side"""
 
@@ -62,3 +68,8 @@ class Session(models.Model):
     otree_handler = models.CharField(max_length=50)
     pin_code = models.CharField(max_length=PIN_CODE_LENGTH, default=generate_pin)
     join_in_code = models.CharField(default="", max_length=50)
+    csv = models.FilePathField(
+        path=get_csv_path,
+        null=True,
+        blank=True,
+    )
