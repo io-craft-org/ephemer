@@ -179,6 +179,7 @@ def session_results_as_csv(request, session_id: int):
     filepath = os.path.join(base_dir, f"{session.id}.csv")
 
     if response:
+        print("YEAH")
         with open(filepath, "wb") as f:
             f.write(response.content)
 

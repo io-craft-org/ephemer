@@ -1,4 +1,6 @@
 import json
+import tempfile
+from unittest.mock import patch
 
 import pytest
 from django.contrib.auth.models import User
@@ -279,9 +281,176 @@ def test_owner_can_access_session_participants_state_json_endpoint(client, mocke
     assert response.status_code == 200
 
 
-##
+########################################################################
 # Service
-##
+########################################################################
 def test_service_unavailable_page(client):
     response = client.get(reverse("experiments-service-unavailable"))
     assert response.status_code == 200
+
+
+########################################################################
+# Advance participant
+########################################################################
+@pytest.mark.django_db
+def test_anonymous_cant_advance_participant(client):
+    session = Recipe(models.Session).make()
+    response = client.post(
+        reverse(
+            "experiments-session-advance-participant", args=(session.pk, "PART-CODE")
+        )
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_another_user_cant_advance_participant(client):
+    session = Recipe(models.Session).make()
+    with login(client):
+        response = client.post(
+            reverse(
+                "experiments-session-advance-participant",
+                args=(session.pk, "PART-CODE"),
+            )
+        )
+
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_advance_participant(client, mocker):
+    def mock_post(self, endpoint, data={}, json_response=False):
+        class ResponseMock:
+            def __init__(self):
+                self.content = b""
+
+        return ResponseMock()
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
+    )
+
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user).make()
+        response = client.post(
+            reverse(
+                "experiments-session-advance-participant",
+                args=(session.pk, "PART-CODE"),
+            )
+        )
+
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_advance_participant_when_otree_not_available(client, mocker):
+    def mock_post(self, endpoint, data={}, json_response=False):
+        raise otree_exceptions.OTreeNotAvailable
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
+    )
+
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user).make()
+        response = client.post(
+            reverse(
+                "experiments-session-advance-participant",
+                args=(session.pk, "PART-CODE"),
+            )
+        )
+
+    assert response.status_code == 500
+
+
+########################################################################
+# CSV
+########################################################################
+@pytest.mark.django_db
+def test_anonymous_cant_access_csv(client):
+    session = Recipe(models.Session).make()
+    response = client.get(
+        reverse("experiments-session-results-csv", args=(session.pk,))
+    )
+    assert response.status_code == 302
+
+
+@pytest.mark.django_db
+def test_another_user_cant_access_csv(client):
+    session = Recipe(models.Session).make()
+    with login(client):
+        response = client.get(
+            reverse("experiments-session-results-csv", args=(session.pk,))
+        )
+
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_session_csv_can_be_downloaded(client, mocker):
+    def mock_get(self, endpoint, data={}, json_response=False):
+        class ResponseMock:
+            def __init__(self):
+                self.content = b"1,2,3"
+
+        return ResponseMock()
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get", mock_get
+    )
+
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user, csv=None).make()
+        response = client.get(
+            reverse("experiments-session-results-csv", args=(session.pk,))
+        )
+
+    session = models.Session.objects.all()[0]
+    assert response.status_code == 200
+    assert session.csv is not None
+
+
+@pytest.mark.django_db
+def test_session_csv_when_service_not_available(client, mocker):
+    def mock_get_unavailable(self, endpoint, data={}, json_response=False):
+        raise otree_exceptions.OTreeNotAvailable
+
+    def mock_open(self, encoding):
+        return tempfile.TemporaryFile()
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get",
+        mock_get_unavailable,
+    )
+
+    mocker.patch("builtins.open", mock_open)
+
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user, csv="sample.csv").make()
+        response = client.get(
+            reverse("experiments-session-results-csv", args=(session.pk,))
+        )
+
+    session = models.Session.objects.all()[0]
+    assert response.status_code == 200
+    assert session.csv is not None
+
+
+@pytest.mark.django_db
+def test_session_csv_cache(client, mocker):
+    def mock_get(self, endpoint, data={}, json_response=False):
+        raise otree_exceptions.OTreeNotAvailable
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get", mock_get
+    )
+
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user).make()
+        response = client.get(
+            reverse("experiments-session-results-csv", args=(session.pk,))
+        )
+
+    session = models.Session.objects.all()[0]
+    assert response.status_code == 404
+    assert session.csv is None
