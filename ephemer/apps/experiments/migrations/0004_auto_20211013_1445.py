@@ -6,34 +6,38 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0003_session'),
+        ("experiments", "0003_session"),
     ]
 
     operations = [
         migrations.RemoveField(
-            model_name='experiment',
-            name='difficulty',
+            model_name="experiment",
+            name="difficulty",
         ),
         migrations.AddField(
-            model_name='experiment',
-            name='description',
+            model_name="experiment",
+            name="description",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='experiment',
-            name='duration_min',
-            field=models.PositiveIntegerField(default=0, help_text='En minutes', verbose_name='Durée'),
+            model_name="experiment",
+            name="duration_min",
+            field=models.PositiveIntegerField(
+                default=0, help_text="En minutes", verbose_name="Durée"
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='experiment',
-            name='goals',
+            model_name="experiment",
+            name="goals",
             field=models.TextField(blank=True, null=True),
         ),
         migrations.AddField(
-            model_name='experiment',
-            name='participant_count',
-            field=models.PositiveIntegerField(default=1, verbose_name='Nombre de participants'),
+            model_name="experiment",
+            name="participant_count",
+            field=models.PositiveIntegerField(
+                default=1, verbose_name="Nombre de participants"
+            ),
             preserve_default=False,
         ),
     ]

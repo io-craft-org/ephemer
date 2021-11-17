@@ -7,13 +7,15 @@ import ephemer.apps.experiments.models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0007_experiment_otree_app_name'),
+        ("experiments", "0007_experiment_otree_app_name"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='session',
-            name='participant_code',
-            field=models.CharField(default=ephemer.apps.experiments.models.generate_pin, max_length=5),
+            model_name="session",
+            name="participant_code",
+            field=models.CharField(
+                default=ephemer.apps.experiments.models.generate_pin, max_length=5
+            ),
         ),
     ]

@@ -6,13 +6,13 @@ from django.db import migrations
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0009_session_join_in_code'),
+        ("experiments", "0009_session_join_in_code"),
     ]
 
     operations = [
         migrations.RenameField(
-            model_name='session',
-            old_name='participant_code',
-            new_name='pin_code',
+            model_name="session",
+            old_name="participant_code",
+            new_name="pin_code",
         ),
     ]

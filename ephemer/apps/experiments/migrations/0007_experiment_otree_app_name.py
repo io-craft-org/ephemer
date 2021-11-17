@@ -6,14 +6,18 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0006_session_otree_handler'),
+        ("experiments", "0006_session_otree_handler"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='experiment',
-            name='otree_app_name',
-            field=models.CharField(default='unknown', max_length=50, verbose_name="Nom de l'application oTree"),
+            model_name="experiment",
+            name="otree_app_name",
+            field=models.CharField(
+                default="unknown",
+                max_length=50,
+                verbose_name="Nom de l'application oTree",
+            ),
             preserve_default=False,
         ),
     ]

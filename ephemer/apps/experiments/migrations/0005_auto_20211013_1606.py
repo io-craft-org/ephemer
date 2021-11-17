@@ -10,19 +10,26 @@ class Migration(migrations.Migration):
 
     dependencies = [
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
-        ('experiments', '0004_auto_20211013_1445'),
+        ("experiments", "0004_auto_20211013_1445"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='session',
-            name='created_by',
-            field=models.ForeignKey(default=1, on_delete=django.db.models.deletion.CASCADE, related_name='sessions', to='auth.user'),
+            model_name="session",
+            name="created_by",
+            field=models.ForeignKey(
+                default=1,
+                on_delete=django.db.models.deletion.CASCADE,
+                related_name="sessions",
+                to="auth.user",
+            ),
             preserve_default=False,
         ),
         migrations.AddField(
-            model_name='session',
-            name='created_on',
-            field=models.DateTimeField(default=django.utils.timezone.now, verbose_name='date de création'),
+            model_name="session",
+            name="created_on",
+            field=models.DateTimeField(
+                default=django.utils.timezone.now, verbose_name="date de création"
+            ),
         ),
     ]

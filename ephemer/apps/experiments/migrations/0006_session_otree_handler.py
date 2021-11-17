@@ -6,14 +6,16 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0005_auto_20211013_1606'),
+        ("experiments", "0005_auto_20211013_1606"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='session',
-            name='otree_handler',
-            field=models.CharField(default='i-was-upgraded-and-i-dont-have-a-name', max_length=50),
+            model_name="session",
+            name="otree_handler",
+            field=models.CharField(
+                default="i-was-upgraded-and-i-dont-have-a-name", max_length=50
+            ),
             preserve_default=False,
         ),
     ]

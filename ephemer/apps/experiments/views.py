@@ -8,7 +8,7 @@ from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import (Http404, get_object_or_404, redirect, render,
                               reverse)
 
-from . import forms, models, otree
+from . import forms, models
 from .otree import exceptions as otree_exceptions
 from .otree.connector import OTreeConnector
 
