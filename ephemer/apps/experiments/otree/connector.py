@@ -15,10 +15,10 @@ class OTreeConnector:
     def __init__(self, api_uri):
         self.api_uri = api_uri
 
-    def _get(self, endpoint, json_data={}, json_response=False):
+    def _get(self, endpoint, json_data={}, json_response=True):
         return self._call(requests.get, endpoint, json_data, json_response)
 
-    def _post(self, endpoint, json_data={}, json_response=False):
+    def _post(self, endpoint, json_data={}, json_response=True):
         return self._call(requests.post, endpoint, json_data, json_response)
 
     def _call(self, caller, endpoint, json_data={}, json_response=True):
