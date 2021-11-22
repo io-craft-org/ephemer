@@ -32,20 +32,18 @@ class OTreeConnector:
             logger.error(error)
             raise OTreeNotAvailable(error)
 
-        if resp.status_code == 400:
-            logger.error(
-                f"""
-                HTTP 400 Client Error
-                endpoint: {endpoint}
-                data: {json_data}
-                error message: {resp.content}
-            """
-            )
-
-        if 400 <= resp.status_code < 500:
-            raise OTreeAPIUsageError()
-        elif resp.status_code >= 500:
-            raise OTreeNotAvailable()
+        if resp.status_code >= 400:
+            msg = f"""
+                    HTTP {resp.status_code} Client Error
+                    endpoint: {endpoint}
+                    data: {json_data}
+                    error message: {resp.content}
+                """
+            logger.error(msg)
+            if 400 <= resp.status_code < 500:
+                raise OTreeAPIUsageError(msg)
+            elif resp.status_code >= 500:
+                raise OTreeNotAvailable(msg)
 
         if json_response:
             return resp.json()
