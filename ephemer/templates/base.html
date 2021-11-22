@@ -1,6 +1,7 @@
 {% load django_bootstrap5 %}
 {% load bootstrap_icons %}
 {% load sass_tags %}
+{% load static %}
 <!DOCTYPE html>
 <html>
     <head>
@@ -45,6 +46,11 @@
                         </ul>
                     </li>
                 </ul>
+
+                <p class="fw-bold">Accès participant</p>
+                <div class="bg-light rounded p-5">
+                    <img class="img-fluid" src="{% static "img/join-session-qr-code.png" %}" alt="A QR code to reach the join a session page.">
+                </div>
 
                 {% if user.is_authenticated %}
                 <div>
