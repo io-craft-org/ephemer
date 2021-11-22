@@ -14,3 +14,4 @@ development.py
 htmlcov
 static/css/base.css
 static/css/base.css.map
+media/sessions/exports
