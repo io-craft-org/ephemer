@@ -11,7 +11,28 @@
 <form method="POST">
     {% csrf_token %}
     {% bootstrap_form form %}
-    <button class="btn btn-primary" type="submit">Créer</button>
+    <div class="bg-light round rounded-4 p-4 m-2 position-relative">
+        <p>En créant une session sur cette plate-forme vous acceptez que l'équipe Ethics de
+            l'université catholique
+            de Lille ait accès aux données anonymisées de cette session et que ces données puissent être utilisées
+            dans des travaux de recherche.</p>
+        <input type="checkbox" id="agree"><label class="m-1" for="agree">J'accepte</label>
+    </div>
+    <button id="create_button" class="btn btn-primary" type="submit" disabled>Créer</button>
 </form>
 
+</div>
+
+<script>
+    let button = document.getElementById("create_button");
+    let checkbox = document.getElementById("agree");
+    let toggle = function() {
+        if (checkbox.checked) {
+            button.disabled = false;
+        } else {
+            button.disabled = true;
+        }
+    }
+    checkbox.addEventListener("change", toggle)
+</script>
 {% endblock %}
