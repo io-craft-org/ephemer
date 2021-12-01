@@ -42,6 +42,9 @@ class Experiment(models.Model):
             "experiments-experiment-detail", kwargs={"experiment_id": self.pk}
         )
 
+    def __str__(self):
+        return self.title
+
 
 PIN_CODE_LENGTH = 5
 
@@ -73,3 +76,30 @@ class Session(models.Model):
         null=True,
         blank=True,
     )
+
+
+class ReportTemplate(models.Model):
+    """A report template for a given Experiment"""
+
+    experiment = models.OneToOneField(
+        Experiment, on_delete=models.CASCADE, related_name="report_template"
+    )
+
+
+class ReportGraph(models.Model):
+    title = models.CharField(max_length=255, default="")
+    position = models.PositiveIntegerField(default=0)
+    report = models.ForeignKey(
+        ReportTemplate, on_delete=models.CASCADE, related_name="graphs"
+    )
+    x_tick_labels = models.JSONField(default=dict)
+
+
+class ReportGraphTrace(models.Model):
+    graph = models.ForeignKey(
+        ReportGraph, on_delete=models.CASCADE, related_name="traces"
+    )
+    x = models.CharField(max_length=255)
+    y = models.CharField(max_length=255)
+    func = models.CharField(max_length=255, choices=[("avg", "Moyenne")])
+    name = models.CharField(max_length=255)

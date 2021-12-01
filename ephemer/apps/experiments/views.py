@@ -1,6 +1,9 @@
+import base64
 import os
 from urllib.parse import urljoin
 
+import pandas as pd
+import plotly.graph_objects as go
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -179,7 +182,6 @@ def session_results_as_csv(request, session_id: int):
     filepath = os.path.join(base_dir, f"{session.id}.csv")
 
     if response:
-        print("YEAH")
         with open(filepath, "wb") as f:
             f.write(response.content)
 
@@ -190,6 +192,76 @@ def session_results_as_csv(request, session_id: int):
             return HttpResponse(status=404)
 
     return FileResponse(open(session.csv, "rb"))
+
+
+@login_required
+def session_results(request, session_id: int):
+    """Get results of a sesssion, output as HTML"""
+    session = get_object_or_404(models.Session, pk=session_id)
+    if session.created_by != request.user:
+        raise Http404
+
+    otree = OTreeConnector(_get_otree_api_uri())
+    try:
+        response = otree.get_session_results_as_csv(session.otree_handler)
+    except otree_exceptions.OTreeNotAvailable:
+        response = None
+
+    base_dir = models.get_csv_path()
+    os.makedirs(base_dir, exist_ok=True)
+    filepath = os.path.join(base_dir, f"{session.id}.csv")
+
+    if response:
+        with open(filepath, "wb") as f:
+            f.write(response.content)
+
+        session.csv = filepath
+        session.save()
+    else:
+        if not session.csv:
+            return HttpResponse(status=404)
+
+    # Compute graphs
+    graphs = []
+
+    df = pd.read_csv(session.csv)
+
+    report_tmpl = session.experiment.report_template
+
+    if report_tmpl:
+        for graph in report_tmpl.graphs.all():
+            fig = go.Figure()
+            for trace in graph.traces.all():
+                fig.add_trace(
+                    go.Histogram(
+                        x=df[trace.x],
+                        y=df[trace.y],
+                        histnorm="density",
+                        histfunc=trace.func,
+                        name=trace.name,
+                        # bingroup=1,
+                    )
+                )
+
+            fig.update_layout(
+                barmode="group",
+                title_text=graph.title,
+                xaxis=dict(
+                    tickmode="array",
+                    tickvals=[val for val in graph.x_tick_labels.keys()],
+                    ticktext=[text for text in graph.x_tick_labels.values()],
+                ),
+            )
+
+            graphs.append(
+                base64.b64encode(fig.to_image(format="png", width=1000)).decode("utf-8")
+            )
+
+    return render(
+        request,
+        template_name="experiments/session_results.html",
+        context={"session": session, "graphs": graphs},
+    )
 
 
 def session_join(request, session_id):

@@ -8,3 +8,5 @@ django_bootstrap_icons
 django-debug-toolbar
 requests
 dataclasses-json
+plotly
+pandas
