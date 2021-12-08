@@ -279,6 +279,7 @@ def session_join(request, session_id):
 def participant_join_session(request):
     error = None
     if request.method == "POST":
+        print("POST")
         form = forms.ParticipantJoinSessionForm(request.POST)
         if form.is_valid():
             try:
@@ -286,7 +287,7 @@ def participant_join_session(request):
                     pin_code=form.cleaned_data["pin_code"]
                 )
             except models.Session.DoesNotExist:
-                error = "Le PIN code saisi ne correspond pas à aucune session en cours."
+                error = "Le PIN code saisi ne correspond à aucune session en cours."
             else:
                 return redirect(
                     urljoin(settings.OTREE_HOST, f"/join/{session.join_in_code}")
@@ -294,10 +295,11 @@ def participant_join_session(request):
 
     form = forms.ParticipantJoinSessionForm()
 
+    print("error", error)
     return render(
         request,
         template_name="experiments/participant_join_session.html",
-        context={"form": form, "error": error},
+        context={"form": form, "error": error, "pin_code_length": models.PIN_CODE_LENGTH},
     )
 
 

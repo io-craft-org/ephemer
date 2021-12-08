@@ -2,20 +2,92 @@
 
 {% load django_bootstrap5 %}
 
+{% block javascript %}
+    <script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" xmlns:x-bind="http://www.w3.org/1999/xhtml"></script>
+{% endblock javascript %}
+
 {% block content %}
-<div class="col-11 mx-auto py-4">
+<style>
+
+#pin {
+    border: none;
+    border-bottom: solid 2px blue;
+    vertical-align: text-bottom;
+    display: inline;
+    line-height: 2rem;
+    font-size: 2rem;
+    letter-spacing: 1rem;
+    width: 14rem;
+    padding-left: 2rem;
+    padding-right: 1rem;
+}
+
+#counter {
+    color: blue;
+}
+
+</style>
+
+<div class="col-lg-6 mx-auto py-4">
 
     <h2>Saisissez le code qui vous a été donné pour rejoindre votre session.</h2>
 
     <form method="POST">
-        {% csrf_token %}
-        {% bootstrap_form form %}
-        {% if error %}
+        <div class="mx-auto d-flex flex-column">
+            {% csrf_token %}
+            <div class="d-inline-flex flex-column align-self-center">
+                <input type="text" id="pin" name="pin_code" inputmode="numeric" pattern="\d*" minlength="{{ pin_code_length }}"
+                       maxlength="{{ pin_code_length }}" autofocus>
+                <span id="counter" class="align-self-end" x-data
+                   x-bind:class="{ 'text-danger': $store.pin_code_input.counter !== parseInt($refs.expected.innerText) }">
+                    <span x-text="$store.pin_code_input.counter">0</span>/<span
+                        x-ref="expected">{{ pin_code_length }}</span>
+                </span>
+            </div>
+            {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
-        {% endif %}
-        <button class="btn btn-primary" type="submit">Rejoindre</button>
+            {% endif %}
+            <button class="btn btn-primary mx-auto" type="submit">Rejoindre</button>
+        </div>
     </form>
-
 </div>
+
+<script>
+document.addEventListener('alpine:init', () => {
+    Alpine.store('pin_code_input', {
+        counter: undefined
+    });
+    initialize_pin_code_input();
+});
+
+function check_validity(input_element) {
+    let input = input_element.value;
+    let validity_msg = "";
+    for (let i = 0; i < input.length; i++) {
+        let character = input[i];
+        if (isNaN(parseInt(character))) {
+            validity_msg = "Le code PIN ne contient que des chiffres.";
+            break;
+        }
+    }
+    input_element.setCustomValidity(validity_msg);
+    if (validity_msg)
+        input_element.reportValidity();
+}
+
+function initialize_pin_code_input() {
+    let pin_input = document.getElementById("pin");
+
+    function update_digits_counter() {
+        Alpine.store("pin_code_input").counter = pin_input.value.length;
+    }
+
+    update_digits_counter();
+    pin_input.oninput = function (event) {
+        check_validity(event.target);
+        update_digits_counter();
+    };
+}
+</script>
 
 {% endblock %}
