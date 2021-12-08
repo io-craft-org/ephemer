@@ -1,5 +1,19 @@
-body {
+@font-face {
+    font-family: 'poppins';
+    src: url('../fonts/poppins_regular.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
+@font-face {
+    font-family: 'avenirblack';
+    src: url('../fonts/avenir_black.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+  font-family: poppins, sans-serif;
 }
 
 html {
@@ -10,6 +24,10 @@ main {
   display: flex;
   flex-wrap: nowrap;
 
+}
+
+.ephemer-logo {
+  font-family: avenirblack, sans-serif;
 }
 
 .b-example-divider {
