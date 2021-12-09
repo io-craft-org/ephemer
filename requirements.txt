@@ -3,7 +3,7 @@ git+https://github.com/betagouv/django-magicauth.git#django-magicauth
 django-otp
 django-sass-processor
 libsass
-django-bootstrap5
+django-bootstrap5==2.1.2
 django_bootstrap_icons
 django-debug-toolbar
 requests
