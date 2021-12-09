@@ -279,7 +279,6 @@ def session_join(request, session_id):
 def participant_join_session(request):
     error = None
     if request.method == "POST":
-        print("POST")
         form = forms.ParticipantJoinSessionForm(request.POST)
         if form.is_valid():
             try:
@@ -295,7 +294,6 @@ def participant_join_session(request):
 
     form = forms.ParticipantJoinSessionForm()
 
-    print("error", error)
     return render(
         request,
         template_name="experiments/participant_join_session.html",
