@@ -85,6 +85,23 @@ class ReportTemplate(models.Model):
         Experiment, on_delete=models.CASCADE, related_name="report_template"
     )
 
+    def __str__(self):
+        return f"Report for <{self.experiment.title}>"
+
+
+class ReportDataManipulation(models.Model):
+    title = models.CharField(max_length=255)
+    data_name = models.CharField(max_length=255)
+    position = models.PositiveIntegerField(default=0)
+    report = models.ForeignKey(
+        ReportTemplate, on_delete=models.CASCADE, related_name="data_manipulations"
+    )
+    func = models.CharField(max_length=255, choices=[("mean", "Moyenne")])
+    columns = models.JSONField(default=list)
+
+    def __str__(self):
+        return f"Data Manipulation <{self.title}> for <{self.report.experiment.title}>"
+
 
 class ReportGraph(models.Model):
     title = models.CharField(max_length=255, default="")
@@ -92,7 +109,10 @@ class ReportGraph(models.Model):
     report = models.ForeignKey(
         ReportTemplate, on_delete=models.CASCADE, related_name="graphs"
     )
-    x_tick_labels = models.JSONField(default=dict)
+    x_tick_labels = models.JSONField(default=dict, null=True, blank=True)
+
+    def __str__(self):
+        return f"Graph <{self.title}> for <{self.report.experiment.title}>"
 
 
 class ReportGraphTrace(models.Model):
@@ -100,6 +120,6 @@ class ReportGraphTrace(models.Model):
         ReportGraph, on_delete=models.CASCADE, related_name="traces"
     )
     x = models.CharField(max_length=255)
-    y = models.CharField(max_length=255)
+    y = models.CharField(max_length=255, null=True, blank=True)
     func = models.CharField(max_length=255, choices=[("avg", "Moyenne")])
     name = models.CharField(max_length=255)

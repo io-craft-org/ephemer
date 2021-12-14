@@ -228,28 +228,44 @@ def session_results(request, session_id: int):
     report_tmpl = session.experiment.report_template
 
     if report_tmpl:
-        for graph in report_tmpl.graphs.all():
+        for data_manipulation in report_tmpl.data_manipulations.order_by(
+            "position"
+        ).all():
+            manip_df = pd.DataFrame(df, columns=data_manipulation.columns)
+            df[data_manipulation.data_name] = manip_df.agg(
+                func=data_manipulation.func, axis="columns"
+            )
+
+        for graph in report_tmpl.graphs.order_by("position").all():
             fig = go.Figure()
             for trace in graph.traces.all():
+                if trace.y:
+                    y = df[trace.y]
+                else:
+                    y = None
+
                 fig.add_trace(
                     go.Histogram(
                         x=df[trace.x],
-                        y=df[trace.y],
-                        histnorm="density",
-                        histfunc=trace.func,
+                        y=y,
+                        # histnorm="density",
+                        histfunc=trace.func or None,
                         name=trace.name,
-                        # bingroup=1,
+                    )
+                )
+
+            if graph.x_tick_labels:
+                fig.update_layout(
+                    xaxis=dict(
+                        tickmode="array",
+                        tickvals=[val for val in graph.x_tick_labels.keys()],
+                        ticktext=[text for text in graph.x_tick_labels.values()],
                     )
                 )
 
             fig.update_layout(
                 barmode="group",
                 title_text=graph.title,
-                xaxis=dict(
-                    tickmode="array",
-                    tickvals=[val for val in graph.x_tick_labels.keys()],
-                    ticktext=[text for text in graph.x_tick_labels.values()],
-                ),
             )
 
             graphs.append(

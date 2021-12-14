@@ -25,3 +25,8 @@ class ReportGraphTraceInline(admin.TabularInline):
 @admin.register(models.ReportGraph)
 class ReportGraphAdmin(admin.ModelAdmin):
     inlines = [ReportGraphTraceInline]
+
+
+@admin.register(models.ReportDataManipulation)
+class ReportDataManipulationAdmin(admin.ModelAdmin):
+    pass
