@@ -8,7 +8,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
+from django.shortcuts import (Http404, get_object_or_404, redirect, render,
+                              reverse)
 
 from . import forms, models
 from .otree import exceptions as otree_exceptions
@@ -66,6 +67,11 @@ def session_create(request, experiment_id):
     if request.method == "POST":
         form = forms.SessionCreateForm(request.POST)
         if form.is_valid():
+            # In case we asked more slots than possible
+            participant_count = form.cleaned_data.get("participant_count")
+            if participant_count > experiment.participant_count:
+                form.cleaned_data["participant_count"] = experiment.participant_count
+
             otree = OTreeConnector(_get_otree_api_uri())
             try:
                 otree_session = otree.create_session(experiment.otree_app_name)
@@ -81,9 +87,11 @@ def session_create(request, experiment_id):
             session.experiment = experiment
             session.save()
 
-        return redirect("experiments-session-detail", session_id=session.pk)
+            return redirect("experiments-session-detail", session_id=session.pk)
 
-    form = forms.SessionCreateForm()
+    form = forms.SessionCreateForm(
+        initial={"participant_count": experiment.participant_count}
+    )
 
     return render(
         request, template_name="experiments/session_create.html", context={"form": form}

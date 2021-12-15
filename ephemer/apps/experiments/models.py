@@ -67,6 +67,9 @@ class Session(models.Model):
         default=timezone.now, verbose_name="date de création"
     )
     name = models.CharField(default="Session Sans Nom", max_length=100)
+    participant_count = models.PositiveIntegerField(
+        verbose_name="Nombre de participants"
+    )
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     otree_handler = models.CharField(max_length=50)
     pin_code = models.CharField(max_length=PIN_CODE_LENGTH, default=generate_pin)

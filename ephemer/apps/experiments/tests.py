@@ -166,8 +166,8 @@ def test_create_session(client, mocker):
         "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
     )
 
-    experiment = Recipe(models.Experiment).make()
-    data = {"name": "Test Session"}
+    experiment = Recipe(models.Experiment, participant_count=1).make()
+    data = {"name": "Test Session", "participant_count": 1}
     with login(client):
         response = client.post(
             reverse("experiments-session-create", args=(experiment.pk,)), data=data
@@ -188,8 +188,8 @@ def test_create_session_when_backend_down(client, mocker):
         "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
     )
 
-    experiment = Recipe(models.Experiment).make()
-    data = {"name": "Test Session"}
+    experiment = Recipe(models.Experiment, participant_count=1).make()
+    data = {"name": "Test Session", "participant_count": 1}
     with login(client):
         response = client.post(
             reverse("experiments-session-create", args=(experiment.pk,)), data=data
