@@ -50,14 +50,14 @@ class OTreeConnector:
         else:
             return resp
 
-    def create_session(self, app_name):
+    def create_session(self, app_name, num_participants):
         """Create a new session"""
         # XXX Handle session configuration
         data = self._post(
             "sessions",
             {
                 "session_config_name": f"{app_name}",
-                "num_participants": 5,
+                "num_participants": num_participants,
             },
         )
 

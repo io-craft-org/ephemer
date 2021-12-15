@@ -74,7 +74,10 @@ def session_create(request, experiment_id):
 
             otree = OTreeConnector(_get_otree_api_uri())
             try:
-                otree_session = otree.create_session(experiment.otree_app_name)
+                otree_session = otree.create_session(
+                    experiment.otree_app_name,
+                    num_participants=experiment.participant_count,
+                )
             except otree_exceptions.OTreeNotAvailable:
                 return redirect("experiments-service-unavailable")
 
