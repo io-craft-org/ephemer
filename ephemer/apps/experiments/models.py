@@ -124,5 +124,7 @@ class ReportGraphTrace(models.Model):
     )
     x = models.CharField(max_length=255)
     y = models.CharField(max_length=255, null=True, blank=True)
-    func = models.CharField(max_length=255, choices=[("avg", "Moyenne")])
+    func = models.CharField(
+        max_length=255, choices=[("avg", "Moyenne")], null=True, blank=True
+    )
     name = models.CharField(max_length=255)

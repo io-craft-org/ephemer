@@ -236,6 +236,7 @@ def session_results(request, session_id: int):
     report_tmpl = session.experiment.report_template
 
     if report_tmpl:
+        # First, add columns/transform data
         for data_manipulation in report_tmpl.data_manipulations.order_by(
             "position"
         ).all():
@@ -244,6 +245,7 @@ def session_results(request, session_id: int):
                 func=data_manipulation.func, axis="columns"
             )
 
+        # Make Graphs
         for graph in report_tmpl.graphs.order_by("position").all():
             fig = go.Figure()
             for trace in graph.traces.all():
