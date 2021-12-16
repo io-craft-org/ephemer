@@ -6,6 +6,7 @@ from django.contrib.auth.models import User
 from django.db import models
 from django.shortcuts import reverse
 from django.utils import timezone
+from markdownx.models import MarkdownxField
 
 
 class ExperimentManager(models.Manager):
@@ -24,8 +25,8 @@ class Experiment(models.Model):
     title = models.CharField(
         max_length=255, verbose_name="Titre", help_text="Le titre de l'expérience"
     )
-    description = models.TextField(blank=True, null=True)
-    goals = models.TextField(blank=True, null=True)
+    goals = MarkdownxField(blank=True, null=True)
+    description = MarkdownxField(blank=True, null=True)
     duration_min = models.PositiveIntegerField(
         verbose_name="Durée", help_text="En minutes"
     )
@@ -36,6 +37,10 @@ class Experiment(models.Model):
     otree_app_name = models.CharField(
         max_length=50, verbose_name="Nom de l'application oTree"
     )
+
+    notice = models.FileField(blank=True, null=True)
+
+    image = models.FileField(blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse(

@@ -1,0 +1,72 @@
+[
+  {
+    "model": "experiments.experiment",
+    "pk": 1,
+    "fields": {
+      "title": "Rapports intergroupes et favoritisme endogroupe",
+      "goals": "Une part de la manière dont les individus définissent leur identité se fonde sur leurs appartenances sociales. Ainsi, au-delà des différentes particularités propres à chaque individu, il est également possible de se définir au travers de son appartenance à différents groupes (sexe, nationalité, etc.). Cette autocatégorisation d’un individu comme membre d’un groupe particulier peut notamment avoir pour effet de le conduire à favoriser ce groupe au détriment des autres. L’objectif de cette expérience est donc de placer les participants dans une situation de rapport intergroupe et de favoritisme endogroupe afin de les interpeller sur l’influence du rapport aux autres dans la société.",
+      "description": "L’expérience se compose de 3 phases :\r\n\r\n1. Suite à un test de personnalité fictif (présenté comme réel). Les participants sont informés qu’ils appartiennent au groupe des « picturaux » et que d’autres participants appartiennent au groupe des « expérientiel ». En fait, tous les participants sont en fait répartis dans le groupe des « picturaux ».\r\n\r\n2. Les participants doivent ensuite répondre à différentes questions évaluant leur identification au groupe sur la base d’items d’identification et d’appréciation. Les participants doivent se positionner sur ces échelles de réponse concernant leur propre groupe (l’endogroupe) et l’autre groupe (l’exogroupe).\r\n\r\n3. Les participants doivent enfin répartir une somme fictive d’argent entre un membre de leur groupe et un membre de l’autre groupe (voir image ci-dessous).\r\n\r\nIl est ainsi attendu que les participants devraient s’identifier davantage au groupe dans lequel ils ont été aléatoirement répartis. Ils devraient également déclarer apprécier davantage ce groupe et donner davantage d’argent à un membre de celui-ci plutôt qu’à un membre de l’autre groupe.",
+      "duration_min": 60,
+      "participant_count": 40,
+      "otree_app_name": "groupes_minimaux_labo",
+      "notice": "Les_groupes_et_leurs_relations.pdf",
+      "image": "Les_groupes_et_leurs_relations.png"
+    }
+  },
+  {
+    "model": "experiments.experiment",
+    "pk": 3,
+    "fields": {
+      "title": "La prise en charge des jeunes non accompagnés",
+      "goals": "Cette expérience vise à interpeller les étudiants sur les questions liées à la prise en charge des jeunes migrants non accompagnés. L’intervention réalisée porte plus particulièrement sur la problématique de la détermination de l’âge de ces jeunes et sur la manière dont celle-ci peut être influencée par la connaissance des conséquences de cette évaluation sur la prise en charge des jeunes.",
+      "description": "L’expérience se compose de 2 phases :\r\n\r\n1. Les participants sont aléatoirement répartis dans 2 conditions : soit les participants sont informés des conséquences de l’âge attribué à un jeune (prise en charge si mineur et possible renvoi vers l’état d’origine si majeur), soit ils ne le sont pas. \r\n\r\n2. Trois cas de jeunes non-accompagné sont ensuite présentés aux participants avec pour chaque cas, différentes informations présentées dans un ordre aléatoire : photos (dont un prétest a permis d’établir la difficulté à évaluer l’âge de l’individu présenté sur celle-ci), nom, nationalité, âge déclaré ; résumé d’un entretien réalisé par un(e) professionnel(e) de terrain ; documents d’état civil ; résultats du test osseux. Après chaque information, les participants doivent préciser l’âge qu’ils attribuent au jeune, ainsi que leur degré de certitude (échelle allant de 0 à 100).\r\n\r\n3. Deux nouveaux cas sont présentés, mais cette fois, l’âge estimé par les tests osseux est soit précis (18 ans) soit défini comme une plage allant de 17 à 19 ans.\r\n\r\nIl est ainsi attendu que les participants devraient voir leur évaluation de l’âge des cas présentés être affectée par la connaissance des conséquences de la décision (les conduisant alors à sous-estimer l’âge estimé). Les estimations et le degré de certitude des participant est lui aussi supposé varier en fonction des informations présentées, les tests osseux (dont le manque de précision est reconnu) étant considérés comme l’indice le plus pertinent et ayant donc le plus d’influence sur les estimations.",
+      "duration_min": 90,
+      "participant_count": 40,
+      "otree_app_name": "mineurs_age_v2",
+      "notice": "La_prise_en_charge_des_jeunes_non-accompagnes.pdf",
+      "image": ""
+    }
+  },
+  {
+    "model": "experiments.experiment",
+    "pk": 4,
+    "fields": {
+      "title": "Dilemnes moraux et nouvelles technologies",
+      "goals": "Cette expérience vise à interpeller les participants sur les questions éthiques qui sous-tendent le développement des nouvelles technologies. L’expérience est focalisée sur la question des voitures autonomes.",
+      "description": "L’expérience repose sur le paradigme développé dans le cadre du projet « moral machine ». Elle prend la forme d’une suite de situations de choix binaires. Il s’agit d’imaginer que le véhicule (présenté comme une voiture autonome) est hors de contrôle et que deux choix s’offrent aux participants (voir exemple d’images ci-dessous) :\r\n\r\n1. Laisser le véhicule poursuivre sa lancée, ce qui se soldera par le sacrifice des piétons étant face à celui-ci.\r\n2. Orienter le véhicule vers un plot en béton situé sur le côté de la route, ce qui se soldera par le sacrifice des occupants du véhicule.\r\n\r\nEn matière de procédure :\r\n\r\n- L’expérience peut être réalisée sur ordinateur, tablette ou téléphone portable (en fonction des terminaux des participants). Sur les petits écrans, attention à bien descendre en bas de la page pour valider ses réponses !\r\n- Les participants sont aléatoirement répartis dans deux conditions expérimentales : soit ils occupent le rôle de décideur public, et doivent donc prendre leur décision en fonction de ce statut, soit ils occupent le rôle de conducteur du véhicule présenté dans les scénarios.\r\n- Plusieurs situations de choix sont présentées : seules les caractéristiques des piétons sont manipulées (nombre, sexe, âge, appartenance, statut, comportement, etc.).\r\n\r\nDans l’ensemble, il s’agit ainsi de déterminer dans quelle mesure le statut des participants (décideur public ou conducteur du véhicule) ainsi que les caractéristiques des piétons affecteront les choix réalisés.",
+      "duration_min": 90,
+      "participant_count": 20,
+      "otree_app_name": "voiture",
+      "notice": "Dilemmes_moraux_et_nouvelles_technologies.pdf",
+      "image": "Dilemmes_moraux_et_nouvelles_technologies.png"
+    }
+  },
+  {
+    "model": "experiments.experiment",
+    "pk": 5,
+    "fields": {
+      "title": "Efficacité collective, penser le groupe et son fonctionnement",
+      "goals": "L’objectif de cette expérience est d’interpeller les participants sur le concept d’efficacité collective et son lien avec la productivité d’un groupe.",
+      "description": "L’expérience se compose de 4 phases :\r\n\r\n1. Les participants sont répartis dans 2 groupes fictifs (présentés comme réels) après avoir répondu à quelques questions. Cette répartition vise à favoriser l’émergence de 2 groupes distincts (« focalisés » et « holistiques ») et de favoriser l’identification des participants au groupe dans lequel ils ont été placés. Afin de vérifier cette identification, différentes questions sont posées aux participants.\r\n\r\n2. Les participants doivent ensuite réaliser une tâche de complétion de paires de mots et indiquer dans quelle mesure ils pensent que les autres membres de leur groupe choisiront la même réponse qu’eux (cf. image ci-dessous).\r\n\r\n3. Un feedback est alors communiqué aux participants concernant le degré de consensus au sein de leur groupe. Ce feedback peut ainsi, soit indiquer un consensus faible, soit indiquer un consensus fort dans le groupe des participants. Il s’agit ainsi de déterminer dans quel mesure ce feedback va affecter le rapport des participants à leur groupe. Il est alors supposé qu’un feedback témoignant d’un faible consensus devrait favoriser la perception d’une plus faible efficacité collective, une plus faible cohésion groupale et une plus faible identification au groupe.\r\n\r\n4. Ces différentes variables sont mesurées lors de la quatrième et dernière phase.",
+      "duration_min": 90,
+      "participant_count": 40,
+      "otree_app_name": "FGES_Louvain",
+      "notice": "Efficacite_collective.pdf",
+      "image": "Efficacite_collective.png"
+    }
+  },
+  {
+    "model": "experiments.experiment",
+    "pk": 6,
+    "fields": {
+      "title": "Rumeurs et infoxs",
+      "goals": "Cette expérimentation vise à interpeller les participants sur leur rapport à l’information et à sa diffusion. Plus précisément, il s’agit de sensibiliser les participants aux processus impliqués dans la déformation de l’information et la naissance des rumeurs et infox (i.e., fake news) au travers d’une expérimentation mobilisant le paradigme des communications avec relais (Allport & Postman, 1945).",
+      "description": "Pour faciliter la réalisation de cette expérience, il est conseillé de réaliser celle-ci sur des ordinateurs et non des téléphones portables.\r\n\r\nL’expérience prend la forme d’une chaine de communication : un participant doit mémoriser un message puis le transférer à un autre participant qui doit à son tour mémoriser puis transférer le message qu’il a reçu, etc. Dans cette optique, l’expérience implique tout d’abord une répartition aléatoire des participants dans des groupes de 7 individus. C’est en effet à partir de 7 relais que la transformation du message est maximale.\r\n\r\nLa session comporte sept donc 7 tours : un texte est présenté au premier joueur du groupe pendant deux minutes. Le joueur doit ensuite recopier ce texte avec le plus d’exactitude possible. Une fois sa tâche terminée, le deuxième tour débute : le texte recopié apparaît sur l’écran du deuxième joueur qui doit le recopier de mémoire à son tour. Et ainsi de suite de suite jusqu’au septième tour.\r\n\r\nIl est ainsi attendu qu’après 7 relais, les messages finaux devraient être considérablement différents du message initial. Les transformations observées devraient renvoyer aux phénomènes de réduction, d’accentuation et d’assimilation observés par Allport et Postman (1945).",
+      "duration_min": 120,
+      "participant_count": 14,
+      "otree_app_name": "com_serielle",
+      "notice": "Rumeurs_et_infoxs.pdf",
+      "image": ""
+    }
+  }
+]

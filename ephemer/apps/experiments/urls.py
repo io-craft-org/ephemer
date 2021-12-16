@@ -5,8 +5,8 @@ Urls for experiments application
 
 """
 
-
-from django.urls import path
+from django.conf.urls import url
+from django.urls import path, include
 
 from . import views
 
@@ -71,4 +71,5 @@ urlpatterns = [
         views.participant_join_session,
         name="experiments-participant-join-session",
     ),
+    url(r'^markdownx/', include('markdownx.urls')),
 ]

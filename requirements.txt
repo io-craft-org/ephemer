@@ -6,8 +6,10 @@ libsass
 django-bootstrap5==2.1.2
 django_bootstrap_icons
 django-debug-toolbar
+django-markdownx
 requests
 dataclasses-json
 plotly
 pandas
 kaleido
+markdown

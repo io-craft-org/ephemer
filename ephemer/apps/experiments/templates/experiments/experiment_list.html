@@ -18,12 +18,11 @@
                     </a>
                 </span>
             </h4>
-            <p>{{ experiment.description }}</p>
-            <p>Buts : {{ experiment.goals }}</p>
+            <p>{{ experiment.goals }}</p>
             <p>
                 Durée : {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
                 -
-                Nombre de participants : {{ experiment.participant_count }}
+                Nombre minimum de participants : {{ experiment.participant_count }}
             </p>
         </div>
         {% endfor %}

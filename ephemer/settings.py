@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "magicauth",
     "ephemer.apps.home",
     "ephemer.apps.experiments",
+    "markdownx"
 ]
 
 MIDDLEWARE = [
@@ -144,6 +145,7 @@ SASS_PRECISION = 8
 # MEDIA FILES
 
 MEDIA_ROOT = BASE_DIR / "media"
+MEDIA_URL = "/media/"
 
 
 # Default primary key field type
