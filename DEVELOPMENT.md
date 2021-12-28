@@ -31,3 +31,11 @@ And push:
     git push
     git push --tags
 
+
+## Charger le contenu initial dans la base de données
+
+Après l'initialisation de la BD avec `$ python manage.py migrate` utiliser la commande `loaddata` :
+
+```
+    $ python manage.py loaddata initial_experimens_data.json
+```
