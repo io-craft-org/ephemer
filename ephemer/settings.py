@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     "magicauth",
     "ephemer.apps.home",
     "ephemer.apps.experiments",
-    "markdownx"
+    "markdownx",
 ]
 
 MIDDLEWARE = [

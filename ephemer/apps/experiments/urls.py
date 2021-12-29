@@ -71,5 +71,5 @@ urlpatterns = [
         views.participant_join_session,
         name="experiments-participant-join-session",
     ),
-    url(r'^markdownx/', include('markdownx.urls')),
+    url(r"^markdownx/", include("markdownx.urls")),
 ]

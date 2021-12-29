@@ -8,8 +8,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.shortcuts import (Http404, get_object_or_404, redirect, render,
-                              reverse)
+from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
 import markdown as md
 
 from . import forms, models
