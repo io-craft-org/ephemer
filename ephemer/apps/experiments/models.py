@@ -77,7 +77,9 @@ class Session(models.Model):
     )
     experiment = models.ForeignKey(Experiment, on_delete=models.CASCADE)
     otree_handler = models.CharField(max_length=50)
-    pin_code = models.CharField(max_length=PIN_CODE_LENGTH, default=generate_pin)
+    pin_code = models.CharField(
+        unique=True, max_length=PIN_CODE_LENGTH, default=generate_pin
+    )
     join_in_code = models.CharField(default="", max_length=50)
     csv = models.FilePathField(
         path=get_csv_path,
