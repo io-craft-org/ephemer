@@ -17,6 +17,9 @@
                 <th>Créée le</th>
                 <th>Résultats (CSV)</th>
                 <th>Résultats</th>
+                {% if request.user.is_staff %}
+                <th>Actions</th>
+                {% endif %}
             </tr>
             {% for session in sessions %}
             <tr>
@@ -28,6 +31,9 @@
                 <td>{{ session.created_on }}</td>
                 <td><a href="{% url 'experiments-session-results-csv' session.pk %}">CSV</a></td>
                 <td><a href="{% url 'experiments-session-results' session.pk %}">Voir</a></td>
+                {% if request.user.is_staff %}
+                <td><a href="{% url 'experiments-session-delete' session.pk %}">Supprimer</a></td>
+                {% endif %}
             </tr>
             {% endfor %}
         </table>

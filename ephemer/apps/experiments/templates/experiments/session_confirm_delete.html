@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="col-11 mx-auto py-4">
+    <h1>Supprimer une Session</h1>
+
+    <form class="form" method="POST">
+        {% csrf_token %}
+        Supprimer la session {{ session.name }} ?
+        <br/>
+        <button class="btn btn-danger" type="submit">Supprimer</button>
+    </form>
+
+</div>
+{% endblock %}

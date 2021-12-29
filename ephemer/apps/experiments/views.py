@@ -132,7 +132,7 @@ def session_list(request):
 @login_required
 def session_detail(request, session_id):
     session = get_object_or_404(models.Session, pk=session_id)
-    if session.created_by != request.user:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     otree_session = None
@@ -148,6 +148,24 @@ def session_detail(request, session_id):
         template_name="experiments/session_detail.html",
         context={"session": session, "otree_session": otree_session},
     )
+
+
+@login_required
+def session_delete(request, session_id):
+    session = get_object_or_404(models.Session, pk=session_id)
+    if not request.user.is_staff:
+        raise Http404
+
+    if request.method == "POST":
+        session.delete()
+        return redirect("experiments-session-list")
+
+    elif request.method == "GET":
+        return render(
+            request,
+            template_name="experiments/session_confirm_delete.html",
+            context={"session": session},
+        )
 
 
 @login_required

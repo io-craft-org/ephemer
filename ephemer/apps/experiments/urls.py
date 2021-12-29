@@ -6,7 +6,7 @@ Urls for experiments application
 """
 
 from django.conf.urls import url
-from django.urls import path, include
+from django.urls import include, path
 
 from . import views
 
@@ -20,6 +20,11 @@ urlpatterns = [
         r"sessions/<int:session_id>/",
         views.session_detail,
         name="experiments-session-detail",
+    ),
+    path(
+        r"sessions/<int:session_id>/delete",
+        views.session_delete,
+        name="experiments-session-delete",
     ),
     path(
         r"sessions/<int:session_id>/state.json",
