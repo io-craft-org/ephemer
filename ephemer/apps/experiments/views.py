@@ -2,14 +2,15 @@ import base64
 import os
 from urllib.parse import urljoin
 
+import markdown as md
 import pandas as pd
 import plotly.graph_objects as go
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
-import markdown as md
+from django.shortcuts import (Http404, get_object_or_404, redirect, render,
+                              reverse)
 
 from . import forms, models
 from .otree import exceptions as otree_exceptions
@@ -110,9 +111,12 @@ def session_create(request, experiment_id):
 
 @login_required
 def session_list(request):
-    sessions = models.Session.objects.filter(created_by=request.user).order_by(
-        "-created_on"
-    )
+    sessions = models.Session.objects.all()
+
+    if request.user.is_staff:
+        sessions = sessions.filter(created_by=request.user)
+
+    sessions = sessions.order_by("-created_on")
     paginator = Paginator(sessions, 10)
 
     page_number = request.GET.get("page")

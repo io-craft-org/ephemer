@@ -9,6 +9,9 @@
     <div class="row">
         <table class="table">
             <tr>
+                {% if request.user.is_staff %}
+                <th>Propriétaire</th>
+                {% endif %}
                 <th>Nom</th>
                 <th>Expérience</th>
                 <th>Créée le</th>
@@ -17,6 +20,9 @@
             </tr>
             {% for session in sessions %}
             <tr>
+                {% if request.user.is_staff %}
+                <td>{{ session.created_by }}</td>
+                {% endif %}
                 <td><a href="{% url 'experiments-session-detail' session.pk %}">{{ session.name }}</a></td>
                 <td>{{ session.experiment.title }}</td>
                 <td>{{ session.created_on }}</td>
