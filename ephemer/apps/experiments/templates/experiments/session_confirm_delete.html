@@ -4,13 +4,17 @@
 
 {% block content %}
 <div class="col-11 mx-auto py-4">
-    <h1>Supprimer une Session</h1>
+    <h2>Supprimer une Session</h2>
 
     <form class="form" method="POST">
         {% csrf_token %}
-        Supprimer la session {{ session.name }} ?
+        <div class="bg-light p-4">
+        Réellement Supprimer la session "{{ session.name }}" ?
+        <br>
+        <strong>Cette opération est irréversible</strong>.
         <br/>
-        <button class="btn btn-danger" type="submit">Supprimer</button>
+        <button class="btn btn-danger my-2" type="submit">Oui, supprimer</button>
+        </div>
     </form>
 
 </div>

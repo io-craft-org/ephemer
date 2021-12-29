@@ -84,9 +84,9 @@
                 Les participants peuvent accéder à l'expérience en indiquant le code dans l'onglet « Accès participant » :
             </div>
         </div>
-        <div class="col-3">
+        <div class="col-4">
             <div class="bg-light rounded p-3">
-                <span class="fs-4 px-4">Code d'accès :</span>
+                <span class="fs-4 px-4">Code d'accès :</span>&nbsp;
                 <span class="fs-3 bg-white rounded p-2">
                     {{ session.pin_code }}
                 </span>
@@ -132,17 +132,23 @@
                         <td class="text-success">Terminé</td>
                     </template>
                     <template x-if="!participant.is_finished">
-                        <td><span x-text="participant.current_page_number"></span>/<span x-text="participant.total_page_count"></td>
+                        <td><span x-text="participant.current_page_number"></span>/<span x-text="participant.total_page_count"/></td>
                     </template>
                     <td><button x-on:click="advanceParticipant(participant.access_code)" class="btn btn-sm btn-secondary">Avancer</button></td>
                 </tr>
             </template>
         </table>
+
     </div>
 
-    {% if user.is_staff %}
     <hr/>
-    <div>
+    <div class="p-2 d-flex justify-content-end">
+        <a class="btn btn-danger m-4" href="{% url 'experiments-session-delete' session.pk %}">Supprimer cette session</a>
+    </div>
+
+
+    {% if user.is_staff %}
+    <div class="bg-light mx-2 p-4">
         DEBUG OTREE
         <ul>
             <li># de partcipants : {{ otree_session.num_participants }}</li>
@@ -159,6 +165,7 @@
         </ul>
     </div>
     {% endif %}
+
 
     {% else %}
     <br>
