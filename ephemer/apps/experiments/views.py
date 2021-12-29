@@ -21,7 +21,8 @@ from .otree.connector import OTreeConnector
 def experiment_list(request):
     experiments = models.Experiment.objects.all()
     for experiment in experiments:
-        experiment.description = md.markdown(experiment.description)
+        if experiment.description:
+            experiment.description = md.markdown(experiment.description)
     return render(
         request,
         template_name="experiments/experiment_list.html",
@@ -32,8 +33,10 @@ def experiment_list(request):
 @login_required
 def experiment_detail(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
-    experiment.goals = md.markdown(experiment.goals)
-    experiment.description = md.markdown(experiment.description)
+    if experiment.goals:
+        experiment.goals = md.markdown(experiment.goals)
+    if experiment.description:
+        experiment.description = md.markdown(experiment.description)
     return render(
         request,
         template_name="experiments/experiment_detail.html",
