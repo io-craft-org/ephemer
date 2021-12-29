@@ -113,7 +113,7 @@ def session_create(request, experiment_id):
 def session_list(request):
     sessions = models.Session.objects.all()
 
-    if request.user.is_staff:
+    if not request.user.is_staff:
         sessions = sessions.filter(created_by=request.user)
 
     sessions = sessions.order_by("-created_on")

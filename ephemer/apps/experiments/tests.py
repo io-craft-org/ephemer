@@ -62,11 +62,24 @@ def test_list_sessions_not_accessible_as_guest(client):
 def test_list_session_are_only_mine(client):
     other_session = Recipe(models.Session, name="Other Session").make()
 
-    with login(client, is_staff=True) as user:
+    with login(client, is_staff=False) as user:
         my_session = Recipe(models.Session, name="My session", created_by=user).make()
         response = client.get(reverse("experiments-session-list"))
 
     assertNotContains(response, other_session.name)
+    assertContains(response, my_session.name)
+    assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_list_all_sessions_if_staff(client):
+    other_session = Recipe(models.Session, name="Other Session").make()
+
+    with login(client, is_staff=True) as user:
+        my_session = Recipe(models.Session, name="My session", created_by=user).make()
+        response = client.get(reverse("experiments-session-list"))
+
+    assertContains(response, other_session.name)
     assertContains(response, my_session.name)
     assert response.status_code == 200
 
