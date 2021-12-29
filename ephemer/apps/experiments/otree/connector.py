@@ -1,5 +1,7 @@
 import logging
 from urllib.request import urljoin
+import re
+from urllib.parse import urlparse
 
 import requests
 
@@ -91,3 +93,24 @@ class OTreeConnector:
     def get_session_results_as_csv(self, session_id):
         """Return the CSV results of a session"""
         return self._get(f"sessions/{session_id}/export", json_response=False)
+
+
+def get_next_participant_code(otree_host, session_wide_code):
+    def handle_error(resp):
+        if resp.status_code == 404 and resp.text == "Session is full.":
+            return
+        raise OTreeNotAvailable(
+            f"""
+            HTTP {resp.status_code} Client Error
+            endpoint: {resp.url}
+            error message: {resp.content}
+        """
+        )
+
+    join_path = "/join/"
+    response = requests.get(otree_host + join_path + session_wide_code)
+    if response.status_code != 200:
+        handle_error(response)
+        return None
+    match_result = re.match("^/p/([a-zA-Z0-9]+)/", urlparse(response.url).path)
+    return match_result.groups()[0]

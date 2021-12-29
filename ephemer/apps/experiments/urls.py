@@ -76,5 +76,10 @@ urlpatterns = [
         views.participant_join_session,
         name="experiments-participant-join-session",
     ),
+    path(
+        r"session/<str:pin_code>",
+        views.participant_session,
+        name="experiments-participant-session",
+    ),
     url(r"^markdownx/", include("markdownx.urls")),
 ]

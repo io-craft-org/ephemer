@@ -1,0 +1,55 @@
+{% load django_bootstrap5 %}
+{% load sass_tags %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Ephemer</title>
+        {% bootstrap_css %}
+        <link rel="stylesheet" href="{% sass_src 'css/base.scss' %}" type="text/css" media="screen" />
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+        {% block css %}
+        {% endblock %}
+        <style>
+            .container {
+              {#position: relative;#}
+              overflow: hidden;
+              width: 100%;
+              /* padding-top: 56.25%; /* 16:9 Aspect Ratio (divide 9 by 16 = 0.5625) */
+            }
+
+            /* Then style the iframe to fit in the container div with full height and width */
+            .responsive-iframe {
+              position: absolute;
+              top: 0;
+              left: 0;
+              bottom: 0;
+              right: 0;
+              width: 100%;
+              height: 100%;
+            }
+        </style>
+    </head>
+
+    <body>
+
+        {%  if otree_url %}
+        <div class="container">
+            <iframe class="responsive-iframe" src="{{ otree_url }}">Hello iframe</iframe>
+        </div>
+        {% endif %}
+
+        {% if unique_session_warning %}
+        <div class="col-6 alert alert-warning alert-dismissible fade show" role="alert">
+            <p>{{ unique_session_warning }}</p>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endif %}
+
+        {% if session_full_error %}
+        <div class="col-6 alert alert-danger" role="alert">
+            <p>{{ session_full_error }}</p>
+        </div>
+        {% endif %}
+    </body>
+</html>

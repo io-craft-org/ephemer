@@ -1,6 +1,7 @@
 import json
+import re
 import tempfile
-from unittest.mock import patch
+from unittest.mock import patch, Mock
 
 import pytest
 from django.contrib.auth.models import User
@@ -310,7 +311,7 @@ def test_guest_can_join_session(client):
         reverse("experiments-participant-join-session"), data={"pin_code": pin_code}
     )
     assert response.status_code == 302
-    assert join_in_code in response.url
+    assert pin_code in response.url
 
 
 @pytest.mark.django_db
@@ -322,6 +323,180 @@ def test_guest_input_wrong_pin(client):
         data={"pin_code": wrong_pin_code},
     )
     assert response.status_code == 200
+
+
+@pytest.mark.django_db
+def test_set_cookie_on_session_page(client, mocker):
+    pin_code = "12345"
+    join_in_code = "abcdef"
+    participant_code = "abcd123"
+
+    # needs to mock the call to get the participant code
+    def mock_get_next_participant_code(otree_host, session_wide_code):
+        return participant_code
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.get_next_participant_code",
+        mock_get_next_participant_code,
+    )
+
+    Recipe(models.Session, pin_code=pin_code, join_in_code=join_in_code).make()
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code})
+    )
+    assert response.status_code == 200
+    assert "ephemer_id" in response.cookies
+    cookie_value = response.cookies["ephemer_id"].value
+    assert join_in_code in cookie_value
+    assert participant_code in cookie_value
+
+
+@pytest.mark.django_db
+def test_guest_can_resume_previous_session(client, mocker):
+    """
+    Getting the session page for the 2nd time should result in the same participant code being used.
+    """
+
+    def retrieve_participant_code_from_content(content):
+        match_result = re.search('src=".*/InitializeParticipant/([a-z0-9]+)"', content)
+        return match_result.groups()[0]
+
+    next_participant_codes = [
+        "abcd123",
+        "4noth3r",
+    ]  # The second code should not be fetched
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.get_next_participant_code",
+        Mock(side_effect=next_participant_codes),
+    )
+
+    pin_code = "12345"
+    Recipe(models.Session, pin_code=pin_code, join_in_code="abcdef").make()
+
+    # 1st request
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code})
+    )
+    assert response.status_code == 200
+    content_code = retrieve_participant_code_from_content(
+        response.content.decode("utf-8")
+    )
+
+    # 2nd request
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code})
+    )
+    assert response.status_code == 200
+    assert (
+        retrieve_participant_code_from_content(response.content.decode("utf-8"))
+        == content_code
+    )
+
+
+@pytest.mark.django_db
+def test_guest_with_bad_cookie_gets_fresh_cookie(client, mocker):
+    """
+    getting the session page while providing a bad cookie results in a new one being given and an warning is displayed (maybe)
+    """
+    pin_code = "12345"
+    join_in_code = "abcdef"
+    participant_code = "abcd123"
+
+    def mock_get_next_participant_code(otree_host, session_wide_code):
+        return participant_code
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.get_next_participant_code",
+        mock_get_next_participant_code,
+    )
+
+    Recipe(models.Session, pin_code=pin_code, join_in_code=join_in_code).make()
+    bad_cookie = "some-scramble"
+    client.cookies["ephemer_id"] = bad_cookie
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code})
+    )
+
+    assert response.status_code == 200
+    assert "ephemer_id" in response.cookies
+    cookie_value = response.cookies["ephemer_id"].value
+    assert join_in_code in cookie_value
+    assert participant_code in cookie_value
+    assert "unique_session_warning" in response.context
+
+
+@pytest.mark.django_db
+def test_get_session_page_with_bad_code_error(client):
+    """
+    getting the session page with a bad pin code results in a 404
+    """
+    no_session_pin_code = "12345"
+
+    Recipe(models.Session, pin_code="54321").make()
+    response = client.get(
+        reverse(
+            "experiments-participant-session", kwargs={"pin_code": no_session_pin_code}
+        )
+    )
+
+    assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_guest_resume_latest_session(client, mocker):
+    # Set up the 1st session the participant was previously connected to (e.g. there is a cookie)
+    pin_code_1 = "12345"
+    join_in_code_1 = "abcdef"
+    participant_code_1 = "abcd123"
+    Recipe(models.Session, pin_code=pin_code_1, join_in_code=join_in_code_1).make()
+    session_1_cookie = f"{join_in_code_1}-{participant_code_1}"
+
+    # Set up the 2nd session. The participant has not connected to it yet.
+    pin_code_2 = "54321"
+    join_in_code_2 = "fedcba"
+    participant_code_2 = "dcba321"
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.get_next_participant_code",
+        Mock(side_effect=[participant_code_2]),
+    )
+    Recipe(models.Session, pin_code=pin_code_2, join_in_code=join_in_code_2).make()
+
+    # Test getting the session page with the PIN code for 1st session and a participant ID
+    client.cookies["ephemer_id"] = session_1_cookie
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code_1})
+    )
+    assert response.status_code == 200
+
+    # Test getting the session page with the PIN code for 2nd session
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code_2})
+    )
+    assert response.status_code == 200
+    assert "ephemer_id" in response.cookies
+    cookie_value = response.cookies["ephemer_id"].value
+    assert join_in_code_2 in cookie_value
+    assert participant_code_2 in cookie_value
+    assert "unique_session_warning" in response.context
+
+
+@pytest.mark.django_db
+def test_guest_gets_full_session_page_error(client, mocker):
+    pin_code = "12345"
+    join_in_code = "abcdef"
+    Recipe(models.Session, pin_code=pin_code, join_in_code=join_in_code).make()
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.get_next_participant_code",
+        Mock(return_value=None),
+    )
+
+    response = client.get(
+        reverse("experiments-participant-session", kwargs={"pin_code": pin_code})
+    )
+
+    assert response.status_code == 200
+    assert "session_full_error" in response.context
 
 
 ##

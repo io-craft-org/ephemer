@@ -1,5 +1,6 @@
 import base64
 import os
+from typing import Tuple
 from urllib.parse import urljoin
 
 import markdown as md
@@ -338,16 +339,13 @@ def participant_join_session(request):
     if request.method == "POST":
         form = forms.ParticipantJoinSessionForm(request.POST)
         if form.is_valid():
+            pin_code = form.cleaned_data["pin_code"]
             try:
-                session = models.Session.objects.get(
-                    pin_code=form.cleaned_data["pin_code"]
-                )
+                models.Session.objects.get(pin_code=pin_code)
             except models.Session.DoesNotExist:
                 error = "Le PIN code saisi ne correspond à aucune session en cours."
             else:
-                return redirect(
-                    urljoin(settings.OTREE_HOST, f"/join/{session.join_in_code}")
-                )
+                return redirect("experiments-participant-session", pin_code=pin_code)
 
     form = forms.ParticipantJoinSessionForm()
 
@@ -360,6 +358,87 @@ def participant_join_session(request):
             "pin_code_length": models.PIN_CODE_LENGTH,
         },
     )
+
+
+class BadFormatParticipantCookie(BaseException):
+    pass
+
+
+class NoParticipantCode(BaseException):
+    pass
+
+
+class WrongParticipantCode(BaseException):
+    pass
+
+
+PARTICIPANT_COOKIE_NAME = "ephemer_id"
+
+
+def encode_cookie_value(session: models.Session, participant_code: str) -> str:
+    return f"{session.join_in_code}-{participant_code}"
+
+
+def decode_cookie_value(cookie_value: str) -> Tuple[str, str]:
+    try:
+        session_join_in_code, participant_code = cookie_value.split("-")
+    except ValueError:
+        raise BadFormatParticipantCookie
+    return session_join_in_code, participant_code
+
+
+def maybe_get_participant_code(request, session):
+    if PARTICIPANT_COOKIE_NAME not in request.COOKIES:
+        raise NoParticipantCode
+    try:
+        session_code, participant_code = decode_cookie_value(
+            request.COOKIES[PARTICIPANT_COOKIE_NAME]
+        )
+    except BadFormatParticipantCookie:
+        raise NoParticipantCode
+    if session_code != session.join_in_code:
+        raise WrongParticipantCode
+    return participant_code
+
+
+def participant_session(request, pin_code):
+    # FIXME: clean the untrusted PIN code
+    session = get_object_or_404(models.Session, pin_code=pin_code)
+
+    from .otree.connector import get_next_participant_code
+
+    context = {}
+    cookie = None
+    try:
+        participant_code = maybe_get_participant_code(request, session)
+    except NoParticipantCode:
+        participant_code = get_next_participant_code(
+            settings.OTREE_HOST, session.join_in_code
+        )
+        cookie = encode_cookie_value(session, participant_code)
+    except WrongParticipantCode:
+        participant_code = get_next_participant_code(
+            settings.OTREE_HOST, session.join_in_code
+        )
+        cookie = encode_cookie_value(session, participant_code)
+        context[
+            "unique_session_warning"
+        ] = "Une connexion à une autre session a été détectée. Vous avez été déconnecté de cette session précédente."
+
+    if participant_code:
+        context["otree_url"] = urljoin(
+            settings.OTREE_HOST, f"/InitializeParticipant/{participant_code}"
+        )
+    else:
+        context = {}
+        context["session_full_error"] = f"La session {session.pin_code} est complète."
+
+    response = render(request, template_name="otree_wrapper.html", context=context)
+
+    if participant_code and cookie:
+        response.set_cookie(key=PARTICIPANT_COOKIE_NAME, value=cookie, samesite="Lax")
+
+    return response
 
 
 ## Service Errors
