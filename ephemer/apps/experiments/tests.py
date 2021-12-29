@@ -262,11 +262,24 @@ def test_create_session_when_backend_down(client, mocker):
 
 
 @pytest.mark.django_db
-def test_user_cannot_delete_session(client):
-    with login(client) as user:
-        session = Recipe(models.Session, created_by=user).make()
+def test_user_cannot_delete_other_session(client):
+    session = Recipe(models.Session).make()
+
+    with login(client):
         response = client.get(reverse("experiments-session-delete", args=(session.pk,)))
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_user_can_delete_own_session(client):
+    with login(client) as user:
+        session = Recipe(models.Session, created_by=user).make()
+        response = client.post(
+            reverse("experiments-session-delete", args=(session.pk,))
+        )
+
+    assert models.Session.objects.count() == 0
+    assert response.status_code == 302
 
 
 @pytest.mark.django_db

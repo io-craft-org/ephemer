@@ -153,7 +153,7 @@ def session_detail(request, session_id):
 @login_required
 def session_delete(request, session_id):
     session = get_object_or_404(models.Session, pk=session_id)
-    if not request.user.is_staff:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     if request.method == "POST":
