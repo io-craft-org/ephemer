@@ -32,6 +32,20 @@ And push:
     git push --tags
 
 
+## Mettre à jour les dépendances
+
+Les versions des packages dont dépend le projet Ephemer sont fixées dans `requirements.txt`. C'est pour diminuer le risque
+qu'une nouvelle version d'une dépendance soit utilisée lors d'un déploiement et cause un problème de conflit/changement d'API/bug upstream.
+
+Pour mettre à jour les dépendances et bénéficier de features/bugfixes/security fixes :
+
+1. repartir d'un environnement vierge
+2. `$ pip install -r requirements-base.txt`
+3. `$ pip freeze > requirements.txt`
+
+Attention à ne pas ajouter les packages pour le développement et les tests dans `requirements.txt`.
+
+
 ## Charger le contenu initial dans la base de données
 
 Après l'initialisation de la BD avec `$ python manage.py migrate` utiliser la commande `loaddata` :
