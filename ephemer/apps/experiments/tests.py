@@ -12,7 +12,7 @@ from pytest_django.asserts import assertContains, assertNotContains
 from pytest_mock import mocker
 
 from . import models
-from .otree import exceptions as otree_exceptions
+from .otree import exceptions as otree_exceptions, models as otree_models
 from .otree.connector import OTreeConnector
 
 
@@ -218,29 +218,33 @@ def test_create_session_form(client):
 @pytest.mark.django_db
 def test_create_session(client, mocker):
     otree_handler = "zz1usouu"
+    desired_participant_count = 5
 
-    def mock_post(self, endpoint, data):
-        return {
-            "admin_url": "http://localhost:8001/SessionStartLinks/zz1usouu",
-            "code": otree_handler,
-            "session_wide_url": "http://localhost:8001/join/kehikome",
-        }
-
-    mocker.patch(
-        "ephemer.apps.experiments.otree.connector.OTreeConnector._post", mock_post
+    create_session_mock = Mock(
+        return_value=otree_models.Session(
+            handler=otree_handler, join_in_code="kehikome"
+        )
     )
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector.create_session",
+        create_session_mock,
+    )
+    experiment = Recipe(models.Experiment, otree_app_name="foo-app").make()
 
-    experiment = Recipe(models.Experiment, participant_count=1).make()
-    data = {"name": "Test Session", "participant_count": 1}
+    data = {"name": "Test Session", "participant_count": desired_participant_count}
     with login(client):
         response = client.post(
             reverse("experiments-session-create", args=(experiment.pk,)), data=data
         )
+
     assert response.status_code == 302
     session = models.Session.objects.all()[0]
     assert models.Session.objects.count() == 1
     assert session.name == data["name"]
     assert session.otree_handler == otree_handler
+    create_session_mock.assert_called_with(
+        "foo-app", num_participants=desired_participant_count
+    )
 
 
 @pytest.mark.django_db
