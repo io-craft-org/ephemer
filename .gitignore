@@ -15,3 +15,5 @@ htmlcov
 static/css/base.css
 static/css/base.css.map
 media/sessions/exports
+media/*.png
+media/*.pdf

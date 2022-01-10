@@ -55,6 +55,7 @@ def deploy(cnx, site=None):
         "&& ./manage.py migrate"
         # "&& env/bin/python3 manage.py compilescss"
         "&& ./manage.py collectstatic --noinput"
+        "&& ./manage.py initcontent"
     )
 
 
