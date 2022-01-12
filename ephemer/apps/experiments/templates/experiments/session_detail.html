@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 
+{% load bootstrap_icons %}
+{% load static %}
+
 {% block css %}
 
 <style>
@@ -60,13 +63,14 @@
 </script>
 {% endblock %}
 
-{% load bootstrap_icons %}
-
 {% block content %}
 
-<div class="col-11 mx-auto py-4">
+<div class="col-11 col-lg-8 mx-auto py-5">
 
-    <h3>Expérience en cours : {{ session.name }}</h3>
+    <h3>
+        {% bs_icon 'play-circle' size='28px' %}
+        Expérience en cours : <strong>{{ session.name }}</strong>
+    </h3>
 
     <p>
         {% if otree_session %}
@@ -78,21 +82,27 @@
 
     {% if otree_session %}
 
-    <div class="row my-5 align-items-center justify-content-center">
-        <div class="col-4 ">
-            <div class="px-5">
-                Les participants peuvent accéder à l'expérience en indiquant le code dans l'onglet « Accès participant » :
+    <div class="d-flex justify-content-end py-2 my-2">
+
+        <div class="flex-shrink-1 d-flex">
+            <span>
+                Les participants peuvent accéder à l'expérience en indiquant <strong>le code</strong> dans l'onglet « <strong>Accès participant</strong> ».
+                Vous pouvez aussi <a href="#" data-bs-toggle="modal" data-bs-target="#qrCodeModal">afficher le QRCODE</a>.
+            </span>
             </div>
-        </div>
-        <div class="col-4">
-            <div class="bg-light rounded p-3">
-                <span class="fs-4 px-4">Code d'accès :</span>&nbsp;
-                <span class="fs-3 bg-white rounded p-2">
+            <div class="bg-light rounded p-3 d-flex w-100 align-content-center">
+                <span class="fs-4 py-2 px-4">Code d'accès :</span>&nbsp;
+                <span class="fs-4 bg-white rounded px-4 py-2">
                     {{ session.pin_code }}
                 </span>
+                <a href="#">
+                    <img class="" src="{% static "img/join-session-qr-code.png" %}"
+                     alt="A QR code to reach the join a session page."
+                     width="64px" height="64px"
+                         data-bs-toggle="modal" data-bs-target="#qrCodeModal"/>
+                </a>
             </div>
         </div>
-    </div>
 
 
     <div x-data="session">
@@ -168,8 +178,11 @@
 
 
     {% else %}
-    <br>
-    Il est possible que ce soit temporaire, n'hésitez pas à réessayer d'ici quelques minutes
+    <div class="mx-auto text-center py-4">
+        {% bs_icon 'hourglass-split' size='5vw'  %}
+        <br/>
+        Il est possible que ce soit temporaire, n'hésitez pas à <strong>réessayer d'ici quelques minutes</strong>.
+    </div>
     {% endif %}
 
 </div>

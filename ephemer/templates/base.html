@@ -1,6 +1,7 @@
 {% load django_bootstrap5 %}
 {% load bootstrap_icons %}
 {% load sass_tags %}
+{% load gravatar %}
 {% load static %}
 <!DOCTYPE html>
 <html>
@@ -15,94 +16,147 @@
     <body>
         {# Display django.contrib.messages as Bootstrap alerts #}
         {% bootstrap_messages %}
-        
-        <main>
-            <div class="flex-shrink-0 p-3 bg-white" style="width: 280px;">
-                <a href="/" class="d-flex align-items-center pb-3 mb-3 link-dark text-decoration-none border-bottom">
-                    {% bs_icon 'cup-straw' size='25px' extra_classes='align-middle' %}
-                    <span class="ephemer-logo fs-5 fw-semibold ms-2 align-middle">Ephemer</span>
+
+        <nav
+            class="navbar navbar-expand-lg navbar-light navbar-light bg-white shadow-sm sticky-top"
+            aria-label="Main navigation"
+        >
+            <div class="container-fluid">
+                <a href="/" class="navbar-brand link-dark text-decoration-none">
+                    {% bs_icon 'cup-straw' size='22px'  %}
+                    <span class="ephemer-logo fw-semibold ">Ephemer</span>
                 </a>
 
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
 
-                <ul class="list-unstyled ps-0">
-                    {% if user.is_authenticated %}
-                    <li class="mb-1">
-                        <span class="fw-bold align-items-center rounded">Expériences</span>
-                        <div class="show">
-                            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                                <li><a href="{% url 'experiments-session-list' %}" class="link-dark rounded">Historique</a></li>
-                                <li><a href="{% url 'experiments-experiment-list' %}" class="link-dark rounded">Catalogue d'XP</a></li>
+                <div class="collapse navbar-collapse" id="navbarScroll">
+                    <a class="btn btn-primary mx-2" href="{% url 'experiments-participant-join-session' %}">
+                        {% bs_icon 'door-open' size='16px'  %}
+                        Rejoindre une session
+                    </a>
+
+                    <ul class="navbar-nav me-auto my-2 my-lg-0">
+
+                        {% if user.is_authenticated %}
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{% url 'experiments-session-list' %}">
+                                {% bs_icon 'play-circle' size='16px'  %}
+                                Mes expériences
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{% url 'experiments-experiment-list' %}">
+                                {% bs_icon 'stack' size='16px'  %}
+                                Catalogue
+                            </a>
+                        </li>
+                        {% endif %}
+
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{% url 'home-guide' %}">
+                                {% bs_icon 'book' size='16px'  %}
+                                Guide d'utilisation
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{% url 'home-faq' %}">
+                                {% bs_icon 'life-preserver' size='16px'  %}
+                                Aide
+                            </a>
+                        </li>
+                        <li class="nav-item mx-2">
+                            <a class="nav-link" href="{% url 'home-contact' %}">
+                                {% bs_icon 'envelope' size='16px'  %}
+                                Contact
+                            </a>
+                        </li>
+                    </ul>
+
+
+                    <!--
+                         <li class="container">
+                         
+                         </li>
+                    -->
+                    <div id="user-info" class="pe-2">
+
+                        {% if user.is_authenticated %}
+                        <div class="dropdown">
+                            <a href="#" class="d-flex align-items-center link-dark text-decoration-none dropdown-toggle" id="dropdownUser2" data-bs-toggle="dropdown" aria-expanded="false">
+                                <img
+                                    src="{% gravatar_url user.email size='16px' %}"
+                                    alt="{{ user.last_name }}"
+                                    class="me-2 rounded-circle"
+                                    style="width: 32px; height: 32px;"
+                                />
+
+                                <strong class="d-none d-lg-none d-xl-block">{{ user.get_full_name|default:user }}</strong>
+
+                            </a>
+                            <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
+                                <!-- 
+                                     <li><a class="dropdown-item" href="#">Nouveau Projet...</a></li>
+                                     <li><a class="dropdown-item" href="#">Profil</a></li>
+                                     <li><hr class="dropdown-divider"></li>
+                                -->
+                                <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
+
+                                <li><hr class="dropdown-divider"></li>
+
+                                {% if user.is_staff %}
+                                <li><a class="dropdown-item" href="/nimda/">Administration</a></li>
+                                {% endif %}
+
                             </ul>
                         </div>
-                    </li>
-                    {% endif %}
-
-                    <li class="mb-1">
-                        <span class="fw-bold align-items-center rounded">A propos</span>
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="{% url 'home-guide' %}" class="link-dark rounded">Guide d'utilisation</a></li>
-                            <li><a href="{% url 'home-faq' %}" class="link-dark rounded">Aide</a></li>
-                            <li><a href="{% url 'home-contact' %}" class="link-dark rounded">Contact</a></li>
-                        </ul>
-                    </li>
-                    <li class="mb-1">
-                        <span class="fw-bold align-items-center rounded">Accès participant</span>
-                        <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small">
-                            <li><a href="{% url 'experiments-participant-join-session' %}" class="link-dark rounded">Rejoindre
-                                une session</a></li>
-                            <li class="container">
-                                <div class="w-75 bg-light rounded my-1 p-2">
-                                    <img class="img-fluid btn" src="{% static "img/join-session-qr-code.png" %}"
-                                         alt="A QR code to reach the join a session page."
-                                         data-bs-toggle="modal" data-bs-target="#qrCodeModal">
-                                </div>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
-
-                {% if user.is_authenticated %}
-                <div>
-                    loggé en tant que :
-                    {{ user.email }}
-                    <a href="{% url 'logout' %}">Se déconnecter</a>
-                </div>
-                {% else %}
-                <div>
-                    <a href="{% url 'magicauth-login' %}">Se connecter</a>
-                </div>
-                {% endif %}
-            </div>
-
-        <div class="flex-grow-1 bg-white">
-            {% block content %}{% endblock %}
-        </div>
-    </main>
-
-    <!-- QR code modal -->
-    <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-body">
-                    <div class="container-fluid">
-                        <div class="row justify-content-end">
-                            <button type="button" class="btn-close" data-bs-dismiss="modal"
-                                    aria-label="Close"></button>
+                        {% else %}
+                        <div>
+                            <a class="nav-link" href="{% url 'magicauth-login' %}">
+                                {% bs_icon 'person-circle' size='16px'  %}
+                                Se connecter
+                            </a>
                         </div>
-                        <div class="row justify-content-center">
-                            <img src="{% static "img/join-session-qr-code.png" %}"
-                                 alt="A QR code to reach the join a session page.">
+                        {% endif %}
+                    </div>
+                </div>
+
+        </nav>
+
+        <main>
+
+            <div class="container-fluid bg-white">
+                <div class="row">
+                    {% block content %}{% endblock %}
+                </div>
+            </div>
+        </main>
+
+        <!-- QR code modal -->
+        <div class="modal fade" id="qrCodeModal" tabindex="-1" aria-labelledby="qrCodeModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <div class="row justify-content-end">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                        aria-label="Close"></button>
+                            </div>
+                            <div class="row justify-content-center">
+                                <img src="{% static "img/join-session-qr-code.png" %}"
+                                     alt="A QR code to reach the join a session page.">
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-    </div>
 
 
-    {% bootstrap_javascript %}
-    {% block javascript %}
-    {% endblock %}
+        {% bootstrap_javascript %}
+        {% block javascript %}
+        {% endblock %}
     </body>
 </html>
 

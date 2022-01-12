@@ -3,8 +3,11 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="col-11 mx-auto py-4">
-    <h3 class="fw-bold">Catalogue d'expériences</h3>
+<div class="col-11 col-lg-8 mx-auto py-5">
+    <h3 class="fw-bold">
+        {% bs_icon 'stack' size='28px'  %}
+        Catalogue d'expériences
+    </h3>
 
 
     <div class="row">
@@ -20,12 +23,12 @@
             </h4>
             <p>{{ experiment.goals }}</p>
             <p>
-                Durée : {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
+                <strong>Durée</strong> : {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
                 -
-                Nombre minimum de participants : {{ experiment.participant_count }}
+                <strong>Nombre minimum de participants</strong> : {{ experiment.participant_count }}
                 {% if experiment.participants_per_group %}
                 -
-                Taille des groupes : {{ experiment.participants_per_group }}
+                <strong>Taille des groupes</strong> : {{ experiment.participants_per_group }}
                 {% endif %}
             </p>
         </div>

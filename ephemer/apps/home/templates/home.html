@@ -1,5 +1,8 @@
 {% extends "base.html" %}
 
+{% load static %}
+{% load bootstrap_icons %}
+
 {% block content %}
     <style>
     #home ul li {
@@ -7,44 +10,67 @@
     }
     </style>
 
-    <div id="home" class="p-5 container-sm fs-4">
+<div class="px-4 pt-5 my-5 text-center border-bottom">
+    <h1 class="display-4 fw-bold">Ephemer</h1>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
+            <strong>Bienvenue</strong> sur la plateforme d’expérimentations pédagogiques EPHEMER !
+        </p>
+    </div>
+    <div class="col-lg-6 mx-auto">
+        <p class="lead mb-4">
 
-        <div class="rounded bg-light text-dark mb-5 px-5 py-3">
-            <p class="fs-4"><strong>Bienvenue</strong> sur la plateforme d’expérimentations pédagogiques EPHEMER ! Ce site vous permet de
-                réaliser des interventions innovantes en faisant participer vos étudiants à des mises en situation
-                visant à aborder différentes questions :</p>
-            <ul class="fs-4">
-                <li>les enjeux éthiques liés au développement des nouvelles technologies,</li>
-                <li>la déformation de l’information et les fake news,</li>
-                <li>le rapport à l’impôt et l’évasion fiscale,</li>
-                <li>et encore d'autres sujets.</li>
-            </ul>
-            <p class="text-center">Plus d’informations dans <a href="{% url 'home-guide' %}">notre guide d'utilisation</a>.</p>
+            Ce site vous permet de réaliser des interventions innovantes en faisant participer vos étudiants à des mises en situation
+            visant à aborder différentes questions (les enjeux éthiques liés au développement des nouvelles technologies,
+            la déformation de l’information et les fake news, le rapport à l’impôt et l’évasion fiscale et encore d'autres sujets)
+        </p>
+        
+        <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
+            <a href="{% url 'experiments-participant-join-session' %}" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Rejoindre une session</a>
+                <a href="#get-started" type="button" class="btn btn-outline-secondary btn-lg px-4">Créer une expérience</a>
+      </div>
+
+      <p class="text-center">Plus d’informations dans <a href="{% url 'home-guide' %}">notre guide d'utilisation</a>.</p>
+    </div>
+
+    <div class="overflow-hidden" style="max-height: 30vh;">
+        <div class="container px-5">
+            <img src="{% static 'img/teaser.jpg' %}" class="img-fluid border rounded-3 shadow-lg mb-4" alt="Example image" loading="lazy" width="700" height="500">
         </div>
+    </div>
 
-        <div class="rounded bg-light text-dark mb-5 px-5 py-3">
-            <h2>Comment s'inscrire ?</h2>
-            <p class="fs-4">Pour lancer une expérience pédagogique pendant votre cours, vous devez d’abord vous
-                connecter. Pour cela, il suffit juste de cliquer sur « se connecter » sur la gauche de cette page. Vous
-                serez alors invité à renseigner une adresse email qui vous permettra de recevoir un lien de connexion. Une fois
-                connecté à la plateforme, vous pourrez :</p>
-            <ul>
-                <li>accéder à la liste des expériences possibles ;</li>
-                <li>lancer une expérience et inviter vos étudiants à y participer ;</li>
-                <li>accéder aux résultats de cette expérience et des expériences précédentes (les résultats sont
-                    archivés
-                    sur votre espace, accessible avec la même adresse email).
-                </li>
-            </ul>
+</div>
+
+<div class="row flex-lg-row align-items-center g-3 py-5" id="get-started">
+    <div class="col-lg-6 offset-2">
+        <h2 class="display-6 fw-bold lh-1 mb-3">
+            {% bs_icon 'play-circle' size='32px'  %}
+            Comment démarrer ?
+        </h2>
+        <p class="lead">Pour lancer une expérience pédagogique pendant votre cours, vous devez d’abord vous
+            connecter. Pour cela, il suffit juste de cliquer sur « se connecter » en haut à droite de cette page. Vous
+            serez alors invité·e à renseigner une adresse email qui vous permettra de recevoir un lien de connexion. Une fois
+            connecté·e à la plateforme, vous pourrez :
+        <ul>
+            <li>Accéder à la liste des expériences possibles ;</li>
+            <li>Lancer une expérience et inviter vos étudiants à y participer ;</li>
+            <li>Accéder aux résultats de cette expérience et des expériences précédentes (les résultats sont
+                archivés sur votre espace, accessible avec la même adresse email).
+            </li>
+        </ul>
+        </p>
+        <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <a href="#register" type="button" class="btn btn-outline-primary btn-lg px-4">S'inscrire pour démarrer une expérience</a>
         </div>
+    </div>
+</div>
 
-        <div class="rounded text-center mb-5">
-            <p>Vous êtes un participant ?</p>
-            <a class="btn btn-primary" href="{% url 'experiments-participant-join-session' %}">REJOINDRE UNE SESSION</a>
-        </div>
-
-        <div class="rounded bg-light mb-4 px-5 py-3">
-            <h2>Déroulement de l'utilisation</h2>
+<div class="row flex-row align-items-center g-1 py-2">
+    <div class="col-lg-6 offset-4">
+        <h2 class="display-6 fw-bold lh-1 mb-3">
+            {% bs_icon 'list-ol' size='32px'  %}
+            Déroulement de l'utilisation</h2>
+        <p class="lead">
             <ol>
                 <li>Connectez-vous à la plateforme.</li>
                 <li>Choisissez l’expérience qui vous intéresse dans le catalogue des expériences.</li>
@@ -62,14 +88,17 @@
             </ol>
             <p class="fs-4">→ Pour plus d’information, vous pouvez consulter <a href="{% url "home-guide" %}">le guide
                 d’utilisation.</a></p>
-        </div>
 
-        <div class="rounded bg-secondary text-center text-white p-2">
-            <p class="fs-6">Cette plateforme a été développée dans le cadre du projet EPHEMER (Ethique et Pédagogie
-                Holoptique pour un EnseigneMEnt en Réseau), financé par l’Agence Nationale de la Recherche (PIA,
-                ANR-16-DUNE-0004). Une présentation détaillée du projet EPHEMER est disponible ici</p>
-        </div>
-
+        </p>
     </div>
+</div>
+
+<div class="row flex-lg-row align-items-center justify-items-center g-3 py-5">
+    <div class="offset-2 col-8 rounded bg-light text-center text-dark p-4 fs-5">
+        Cette plateforme a été développée dans le cadre du projet EPHEMER (Ethique et Pédagogie
+        Holoptique pour un EnseigneMEnt en Réseau), financé par l’Agence Nationale de la Recherche (PIA,
+        ANR-16-DUNE-0004). Une présentation détaillée du projet EPHEMER est disponible ici.
+    </div>
+</div>
 
 {% endblock %}

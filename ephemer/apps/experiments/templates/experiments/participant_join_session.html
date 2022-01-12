@@ -2,37 +2,43 @@
 
 {% load django_bootstrap5 %}
 
+{% load bootstrap_icons %}
+
 {% block javascript %}
     <script defer src="https://unpkg.com/alpinejs@3.4.2/dist/cdn.min.js" xmlns:x-bind="http://www.w3.org/1999/xhtml"></script>
 {% endblock javascript %}
 
 {% block content %}
-<style>
+    <style>
 
-#pin {
-    border: none;
-    border-bottom: solid 2px blue;
-    vertical-align: text-bottom;
-    display: inline;
-    line-height: 2rem;
-    font-size: 2rem;
-    letter-spacing: 1rem;
-    width: 14rem;
-    padding-left: 2rem;
-    padding-right: 1rem;
-}
+     #pin {
+         border: none;
+         border-bottom: solid 2px blue;
+         vertical-align: text-bottom;
+         display: inline;
+         line-height: 2rem;
+         font-size: 2rem;
+         letter-spacing: 1rem;
+         width: 14rem;
+         padding-left: 2rem;
+         padding-right: 1rem;
+     }
 
-#counter {
-    color: blue;
-}
+     #counter {
+         color: blue;
+     }
 
-</style>
+    </style>
 
-<div class="col-lg-6 mx-auto py-4">
+    <div class="col-8 mx-auto py-5">
 
-    <h2>Saisissez le code qui vous a été donné pour rejoindre votre session.</h2>
+        <div class="d-flex justify-content-center ">
+            {% bs_icon 'door-open' size='5vw' %}
+        </div>
 
-    <form method="POST">
+    <h2 class="text-center my-2">Saisissez le code qui vous a été donné pour rejoindre votre session.</h2>
+
+    <form method="POST" class="my-4">
         <div class="mx-auto d-flex flex-column">
             {% csrf_token %}
             <div class="d-inline-flex flex-column align-self-center">
@@ -47,7 +53,10 @@
             {% if error %}
             <div class="alert alert-danger">{{ error }}</div>
             {% endif %}
-            <button class="btn btn-primary mx-auto" type="submit">Rejoindre</button>
+            <button class="btn btn-primary mx-auto" type="submit">
+                {% bs_icon 'door-open' size='16px'  %}
+                Rejoindre
+            </button>
         </div>
     </form>
 </div>
