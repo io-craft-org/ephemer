@@ -68,12 +68,20 @@ def _get_otree_api_uri():
     return urljoin(settings.OTREE_HOST, settings.OTREE_API_PATH)
 
 
+def validate_participants_per_group(experiment, session_form):
+    participant_count = session_form.cleaned_data.get("participant_count")
+    return (
+        experiment.participants_per_group is None
+        or participant_count % experiment.participants_per_group == 0
+    )
+
+
 @login_required
 def session_create(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
 
     if request.method == "POST":
-        form = forms.SessionCreateForm(request.POST)
+        form = forms.SessionCreateForm(request.POST, experiment=experiment)
         if form.is_valid():
             participant_count = form.cleaned_data.get("participant_count")
             otree = OTreeConnector(_get_otree_api_uri())
@@ -95,13 +103,16 @@ def session_create(request, experiment_id):
             session.save()
 
             return redirect("experiments-session-detail", session_id=session.pk)
-
-    form = forms.SessionCreateForm(
-        initial={"participant_count": experiment.participant_count}
-    )
+    else:
+        form = forms.SessionCreateForm(
+            initial={"participant_count": experiment.participant_count},
+            experiment=experiment,
+        )
 
     return render(
-        request, template_name="experiments/session_create.html", context={"form": form}
+        request,
+        template_name="experiments/session_create.html",
+        context={"form": form},
     )
 
 

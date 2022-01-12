@@ -16,10 +16,17 @@
         <span class="badge rounded-pill bg-primary">thème2</span>
     </p>
     <p>
+        {% bs_icon 'person-plus' size='16px' extra_classes='align-middle me-1' %}
+        <span class="align-middle">
+            Minimum {{ experiment.participant_count }} participant{{ experiment.participant_count|pluralize }}
+        </span>
+        {% if experiment.participants_per_group %}
+        <span class="mx-2"></span>
         {% bs_icon 'people' size='16px' extra_classes='align-middle me-1' %}
         <span class="align-middle">
-            {{ experiment.participant_count }} participant{{ experiment.participant_count|pluralize }}
+            Groupes de {{ experiment.participants_per_group }} participants
         </span>
+        {% endif %}
         <span class="mx-2"></span>
         {% bs_icon 'clock' size='16px' extra_classes='align-middle me-1' %}
         <span class="align-middle">

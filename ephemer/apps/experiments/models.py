@@ -33,6 +33,9 @@ class Experiment(models.Model):
     participant_count = models.PositiveIntegerField(
         verbose_name="Nombre de participants"
     )
+    participants_per_group = models.PositiveIntegerField(
+        verbose_name="Nombre de participants par groupe", blank=True, null=True
+    )
 
     otree_app_name = models.CharField(
         max_length=50, verbose_name="Nom de l'application oTree"

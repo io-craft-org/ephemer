@@ -15,11 +15,36 @@ class SessionCreateForm(forms.ModelForm):
         model = models.Session
         fields = ["name", "participant_count"]
 
-    participant_count = forms.IntegerField(
-        min_value=1,
-        error_messages={"min_value": u"Il doit y avoir au moins un participant"},
-        label="Nombre de participants",
-    )
+    def __init__(self, *args, experiment: models.Experiment, **kwargs):
+        super().__init__(*args, **kwargs)
+        if experiment.participants_per_group:
+            number_input = forms.NumberInput(
+                attrs={"step": experiment.participants_per_group}
+            )
+            self.fields["participant_count"] = forms.IntegerField(
+                widget=number_input,
+                min_value=experiment.participants_per_group,
+                error_messages={
+                    "min_value": "Le nombre de participants doit être au minimum de la taille d'un groupe."
+                },
+                label="Nombre de participants",
+            )
+        else:
+            self.fields["participant_count"] = forms.IntegerField(
+                min_value=1,
+                error_messages={"min_value": "Il doit y avoir au moins un participant"},
+                label="Nombre de participants",
+            )
+
+    def clean_participant_count(self):
+        widget = self.fields["participant_count"].widget
+        step = widget.attrs.get("step", None)
+        value = self.cleaned_data["participant_count"]
+        if step and value % step != 0:
+            raise ValidationError(
+                f"Le nombre de participants doit être un multiple de {step}."
+            )
+        return value
 
 
 class SessionJoinForm(forms.Form):

@@ -267,6 +267,20 @@ def test_create_session_when_backend_down(client, mocker):
 
 
 @pytest.mark.django_db
+def test_create_session_with_wrong_participant_count(client):
+    experiment = Recipe(models.Experiment, participants_per_group=5).make()
+    data = {"name": "Test Session", "participant_count": 12}
+    with login(client):
+        response = client.post(
+            reverse("experiments-session-create", args=(experiment.pk,)), data=data
+        )
+    assert response.status_code == 200
+    assert "form" in response.context
+    form_errors = response.context["form"].errors
+    assert "participant_count" in form_errors
+
+
+@pytest.mark.django_db
 def test_user_cannot_delete_other_session(client):
     session = Recipe(models.Session).make()
 
