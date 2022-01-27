@@ -125,7 +125,7 @@ def session_list(request):
         sessions = sessions.filter(created_by=request.user)
 
     sessions = sessions.order_by("-created_on")
-    paginator = Paginator(sessions, 3)
+    paginator = Paginator(sessions, 10)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)

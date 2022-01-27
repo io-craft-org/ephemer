@@ -1,7 +1,7 @@
 import json
 import re
 import tempfile
-from unittest.mock import patch, Mock
+from unittest.mock import Mock, patch
 
 import pytest
 from django.contrib.auth.models import User
@@ -12,7 +12,8 @@ from pytest_django.asserts import assertContains, assertNotContains
 from pytest_mock import mocker
 
 from . import models
-from .otree import exceptions as otree_exceptions, models as otree_models
+from .otree import exceptions as otree_exceptions
+from .otree import models as otree_models
 from .otree.connector import OTreeConnector
 
 
@@ -197,6 +198,55 @@ def test_user_cannot_see_other_people_session_details(client):
     with login(client):
         response = client.get(reverse("experiments-session-detail", args=(session.pk,)))
     assert response.status_code == 404
+
+
+@pytest.mark.django_db
+def test_staff_can_see_other_people_session_details(client, mocker):
+    def mock_get(self, endpoint, data={}):
+        return {
+            "REAL_WORLD_CURRENCY_CODE": "USD",
+            "admin_url": "http://localhost:8001/SessionStartLinks/93r6k4ov",
+            "config": {
+                "app_sequence": ["survey", "payment_info"],
+                "display_name": "survey",
+                "doc": "",
+                "name": "survey",
+                "num_demo_participants": 1,
+                "participation_fee": 0.0,
+                "real_world_currency_per_point": 1.0,
+            },
+            "num_participants": 3,
+            "participants": [
+                {
+                    "code": "3cro7uw4",
+                    "id_in_session": 1,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+                {
+                    "code": "rg77qgh9",
+                    "id_in_session": 2,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+                {
+                    "code": "a8wx034q",
+                    "id_in_session": 3,
+                    "label": None,
+                    "payoff_in_real_world_currency": 0.0,
+                },
+            ],
+            "session_wide_url": "http://localhost:8001/join/juvutiru",
+        }
+
+    mocker.patch(
+        "ephemer.apps.experiments.otree.connector.OTreeConnector._get", mock_get
+    )
+
+    session = Recipe(models.Session).make()
+    with login(client, is_staff=True):
+        response = client.get(reverse("experiments-session-detail", args=(session.pk,)))
+    assert response.status_code == 200
 
 
 @pytest.mark.django_db
