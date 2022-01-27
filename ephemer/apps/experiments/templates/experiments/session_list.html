@@ -39,16 +39,16 @@
 
         <div class="pagination">
             <span class="step-links">
-                {% if page_obj.has_previous %}
-                <a href="?page=1">&laquo; Premièr</a>
-                <a href="?page={{ sessions.previous_page_number }}">Précédentes</a>
+                {% if sessions.has_previous %}
+                <a href="?page=1">&laquo; Première</a>
+                <a href="?page={{ sessions.previous_page_number }}">Précédente</a>
                 {% endif %}
 
                 <span class="current">
                     Page {{ sessions.number }} de {{ sessions.paginator.num_pages }}.
                 </span>
-                {% if page_obj.has_next %}
-                <a href="?page={{ sessions.next_page_number }}">Suivant</a>
+                {% if sessions.has_next %}
+                <a href="?page={{ sessions.next_page_number }}">Suivante</a>
                 <a href="?page={{ sessions.paginator.num_pages }}">Dernière &raquo;</a>
                 {% endif %}
             </span>

@@ -10,7 +10,8 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
+from django.shortcuts import (Http404, get_object_or_404, redirect, render,
+                              reverse)
 
 from . import forms, models
 from .otree import exceptions as otree_exceptions
@@ -124,7 +125,7 @@ def session_list(request):
         sessions = sessions.filter(created_by=request.user)
 
     sessions = sessions.order_by("-created_on")
-    paginator = Paginator(sessions, 10)
+    paginator = Paginator(sessions, 3)
 
     page_number = request.GET.get("page")
     page_obj = paginator.get_page(page_number)
