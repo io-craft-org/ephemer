@@ -183,3 +183,7 @@ INTERNAL_IPS = ["127.0.0.1", "localhost"]
 # OTREE Configuration
 OTREE_HOST = "http://localhost:8001"
 OTREE_API_PATH = "/api"
+
+# EPHEMER Configuration
+# Le hostname est utilisé pour créer le QR code.
+EPHEMER_HOSTNAME = "http://localhost:8000"

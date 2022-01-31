@@ -12,4 +12,5 @@ libsass
 markdown
 pandas
 plotly
+qrcode[pil]
 requests

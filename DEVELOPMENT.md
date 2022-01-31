@@ -53,3 +53,14 @@ Après l'initialisation de la BD avec `$ python manage.py migrate` utiliser la c
 ```
     $ python manage.py loaddata initial_experimens_data.json
 ```
+
+
+## Créer le QR code pour un site
+
+Définir le hostname du service dans `settings.EPHEMER_HOSTNAME`, par exemple "http://ephemer.iocraft.org".
+
+Exécuter la commande admin correspondante :
+
+```.env
+    $ python manage.py create_qr_code
+```
