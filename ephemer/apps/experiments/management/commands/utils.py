@@ -27,3 +27,10 @@ def load_data_from(command, filename):
     command.stdout.write(f"Loading data from {filepath}")
     call_command("loaddata", filepath)
     command.stdout.write("Data loaded")
+
+
+def is_there_data_already():
+    from ephemer.apps.experiments.models import Experiment
+    from django.contrib.auth.models import User
+
+    return Experiment.objects.exists() or User.objects.exists()
