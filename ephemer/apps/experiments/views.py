@@ -1,11 +1,10 @@
-import base64
+import importlib
 import os
 from typing import Tuple
 from urllib.parse import urljoin
 
 import markdown as md
 import pandas as pd
-import plotly.graph_objects as go
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -268,65 +267,10 @@ def session_results(request, session_id: int):
         if not session.csv:
             return HttpResponse(status=404)
 
-    # Compute graphs
-    graphs = []
-
     df = pd.read_csv(session.csv)
 
-    report_tmpl = session.experiment.report_template
-
-    if report_tmpl:
-        # First, add columns/transform data
-        for data_manipulation in report_tmpl.data_manipulations.order_by(
-            "position"
-        ).all():
-            manip_df = pd.DataFrame(df, columns=data_manipulation.columns)
-            df[data_manipulation.data_name] = manip_df.agg(
-                func=data_manipulation.func, axis="columns"
-            )
-
-        # Make Graphs
-        for graph in report_tmpl.graphs.order_by("position").all():
-            fig = go.Figure()
-            for trace in graph.traces.all():
-                if trace.y:
-                    y = df[trace.y]
-                else:
-                    y = None
-
-                fig.add_trace(
-                    go.Histogram(
-                        x=df[trace.x],
-                        y=y,
-                        # histnorm="density",
-                        histfunc=trace.func or None,
-                        name=trace.name,
-                    )
-                )
-
-            if graph.x_tick_labels:
-                fig.update_layout(
-                    xaxis=dict(
-                        tickmode="array",
-                        tickvals=[val for val in graph.x_tick_labels.keys()],
-                        ticktext=[text for text in graph.x_tick_labels.values()],
-                    )
-                )
-
-            fig.update_layout(
-                barmode="group",
-                title_text=graph.title,
-            )
-
-            graphs.append(
-                base64.b64encode(fig.to_image(format="png", width=1000)).decode("utf-8")
-            )
-
-    return render(
-        request,
-        template_name="experiments/session_results.html",
-        context={"session": session, "graphs": graphs},
-    )
+    report_script = importlib.import_module("ephemer.apps.experiments.reports." + session.experiment.report_script)
+    return report_script.render(request, session, df)
 
 
 def session_join(request, session_id):

@@ -45,6 +45,8 @@ class Experiment(models.Model):
 
     image = models.FileField(blank=True, null=True)
 
+    report_script = models.CharField(max_length=200, blank=True, null=True)
+
     def get_absolute_url(self):
         return reverse(
             "experiments-experiment-detail", kwargs={"experiment_id": self.pk}
