@@ -24,7 +24,8 @@
       "participant_count": 40,
       "otree_app_name": "mineurs_age_v2",
       "notice": "La_prise_en_charge_des_jeunes_non-accompagnes.pdf",
-      "image": ""
+      "image": "",
+      "report_script": "report_mineurs"
     }
   },
   {
@@ -64,6 +65,7 @@
       "description": "Pour faciliter la réalisation de cette expérience, il est conseillé de réaliser celle-ci sur des ordinateurs et non des téléphones portables.\r\n\r\nL’expérience prend la forme d’une chaine de communication : un participant doit mémoriser un message puis le transférer à un autre participant qui doit à son tour mémoriser puis transférer le message qu’il a reçu, etc. Dans cette optique, l’expérience implique tout d’abord une répartition aléatoire des participants dans des groupes de 7 individus. C’est en effet à partir de 7 relais que la transformation du message est maximale.\r\n\r\nLa session comporte sept donc 7 tours : un texte est présenté au premier joueur du groupe pendant deux minutes. Le joueur doit ensuite recopier ce texte avec le plus d’exactitude possible. Une fois sa tâche terminée, le deuxième tour débute : le texte recopié apparaît sur l’écran du deuxième joueur qui doit le recopier de mémoire à son tour. Et ainsi de suite de suite jusqu’au septième tour.\r\n\r\nIl est ainsi attendu qu’après 7 relais, les messages finaux devraient être considérablement différents du message initial. Les transformations observées devraient renvoyer aux phénomènes de réduction, d’accentuation et d’assimilation observés par Allport et Postman (1945).",
       "duration_min": 120,
       "participant_count": 14,
+      "participants_per_group": 7,
       "otree_app_name": "com_serielle",
       "notice": "Rumeurs_et_infoxs.pdf",
       "image": ""
