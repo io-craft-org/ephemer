@@ -3,4 +3,6 @@ recursive-include ephemer/apps/home/static *.*
 recursive-include ephemer/apps/experiments/static *.*
 recursive-include ephemer *.html
 include ephemer/apps/experiments/initial_experiments_data.json
+include ephemer/apps/experiments/experiments_test_data.json
 recursive-include ephemer/apps/experiments/initial_content *.*
+recursive-include ephemer/apps/experiments/test_content *.*
