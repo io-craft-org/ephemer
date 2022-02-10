@@ -799,12 +799,16 @@ def test_session_csv_cache(client, mocker):
 # Results
 ########################################################################
 @pytest.mark.parametrize(
-    "csv_filename", ["results_mineurs.csv", "results_mineurs_empty.csv"]
+    "report_script, csv_filename",
+    [
+        ["report_mineurs", "results_mineurs.csv"],
+        ["report_mineurs", "results_mineurs_empty.csv"],
+    ],
 )
 @pytest.mark.django_db
-def test_session_results_for_age_mineurs(client, csv_filename):
+def test_session_results_for_app_and_csv_data(client, report_script, csv_filename):
     with login(client) as user:
-        experiment = Recipe(models.Experiment, report_script="report_mineurs").make()
+        experiment = Recipe(models.Experiment, report_script=report_script).make()
         session = Recipe(
             models.Session,
             created_by=user,

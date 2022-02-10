@@ -270,12 +270,10 @@ def session_results(request, session_id: int):
         if not session.csv:
             return HttpResponse(status=404)
 
-    df = pd.read_csv(session.csv)
-
     report_script = importlib.import_module(
         "ephemer.apps.experiments.reports." + session.experiment.report_script
     )
-    return report_script.render(request, session, df)
+    return report_script.render(request, session)
 
 
 def session_join(request, session_id):

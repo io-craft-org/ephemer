@@ -419,8 +419,10 @@ def create_fig6(data: pd.DataFrame) -> go.Figure:
     return fig
 
 
-def render(request, session, data: pd.DataFrame) -> HttpResponse:
+def render(request, session) -> HttpResponse:
     from django.shortcuts import render
+
+    data = pd.read_csv(session.csv)
 
     figures = []
     figures.append(create_age_fig_cases_1_to_3(data))
