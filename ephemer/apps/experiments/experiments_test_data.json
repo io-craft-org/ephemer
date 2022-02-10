@@ -31,5 +31,20 @@
       "join_in_code": "kolirade",
       "csv": "results_mineurs.csv"
     }
+  },
+  {
+    "model": "experiments.session",
+    "pk": 2,
+    "fields": {
+      "created_by": 1,
+      "created_on": "2021-11-19T09:35:54.888Z",
+      "name": "Session test pour rumeurs et infox",
+      "participant_count": 42,
+      "experiment": 6,
+      "otree_handler": "nexistepas",
+      "pin_code": "59757",
+      "join_in_code": "nemarchepas",
+      "csv": "results_com_serielle.csv"
+    }
   }
 ]

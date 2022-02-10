@@ -68,7 +68,8 @@
       "participants_per_group": 7,
       "otree_app_name": "com_serielle",
       "notice": "Rumeurs_et_infoxs.pdf",
-      "image": ""
+      "image": "",
+      "report_script": "report_com_serielle"
     }
   },
   {

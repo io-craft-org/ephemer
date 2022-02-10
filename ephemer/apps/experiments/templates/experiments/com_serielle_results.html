@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% load bootstrap_icons %}
+
+{% block content %}
+<div class="col-11 mx-auto">
+    <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{session.experiment.title }})</h3>
+
+    <div class="row">
+        <div class="col-6">
+            <p>{{ initial_message }}</p>
+        </div>
+        <div class="col-6">
+            {% if groups %}
+                {% for group in groups %}
+                    <h2>Groupe {{ group.id }}</h2>
+                    {% for message in group.messages %}
+                        <h3>Nombre de relais {{ message.compte_relais }}</h3>
+                        <p>{{ message.texte }}</p>
+                    {% endfor %}
+                {% endfor %}
+            {% else %}
+                <p>Il n'y a pas de résultats disponibles pour cette session.</p>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}
