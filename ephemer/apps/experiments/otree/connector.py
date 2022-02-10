@@ -90,9 +90,11 @@ class OTreeConnector:
         """Advance a given participant"""
         return self._post(f"participants/{participant_code}/advance")
 
-    def get_session_results_as_csv(self, session_id):
+    def get_session_results_for_app_as_csv(self, session_id, app_name):
         """Return the CSV results of a session"""
-        return self._get(f"sessions/{session_id}/export", json_response=False)
+        return self._get(
+            f"sessions/{session_id}/export/app/{app_name}", json_response=False
+        )
 
 
 def get_next_participant_code(otree_host, session_wide_code):

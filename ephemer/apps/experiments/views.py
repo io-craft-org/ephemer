@@ -9,8 +9,7 @@ from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
-from django.shortcuts import (Http404, get_object_or_404, redirect, render,
-                              reverse)
+from django.shortcuts import Http404, get_object_or_404, redirect, render, reverse
 
 from . import forms, models
 from .otree import exceptions as otree_exceptions
@@ -219,7 +218,9 @@ def session_results_as_csv(request, session_id: int):
 
     otree = OTreeConnector(_get_otree_api_uri())
     try:
-        response = otree.get_session_results_as_csv(session.otree_handler)
+        response = otree.get_session_results_for_app_as_csv(
+            session.otree_handler, session.experiment.otree_app_name
+        )
     except otree_exceptions.OTreeNotAvailable:
         response = None
 
@@ -249,7 +250,9 @@ def session_results(request, session_id: int):
 
     otree = OTreeConnector(_get_otree_api_uri())
     try:
-        response = otree.get_session_results_as_csv(session.otree_handler)
+        response = otree.get_session_results_for_app_as_csv(
+            session.otree_handler, session.experiment.otree_app_name
+        )
     except otree_exceptions.OTreeNotAvailable:
         response = None
 
@@ -269,7 +272,9 @@ def session_results(request, session_id: int):
 
     df = pd.read_csv(session.csv)
 
-    report_script = importlib.import_module("ephemer.apps.experiments.reports." + session.experiment.report_script)
+    report_script = importlib.import_module(
+        "ephemer.apps.experiments.reports." + session.experiment.report_script
+    )
     return report_script.render(request, session, df)
 
 
