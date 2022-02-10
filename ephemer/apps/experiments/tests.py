@@ -793,3 +793,25 @@ def test_session_csv_cache(client, mocker):
     session = models.Session.objects.all()[0]
     assert response.status_code == 404
     assert session.csv is None
+
+
+########################################################################
+# Results
+########################################################################
+@pytest.mark.parametrize(
+    "csv_filename", ["results_mineurs.csv", "results_mineurs_empty.csv"]
+)
+@pytest.mark.django_db
+def test_session_results_for_age_mineurs(client, csv_filename):
+    with login(client) as user:
+        experiment = Recipe(models.Experiment, report_script="report_mineurs").make()
+        session = Recipe(
+            models.Session,
+            created_by=user,
+            experiment=experiment,
+            csv=models.get_csv_path() + csv_filename,
+        ).make()
+        response = client.get(
+            reverse("experiments-session-results", args=(session.pk,))
+        )
+        assert response.status_code == 200
