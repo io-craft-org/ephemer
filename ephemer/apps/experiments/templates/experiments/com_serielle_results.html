@@ -3,26 +3,103 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="col-11 mx-auto">
-    <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{session.experiment.title }})</h3>
 
-    <div class="row">
-        <div class="col-6">
-            <p>{{ initial_message }}</p>
-        </div>
-        <div class="col-6">
-            {% if groups %}
-                {% for group in groups %}
-                    <h2>Groupe {{ group.id }}</h2>
-                    {% for message in group.messages %}
-                        <h3>Nombre de relais {{ message.compte_relais }}</h3>
-                        <p>{{ message.texte }}</p>
-                    {% endfor %}
-                {% endfor %}
-            {% else %}
-                <p>Il n'y a pas de résultats disponibles pour cette session.</p>
-            {% endif %}
+    <style>
+        .initial-message {
+            max-width: 26em;
+            text-align: justify;
+            position: sticky;
+            top: 10em;
+        }
+
+        tbody tr td:first-child {
+            text-align: center;
+            vertical-align: top;
+        }
+
+        thead td {
+            font-weight: bold;
+            padding: 0.5em 1em;
+        }
+
+        tbody td {
+            padding: 1em 2em;
+            max-width: 26em;
+            text-align: justify;
+        }
+
+        td {
+            border: solid 1px lightgrey;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/jquery@3.2.1/dist/jquery.min.js"></script>
+
+    <div class="col-11 mx-auto">
+        <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{ session.experiment.title }})</h3>
+
+        <div class="row justify-content-center">
+            <div class="col-6">
+                <div class="initial-message">
+                    <h4>Message initial</h4>
+                    <p>{{ initial_message }}</p>
+                </div>
+            </div>
+            <div class="col-6">
+                {% if groups %}
+                    <div class="accordion" id="groups-accordion">
+                        {% for group in groups %}
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="heading{{ group.id }}">
+                                    <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                            data-bs-target="#collapse{{ group.id }}" aria-expanded="true"
+                                            aria-controls="collapse{{ group.id }}">
+                                        Groupe {{ group.id }}
+                                    </button>
+                                </h2>
+                                <div id="collapse{{ group.id }}"
+                                     class="accordion-collapse collapse {% if group.id == 1 %}show{% endif %}"
+                                     aria-labelledby="heading{{ group.id }}" data-bs-parent="#groups-accordion">
+                                    <div class="accordion-body">
+                                        <table>
+                                            <thead>
+                                            <td>Nb relais</td>
+                                            <td>Message relayé</td>
+                                            </thead>
+                                            <tbody>
+                                            {% for message in group.messages %}
+                                                <tr>
+                                                    <td>{{ message.compte_relais }}</td>
+                                                    <td>{{ message.texte }}</td>
+                                                </tr>
+                                            {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Il n'y a pas de résultats disponibles pour cette session.</p>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
+
+    <script>
+        let baseOffset = $(".accordion-item")[0].offsetTop;
+        $('.accordion-collapse').on('show.bs.collapse', function (e) {
+            let $card = $(this).closest('.accordion-item');
+            let $open = $(".accordion").find(".collapse.show");
+
+            let additionalOffset = 0;
+            if ($card.prevAll().filter($open.closest('.accordion-item')).length !== 0) {
+                additionalOffset = $open.height();
+            }
+            $('html,body').animate({
+                scrollTop: $card.offset().top - baseOffset - additionalOffset
+            }, 500);
+        });
+    </script>
 {% endblock %}
