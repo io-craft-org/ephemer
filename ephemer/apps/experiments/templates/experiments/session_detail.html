@@ -35,6 +35,7 @@
                          session_this.participants = data;
                      })
                      .catch((error) => {
+                         console.error(`error fetching participants state: ${error.toString()}`);
                          session_this.error = "Erreur de connexion à oTree";
                      });
              }, interval);
