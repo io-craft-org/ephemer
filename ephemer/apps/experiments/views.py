@@ -177,7 +177,7 @@ def session_delete(request, session_id):
 @login_required
 def session_participants_state_json(request, session_id: int):
     session = get_object_or_404(models.Session, pk=session_id)
-    if session.created_by != request.user:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     otree = OTreeConnector(_get_otree_api_uri())
@@ -197,7 +197,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
     # XXX We might have a security issue here if the caller supply a session_id
     # she's owner and a participant code from another session
     session = get_object_or_404(models.Session, pk=session_id)
-    if session.created_by != request.user:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     otree = OTreeConnector(_get_otree_api_uri())
