@@ -5,6 +5,10 @@
 {% block content %}
 
     <style>
+        .initial-message-container {
+            min-height: 800px;
+        }
+
         .initial-message {
             max-width: 26em;
             text-align: justify;
@@ -39,7 +43,7 @@
         <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{ session.experiment.title }})</h3>
 
         <div class="row justify-content-center">
-            <div class="col-6">
+            <div class="col-6 initial-message-container">
                 <div class="initial-message">
                     <h4>Message initial</h4>
                     <p>{{ initial_message }}</p>
