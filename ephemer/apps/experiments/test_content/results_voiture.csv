@@ -1,0 +1,51 @@
+participant.id_in_session,participant.code,participant.label,participant._is_bot,participant._index_in_pages,participant._max_page_index,participant._current_app_name,participant._current_page_name,participant.time_started,participant.visited,participant.mturk_worker_id,participant.mturk_assignment_id,participant.payoff,player.id_in_group,player.role,player.payoff,player.treatment,player.pop1_nb1,player.pop1_nb2,player.pop1_nb3,player.pop2_nb1,player.pop2_nb2,player.pop2_nb3,player.pop3_nb1,player.pop3_nb2,player.pop3_nb3,player.pop4_nb1,player.pop4_nb2,player.pop4_nb3,player.pop5_nb1,player.pop5_nb2,player.pop5_nb3,player.pop6_nb1,player.pop6_nb2,player.pop6_nb3,player.pop7_nb1,player.pop7_nb2,player.pop7_nb3,player.pop8_leg1,player.pop8_leg2,group.id_in_subsession,subsession.round_number,session.code,session.label,session.experimenter_name,session.mturk_HITId,session.mturk_HITGroupId,session.comment,session.is_demo
+1,5s2c8ca2,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,1,,0.0,Decideur,2,1,1,2,1,1,1,1,1,2,1,1,1,1,1,1,1,1,1,1,1,2,1,1,1,elefzepg,,,,,,0
+2,om76urpy,,0,1,25,voiture,InformationPage,2019-12-03 09:22:09.855708,1,,,0.0,2,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+3,p6x4lbb0,,0,1,25,voiture,InformationPage,2019-12-03 09:23:03.250235,1,,,0.0,3,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+4,uzxxifhv,,0,1,25,voiture,InformationPage,2019-12-03 09:23:15.362974,1,,,0.0,4,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+5,bo6z6rb1,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,5,,0.0,Conducteur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+6,rsg0tsp1,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,6,,0.0,Decideur,1,1,1,1,1,1,1,2,2,1,1,1,1,2,2,1,2,1,1,2,2,2,2,1,1,elefzepg,,,,,,0
+7,r7fddkbo,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,7,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,1,2,2,2,2,2,1,2,1,1,elefzepg,,,,,,0
+8,14326aop,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,8,,0.0,Decideur,1,1,2,2,2,2,2,2,2,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,elefzepg,,,,,,0
+9,4r4ptgee,,0,1,25,voiture,InformationPage,2019-12-03 09:23:15.362974,1,,,0.0,9,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+10,owpp817f,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,10,,0.0,Decideur,1,1,1,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+11,tz7kftn8,,0,2,25,voiture,Pop1Nb1Page,2019-12-03 09:22:06.701144,1,,,0.0,11,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+12,jyi2y8u8,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,12,,0.0,Decideur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+13,xk118bkj,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,13,,0.0,Conducteur,1,1,1,1,1,1,2,1,2,1,1,1,2,2,2,1,1,1,1,1,1,1,2,1,1,elefzepg,,,,,,0
+14,28crbeuq,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,14,,0.0,Decideur,1,2,2,1,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,1,2,1,1,elefzepg,,,,,,0
+15,0ymnid9p,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,15,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+16,cnr03785,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,16,,0.0,Decideur,1,2,2,1,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,1,2,1,1,elefzepg,,,,,,0
+17,kmujtz2k,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,17,,0.0,Conducteur,1,1,1,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,1,1,1,2,1,1,elefzepg,,,,,,0
+18,x4noyarz,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,18,,0.0,Decideur,2,2,2,2,2,2,2,2,2,1,2,1,2,2,2,2,1,2,2,2,2,1,2,1,1,elefzepg,,,,,,0
+19,djb20dkm,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,19,,0.0,Conducteur,2,1,2,2,2,2,2,2,2,1,2,2,2,2,2,1,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+20,npgrglnb,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,20,,0.0,Decideur,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,1,2,1,1,elefzepg,,,,,,0
+21,gzewq1pn,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,21,,0.0,Conducteur,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,2,2,1,2,1,1,elefzepg,,,,,,0
+22,67tjwba7,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,22,,0.0,Decideur,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+23,gwi1n607,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,23,,0.0,Conducteur,1,1,1,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,1,1,1,2,1,1,elefzepg,,,,,,0
+24,9v14rkw8,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,24,,0.0,Decideur,1,2,2,1,2,2,1,2,2,2,2,2,2,2,2,2,1,1,2,2,2,1,2,1,1,elefzepg,,,,,,0
+25,k17kq8bi,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,25,,0.0,Conducteur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+26,5dcv97t0,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,26,,0.0,Decideur,2,1,2,2,2,2,2,2,2,2,2,2,2,1,1,2,1,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+27,ezdvu3fn,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,27,,0.0,Conducteur,2,1,1,1,2,2,2,2,2,1,1,1,2,2,2,1,1,1,2,2,2,1,2,1,1,elefzepg,,,,,,0
+28,wch1mlf0,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,28,,0.0,Decideur,1,2,2,2,2,2,2,2,2,1,1,1,2,2,2,1,1,1,1,1,1,2,2,1,1,elefzepg,,,,,,0
+29,r0pgvnw2,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,29,,0.0,Conducteur,1,1,1,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,2,1,2,1,1,1,1,elefzepg,,,,,,0
+30,qrhtik9a,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,30,,0.0,Decideur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+31,599p2r48,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,31,,0.0,Conducteur,2,2,2,1,2,2,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,1,1,1,1,elefzepg,,,,,,0
+32,5d567td6,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,32,,0.0,Decideur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+33,kjlzzwnk,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,33,,0.0,Conducteur,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,2,2,2,1,1,1,1,elefzepg,,,,,,0
+34,5bvv8e1v,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,34,,0.0,Decideur,1,2,2,1,2,2,2,2,2,1,1,1,2,2,2,1,1,1,2,2,2,1,2,1,1,elefzepg,,,,,,0
+35,7z9a6wbf,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,35,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,1,1,2,2,2,2,1,1,1,2,2,2,2,1,1,1,elefzepg,,,,,,0
+36,og0ffv4o,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,36,,0.0,Decideur,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+37,7xnm3kz4,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,37,,0.0,Conducteur,2,1,1,1,1,1,1,2,2,1,1,1,2,2,2,1,1,1,1,1,1,1,1,1,1,elefzepg,,,,,,0
+38,figckti0,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,38,,0.0,Decideur,2,2,2,1,2,2,2,2,2,1,1,2,2,2,2,2,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+39,plvzsulr,,0,25,25,voiture,MerciPage,2019-12-03 09:23:15.362974,1,,,0.0,39,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,1,2,1,1,elefzepg,,,,,,0
+40,y2fuiudd,,0,25,25,voiture,MerciPage,2019-12-03 09:23:57.802310,1,,,0.0,40,,0.0,Decideur,1,1,2,1,1,2,2,2,2,1,1,1,2,2,2,1,1,2,1,1,2,1,2,1,1,elefzepg,,,,,,0
+41,ansj7qov,,0,25,25,voiture,MerciPage,2019-12-03 09:22:06.701144,1,,,0.0,41,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,1,1,1,2,2,2,2,2,1,1,elefzepg,,,,,,0
+42,d4i3vdn4,,0,25,25,voiture,MerciPage,2019-12-03 09:22:09.855708,1,,,0.0,42,,0.0,Decideur,1,1,1,1,1,1,2,2,2,1,1,1,2,2,2,1,1,1,1,1,1,1,2,1,1,elefzepg,,,,,,0
+43,uz9lfhs0,,0,25,25,voiture,MerciPage,2019-12-03 09:23:03.250235,1,,,0.0,43,,0.0,Conducteur,2,2,2,2,2,2,2,2,2,1,1,1,2,2,2,2,2,2,2,2,2,2,2,1,1,elefzepg,,,,,,0
+44,7klmxd5n,,0,0,25,,,,0,,,0.0,44,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+45,skakpt0e,,0,0,25,,,,0,,,0.0,45,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+46,0d1q8i4m,,0,0,25,,,,0,,,0.0,46,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+47,9tdssnft,,0,0,25,,,,0,,,0.0,47,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+48,gpse614d,,0,0,25,,,,0,,,0.0,48,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+49,unclimqi,,0,0,25,,,,0,,,0.0,49,,0.0,Conducteur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0
+50,6zmknyzk,,0,0,25,,,,0,,,0.0,50,,0.0,Decideur,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,elefzepg,,,,,,0

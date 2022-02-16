@@ -39,7 +39,8 @@
       "participant_count": 20,
       "otree_app_name": "voiture",
       "notice": "Dilemmes_moraux_et_nouvelles_technologies.pdf",
-      "image": "Dilemmes_moraux_et_nouvelles_technologies.png"
+      "image": "Dilemmes_moraux_et_nouvelles_technologies.png",
+      "report_script": "report_voiture"
     }
   },
   {
