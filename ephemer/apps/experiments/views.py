@@ -213,7 +213,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
 def session_results_as_csv(request, session_id: int):
     """Get raw results of a sesssion, as CSV"""
     session = get_object_or_404(models.Session, pk=session_id)
-    if session.created_by != request.user:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     otree = OTreeConnector(_get_otree_api_uri())
@@ -245,7 +245,7 @@ def session_results_as_csv(request, session_id: int):
 def session_results(request, session_id: int):
     """Get results of a sesssion, output as HTML"""
     session = get_object_or_404(models.Session, pk=session_id)
-    if session.created_by != request.user:
+    if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
     otree = OTreeConnector(_get_otree_api_uri())
