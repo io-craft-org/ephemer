@@ -54,7 +54,8 @@
       "participant_count": 40,
       "otree_app_name": "FGES_Louvain",
       "notice": "Efficacite_collective.pdf",
-      "image": "Efficacite_collective.png"
+      "image": "Efficacite_collective.png",
+      "report_script": "report_fges_louvain"
     }
   },
   {
