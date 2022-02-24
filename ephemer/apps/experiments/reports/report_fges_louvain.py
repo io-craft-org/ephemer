@@ -1,4 +1,5 @@
 import base64
+import re
 from typing import List
 
 from django.http import HttpResponse
@@ -8,8 +9,15 @@ from plotly import graph_objs as go
 from .layout import BASE_LAYOUT, compute_bounds
 
 
+label_pattern = re.compile("([0-9]+)_([0-9]+)")
+
+
 def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
-    category_order_array = [
+    def create_label(value):
+        result = label_pattern.search(value)
+        return f"{result.groups()[0]}-{result.groups()[1]}"
+
+    category_order_array_1 = [
         "7_25",
         "8_23",
         "9_21",
@@ -24,18 +32,22 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
         "18_3",
         "19_1",
     ]
-
-    choix_1_serie = data["player.matrix1_response"]
+    matrix1_serie = data["player.matrix1_response"]
     fig1 = go.Figure()
     fig1.add_trace(
         trace=go.Histogram(
             histfunc="count",
-            x=choix_1_serie,
+            x=matrix1_serie,
         )
     )
-    fig1.update_xaxes(categoryorder="array", categoryarray=category_order_array)
+    fig1.update_xaxes(categoryorder="array", categoryarray=category_order_array_1)
     fig1.update_layout(
         title_text="Distribution des fréquences de choix de rémunération pour la matrice 1",
+        xaxis=dict(
+            tickmode="array",
+            tickvals=[val for val in category_order_array_1],
+            ticktext=[create_label(val) for val in category_order_array_1],
+        ),
     )
 
     category_order_array_2 = [
@@ -53,17 +65,22 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
         "22_27",
         "23_29",
     ]
-    choix_2_serie = data["player.matrix2_response"]
+    matrix2_serie = data["player.matrix2_response"]
     fig2 = go.Figure()
     fig2.add_trace(
         trace=go.Histogram(
             histfunc="count",
-            x=choix_2_serie,
+            x=matrix2_serie,
         )
     )
     fig2.update_xaxes(categoryorder="array", categoryarray=category_order_array_2)
     fig2.update_layout(
         title_text="Distribution des fréquences de choix de rémunération pour la matrice 2",
+        xaxis=dict(
+            tickmode="array",
+            tickvals=[val for val in category_order_array_2],
+            ticktext=[create_label(val) for val in category_order_array_2],
+        ),
     )
 
     return [fig1, fig2]
