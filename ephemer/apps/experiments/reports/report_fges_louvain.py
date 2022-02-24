@@ -9,6 +9,21 @@ from .layout import BASE_LAYOUT, compute_bounds
 
 
 def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
+    category_order_array = [
+        "7_25",
+        "8_23",
+        "9_21",
+        "10_19",
+        "11_17",
+        "12_15",
+        "13_13",
+        "14_11",
+        "15_9",
+        "16_7",
+        "17_5",
+        "18_3",
+        "19_1",
+    ]
 
     choix_1_serie = data["player.matrix1_response"]
     fig1 = go.Figure()
@@ -18,10 +33,26 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
             x=choix_1_serie,
         )
     )
+    fig1.update_xaxes(categoryorder="array", categoryarray=category_order_array)
     fig1.update_layout(
         title_text="Distribution des fréquences de choix de rémunération pour la matrice 1",
     )
 
+    category_order_array_2 = [
+        "11_5",
+        "12_7",
+        "13_9",
+        "14_11",
+        "15_13",
+        "16_15",
+        "17_17",
+        "18_19",
+        "19_21",
+        "20_23",
+        "21_25",
+        "22_27",
+        "23_29",
+    ]
     choix_2_serie = data["player.matrix2_response"]
     fig2 = go.Figure()
     fig2.add_trace(
@@ -30,6 +61,7 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
             x=choix_2_serie,
         )
     )
+    fig2.update_xaxes(categoryorder="array", categoryarray=category_order_array_2)
     fig2.update_layout(
         title_text="Distribution des fréquences de choix de rémunération pour la matrice 2",
     )
