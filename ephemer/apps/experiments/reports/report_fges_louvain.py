@@ -1,23 +1,41 @@
-import base64
 import re
-from typing import List
 
 from django.http import HttpResponse
+from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
 
-from .layout import BASE_LAYOUT, compute_bounds
-
+from .base import compute_bounds, render_graphs
 
 label_pattern = re.compile("([0-9]+)_([0-9]+)")
 
 
-def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
+def _create_figure_choix_rémunération(serie, category_order, title):
     def create_label(value):
         result = label_pattern.search(value)
         return f"{result.groups()[0]}-{result.groups()[1]}"
 
-    category_order_array_1 = [
+    fig = go.Figure()
+    fig.add_trace(
+        trace=go.Histogram(
+            histfunc="count",
+            x=serie,
+        )
+    )
+    fig.update_xaxes(categoryorder="array", categoryarray=category_order)
+    fig.update_layout(
+        title_text=title,
+        xaxis=dict(
+            tickmode="array",
+            tickvals=[val for val in category_order],
+            ticktext=[create_label(val) for val in category_order],
+        ),
+    )
+    return fig
+
+
+def create_figure_choix_rémunération_matrice_1(data):
+    category_order_array = [
         "7_25",
         "8_23",
         "9_21",
@@ -32,25 +50,15 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
         "18_3",
         "19_1",
     ]
-    matrix1_serie = data["player.matrix1_response"]
-    fig1 = go.Figure()
-    fig1.add_trace(
-        trace=go.Histogram(
-            histfunc="count",
-            x=matrix1_serie,
-        )
-    )
-    fig1.update_xaxes(categoryorder="array", categoryarray=category_order_array_1)
-    fig1.update_layout(
-        title_text="Distribution des fréquences de choix de rémunération pour la matrice 1",
-        xaxis=dict(
-            tickmode="array",
-            tickvals=[val for val in category_order_array_1],
-            ticktext=[create_label(val) for val in category_order_array_1],
-        ),
+    return _create_figure_choix_rémunération(
+        serie=data["player.matrix1_response"],
+        category_order=category_order_array,
+        title="Distribution des fréquences de choix de rémunération pour la matrice 1",
     )
 
-    category_order_array_2 = [
+
+def create_figure_choix_rémunération_matrice_2(data):
+    category_order_array = [
         "11_5",
         "12_7",
         "13_9",
@@ -65,28 +73,14 @@ def create_figures_choix_rémunération(data: pd.DataFrame) -> List[go.Figure]:
         "22_27",
         "23_29",
     ]
-    matrix2_serie = data["player.matrix2_response"]
-    fig2 = go.Figure()
-    fig2.add_trace(
-        trace=go.Histogram(
-            histfunc="count",
-            x=matrix2_serie,
-        )
-    )
-    fig2.update_xaxes(categoryorder="array", categoryarray=category_order_array_2)
-    fig2.update_layout(
-        title_text="Distribution des fréquences de choix de rémunération pour la matrice 2",
-        xaxis=dict(
-            tickmode="array",
-            tickvals=[val for val in category_order_array_2],
-            ticktext=[create_label(val) for val in category_order_array_2],
-        ),
+    return _create_figure_choix_rémunération(
+        serie=data["player.matrix2_response"],
+        category_order=category_order_array,
+        title="Distribution des fréquences de choix de rémunération pour la matrice 2",
     )
 
-    return [fig1, fig2]
 
-
-def create_figure_identification(data: pd.DataFrame) -> go.Figure:
+def create_figure_identification(data: pd.DataFrame):
     fig_title = "Scores moyens d’identification en fonction du groupe d’appartenance"
 
     x_labels = (
@@ -123,7 +117,7 @@ def create_figure_identification(data: pd.DataFrame) -> go.Figure:
     return fig
 
 
-def create_figure_appréciation(data: pd.DataFrame) -> go.Figure:
+def create_figure_appréciation(data: pd.DataFrame):
     fig_title = "Scores moyens d’appréciation en fonction du groupe d’appartenance"
 
     x_labels = (
@@ -160,7 +154,7 @@ def create_figure_appréciation(data: pd.DataFrame) -> go.Figure:
     return fig
 
 
-def create_figure_scores_moyens_généraux(data: pd.DataFrame) -> go.Figure:
+def create_figure_scores_moyens_généraux(data: pd.DataFrame):
     fig_title = "Scores moyens généraux observés suite au feedback, en fonction du groupe d’appartenance"
 
     entativité_columns = [
@@ -224,28 +218,19 @@ def create_figure_scores_moyens_généraux(data: pd.DataFrame) -> go.Figure:
 
 
 def render(request, session) -> HttpResponse:
-    from django.shortcuts import render
 
-    data = pd.read_csv(session.csv)
+    graphs = render_graphs(
+        csv_name=session.csv,
+        figure_funcs=[
+            create_figure_choix_rémunération_matrice_1,
+            create_figure_choix_rémunération_matrice_2,
+            create_figure_identification,
+            create_figure_appréciation,
+            create_figure_scores_moyens_généraux,
+        ],
+    )
 
-    data = data[
-        data["participant._index_in_pages"] >= data["participant._max_page_index"]
-    ]
-
-    figures = []
-    figures.extend(create_figures_choix_rémunération(data))
-    figures.append(create_figure_identification(data))
-    figures.append(create_figure_appréciation(data))
-    figures.append(create_figure_scores_moyens_généraux(data))
-
-    graphs = []
-    for figure in figures:
-        figure.update_layout(**BASE_LAYOUT)
-        graphs.append(
-            base64.b64encode(figure.to_image(format="png", width=1000)).decode("utf-8")
-        )
-
-    return render(
+    return django_render(
         request,
         template_name="experiments/session_results.html",
         context={"session": session, "graphs": graphs},

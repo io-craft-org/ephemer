@@ -1,10 +1,9 @@
-import base64
-
 from django.http import HttpResponse
+from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
 
-from .layout import BASE_LAYOUT, compute_bounds
+from .base import compute_bounds, render_graphs
 
 
 def compute_mean_on_columns_with_filter(data, columns, filter_name, filter_value):
@@ -71,7 +70,6 @@ def create_age_fig_cases_1_to_3(data: pd.DataFrame) -> go.Figure:
         ),
     )
     fig.update_layout(title_text="Âge attribué pour les cas 1 à 3")
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
@@ -131,7 +129,6 @@ def create_confidence_fig_cases_1_to_3(data):
     fig.update_layout(
         title_text="Certitude liée à l’âge attribué pour les cas 1 à 3",
     )
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
@@ -193,7 +190,6 @@ def create_age_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
 
     fig.update_layout(yaxis_range=[y_lower_bound, y_upper_bound])
     fig.update_layout(title_text="Âge attribué pour les cas 4 et 5")
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
@@ -255,7 +251,6 @@ def create_confidence_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Certitude liée à l’âge attribué pour les cas 4 et 5",
     )
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
@@ -320,7 +315,6 @@ def create_fig5(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
     )
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
@@ -385,30 +379,23 @@ def create_fig6(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Certitude liée à l’âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
     )
-    fig.update_layout(**BASE_LAYOUT)
     return fig
 
 
 def render(request, session) -> HttpResponse:
-    from django.shortcuts import render
+    graphs = render_graphs(
+        csv_name=session.csv,
+        figure_funcs=[
+            create_age_fig_cases_1_to_3,
+            create_confidence_fig_cases_1_to_3,
+            create_age_fig_cases_4_and_5,
+            create_confidence_fig_cases_4_and_5,
+            create_fig5,
+            create_fig6,
+        ],
+    )
 
-    data = pd.read_csv(session.csv)
-
-    figures = []
-    figures.append(create_age_fig_cases_1_to_3(data))
-    figures.append(create_confidence_fig_cases_1_to_3(data))
-    figures.append(create_age_fig_cases_4_and_5(data))
-    figures.append(create_confidence_fig_cases_4_and_5(data))
-    figures.append(create_fig5(data))
-    figures.append(create_fig6(data))
-
-    graphs = []
-    for figure in figures:
-        graphs.append(
-            base64.b64encode(figure.to_image(format="png", width=1000)).decode("utf-8")
-        )
-
-    return render(
+    return django_render(
         request,
         template_name="experiments/session_results.html",
         context={"session": session, "graphs": graphs},

@@ -1,8 +1,9 @@
-import base64
-
 from django.http import HttpResponse
+from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
+
+from .base import render_graphs
 
 
 def create_figures(data):
@@ -84,19 +85,9 @@ def create_figures(data):
 
 
 def render(request, session) -> HttpResponse:
-    from django.shortcuts import render
+    graphs = render_graphs(csv_name=session.csv, figure_funcs=[create_figures])
 
-    data = pd.read_csv(session.csv)
-
-    figures = create_figures(data)
-
-    graphs = []
-    for figure in figures:
-        graphs.append(
-            base64.b64encode(figure.to_image(format="png", width=1000)).decode("utf-8")
-        )
-
-    return render(
+    return django_render(
         request,
         template_name="experiments/session_results.html",
         context={"session": session, "graphs": graphs},
