@@ -1,12 +1,19 @@
+from dataclasses import dataclass
 import base64
 from math import ceil
 from numbers import Number
 from typing import Optional
 
-
 import pandas as pd
+from plotly import graph_objs as go
 
 BASE_LAYOUT = {"font_size": 20, "barmode": "group", "bargap": 0.6}
+
+
+@dataclass
+class Graphique:
+    figure: go.Figure
+    legend: Optional[str] = None
 
 
 def compute_bounds(
@@ -40,16 +47,21 @@ def filter_valid_participants(data: pd.DataFrame) -> pd.DataFrame:
     ]
 
 
-def render_graphs(csv_name, figure_funcs):
+def render_graphs(csv_name, graph_funcs):
     data = filter_valid_participants(pd.read_csv(csv_name))
     graphs = []
-    for func in figure_funcs:
+    for func in graph_funcs:
         result = func(data)
         if not isinstance(result, list):
             result = [result]
-        for fig in result:
-            fig.update_layout(**BASE_LAYOUT)
+        for graph in result:
+            graph.figure.update_layout(**BASE_LAYOUT)
             graphs.append(
-                base64.b64encode(fig.to_image(format="png", width=1000)).decode("utf-8")
+                {
+                    "image": base64.b64encode(
+                        graph.figure.to_image(format="png", width=1000)
+                    ).decode("utf-8"),
+                    "legend": graph.legend,
+                }
             )
     return graphs

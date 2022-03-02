@@ -5,12 +5,12 @@ from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
 
-from .base import compute_bounds, render_graphs
+from .base import compute_bounds, render_graphs, Graphique
 
 label_pattern = re.compile("([0-9]+)_([0-9]+)")
 
 
-def _create_figure_choix_rémunération(serie, category_order, title):
+def _create_graphique_choix_rémunération(serie, category_order, title, legend=""):
     def create_label(value):
         result = label_pattern.search(value)
         return f"{result.groups()[0]}-{result.groups()[1]}"
@@ -31,10 +31,16 @@ def _create_figure_choix_rémunération(serie, category_order, title):
             ticktext=[create_label(val) for val in category_order],
         ),
     )
-    return fig
+    return Graphique(fig, legend)
 
 
-def create_figure_choix_rémunération_matrice_1(data):
+def create_graphique_choix_rémunération_matrice_1(data: pd.DataFrame) -> Graphique:
+    legend = (
+        "Chaque colonne présente la répartition de rémunération choisie. Le premier chiffre de chaque "
+        + "paire correspond à la rémunération choisie pour votre groupe et le second à la rémunération "
+        + "choisie pour l’autre groupe. Par exemple le choix de la paire 19-1 implique que vous avez "
+        + "décidé de donner une rémunération de 19 pour votre groupe et de 1 pour l’autre groupe."
+    )
     category_order_array = [
         "7_25",
         "8_23",
@@ -50,14 +56,21 @@ def create_figure_choix_rémunération_matrice_1(data):
         "18_3",
         "19_1",
     ]
-    return _create_figure_choix_rémunération(
+    return _create_graphique_choix_rémunération(
         serie=data["player.matrix1_response"],
         category_order=category_order_array,
         title="Distribution des fréquences de choix de rémunération pour la matrice 1",
+        legend=legend,
     )
 
 
-def create_figure_choix_rémunération_matrice_2(data):
+def create_graphique_choix_rémunération_matrice_2(data: pd.DataFrame) -> Graphique:
+    legend = (
+        "Chaque colonne présente la répartition de rémunération choisie. Le premier chiffre de chaque "
+        + "paire correspond à la rémunération choisie pour votre groupe et le second à la rémunération "
+        + "choisie pour l’autre groupe. Par exemple le choix de la paire 23-29 implique que vous avez "
+        + "décidé de donner une rémunération de 23 pour votre groupe et de 29 pour l’autre groupe."
+    )
     category_order_array = [
         "11_5",
         "12_7",
@@ -73,14 +86,15 @@ def create_figure_choix_rémunération_matrice_2(data):
         "22_27",
         "23_29",
     ]
-    return _create_figure_choix_rémunération(
+    return _create_graphique_choix_rémunération(
         serie=data["player.matrix2_response"],
         category_order=category_order_array,
         title="Distribution des fréquences de choix de rémunération pour la matrice 2",
+        legend=legend,
     )
 
 
-def create_figure_identification(data: pd.DataFrame):
+def create_graphique_identification(data: pd.DataFrame) -> Graphique:
     fig_title = "Scores moyens d’identification en fonction du groupe d’appartenance"
 
     x_labels = (
@@ -114,10 +128,10 @@ def create_figure_identification(data: pd.DataFrame):
 
     fig.update_layout(title_text=fig_title)
 
-    return fig
+    return Graphique(fig)
 
 
-def create_figure_appréciation(data: pd.DataFrame):
+def create_graphique_appréciation(data: pd.DataFrame) -> Graphique:
     fig_title = "Scores moyens d’appréciation en fonction du groupe d’appartenance"
 
     x_labels = (
@@ -151,10 +165,10 @@ def create_figure_appréciation(data: pd.DataFrame):
 
     fig.update_layout(title_text=fig_title)
 
-    return fig
+    return Graphique(fig)
 
 
-def create_figure_scores_moyens_généraux(data: pd.DataFrame):
+def create_graphique_scores_moyens_généraux(data: pd.DataFrame) -> Graphique:
     fig_title = "Scores moyens généraux observés suite au feedback, en fonction du groupe d’appartenance"
 
     entativité_columns = [
@@ -214,19 +228,20 @@ def create_figure_scores_moyens_généraux(data: pd.DataFrame):
 
     fig.update_layout(title_text=fig_title)
     fig.update_layout(yaxis_range=compute_bounds(all_y_values))
-    return fig
+
+    return Graphique(fig)
 
 
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
         csv_name=session.csv,
-        figure_funcs=[
-            create_figure_choix_rémunération_matrice_1,
-            create_figure_choix_rémunération_matrice_2,
-            create_figure_identification,
-            create_figure_appréciation,
-            create_figure_scores_moyens_généraux,
+        graph_funcs=[
+            create_graphique_choix_rémunération_matrice_1,
+            create_graphique_choix_rémunération_matrice_2,
+            create_graphique_identification,
+            create_graphique_appréciation,
+            create_graphique_scores_moyens_généraux,
         ],
     )
 

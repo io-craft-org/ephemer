@@ -7,9 +7,12 @@
     <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{session.experiment.title }})</h3>
 
     <div class="row">
-        <div class="col-12 py-5">
+        <div class="col-12 py-5" style="width: 100%; max-width: 1000px;">
             {% for graph in graphs %}
-            <img class="graph" style="width: 100%; max-width: 1000px;" src="data:image/png;charset=utf-8;base64,{{ graph }}">
+            <img class="graph" src="data:image/png;charset=utf-8;base64,{{ graph.image }}">
+                {% if graph.legend %}
+                    <p>{{ graph.legend }}</p>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

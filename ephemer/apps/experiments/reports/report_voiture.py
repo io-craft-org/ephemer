@@ -2,11 +2,12 @@ from django.http import HttpResponse
 from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
+from typing import List
 
-from .base import render_graphs
+from .base import render_graphs, Graphique
 
 
-def create_figures(data):
+def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
     # Retire les participants n'ayant pas terminé la session
     data = data[
         data["participant._index_in_pages"] == data["participant._max_page_index"]
@@ -81,11 +82,11 @@ def create_figures(data):
         title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants",
     )
 
-    return [fig, fig2]
+    return [Graphique(fig), Graphique(fig2)]
 
 
 def render(request, session) -> HttpResponse:
-    graphs = render_graphs(csv_name=session.csv, figure_funcs=[create_figures])
+    graphs = render_graphs(csv_name=session.csv, graph_funcs=[create_graphiques])
 
     return django_render(
         request,

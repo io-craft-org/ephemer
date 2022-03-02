@@ -3,7 +3,7 @@ from django.shortcuts import render as django_render
 import pandas as pd
 from plotly import graph_objs as go
 
-from .base import compute_bounds, render_graphs
+from .base import compute_bounds, render_graphs, Graphique
 
 
 def compute_mean_on_columns_with_filter(data, columns, filter_name, filter_value):
@@ -15,7 +15,7 @@ def compute_mean_on_columns_with_filter(data, columns, filter_name, filter_value
     return df_transposed[filter_value].mean()
 
 
-def create_age_fig_cases_1_to_3(data: pd.DataFrame) -> go.Figure:
+def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
 
     x = []
     y = []
@@ -70,10 +70,11 @@ def create_age_fig_cases_1_to_3(data: pd.DataFrame) -> go.Figure:
         ),
     )
     fig.update_layout(title_text="Âge attribué pour les cas 1 à 3")
-    return fig
+
+    return Graphique(fig)
 
 
-def create_confidence_fig_cases_1_to_3(data):
+def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphique:
     x = []
     y = []
 
@@ -129,10 +130,10 @@ def create_confidence_fig_cases_1_to_3(data):
     fig.update_layout(
         title_text="Certitude liée à l’âge attribué pour les cas 1 à 3",
     )
-    return fig
+    return Graphique(fig)
 
 
-def create_age_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
+def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     case_4_columns = [
         "player.age_cas4_Entretien",
         "player.age_cas4_Photo",
@@ -190,10 +191,10 @@ def create_age_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
 
     fig.update_layout(yaxis_range=[y_lower_bound, y_upper_bound])
     fig.update_layout(title_text="Âge attribué pour les cas 4 et 5")
-    return fig
+    return Graphique(fig)
 
 
-def create_confidence_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
+def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
 
     age_cas_4_columns = [
         "player.age_cas4_Entretien",
@@ -251,10 +252,12 @@ def create_confidence_fig_cases_4_and_5(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Certitude liée à l’âge attribué pour les cas 4 et 5",
     )
-    return fig
+    return Graphique(fig)
 
 
-def create_fig5(data: pd.DataFrame) -> go.Figure:
+def create_graphique_âge_attribué_en_fonction_sources_info(
+    data: pd.DataFrame,
+) -> Graphique:
     x = []
     y = []
 
@@ -315,10 +318,12 @@ def create_fig5(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
     )
-    return fig
+    return Graphique(fig)
 
 
-def create_fig6(data: pd.DataFrame) -> go.Figure:
+def create_graphique_certitude_âge_en_fonction_sources_info(
+    data: pd.DataFrame,
+) -> Graphique:
     x = []
     y = []
 
@@ -379,19 +384,19 @@ def create_fig6(data: pd.DataFrame) -> go.Figure:
     fig.update_layout(
         title_text="Certitude liée à l’âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
     )
-    return fig
+    return Graphique(fig)
 
 
 def render(request, session) -> HttpResponse:
     graphs = render_graphs(
         csv_name=session.csv,
-        figure_funcs=[
-            create_age_fig_cases_1_to_3,
-            create_confidence_fig_cases_1_to_3,
-            create_age_fig_cases_4_and_5,
-            create_confidence_fig_cases_4_and_5,
-            create_fig5,
-            create_fig6,
+        graph_funcs=[
+            create_graphique_âge_attribué_cas_1_à_3,
+            create_graphique_certitude_sur_âge_cas_1_à_3,
+            create_graphique_âge_attribué_cas_4_à_5,
+            create_certitude_âge_cas_4_à_5,
+            create_graphique_âge_attribué_en_fonction_sources_info,
+            create_graphique_certitude_âge_en_fonction_sources_info,
         ],
     )
 
