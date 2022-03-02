@@ -59,7 +59,7 @@ def render_graphs(csv_name, graph_funcs):
             graphs.append(
                 {
                     "image": base64.b64encode(
-                        graph.figure.to_image(format="png", width=1000)
+                        graph.figure.to_image(format="png", width=1200)
                     ).decode("utf-8"),
                     "legend": graph.legend,
                 }
