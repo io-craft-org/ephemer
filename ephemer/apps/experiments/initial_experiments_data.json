@@ -10,7 +10,8 @@
       "participant_count": 40,
       "otree_app_name": "groupes_minimaux_labo",
       "notice": "Les_groupes_et_leurs_relations.pdf",
-      "image": "Les_groupes_et_leurs_relations.png"
+      "image": "Les_groupes_et_leurs_relations.png",
+      "report_script": "report_groupes_minimaux_labo"
     }
   },
   {
