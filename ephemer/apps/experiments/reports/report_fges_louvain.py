@@ -1,3 +1,4 @@
+from collections import Counter
 import re
 
 from django.http import HttpResponse
@@ -10,25 +11,20 @@ from .base import compute_bounds, render_graphs, Graphique
 label_pattern = re.compile("([0-9]+)_([0-9]+)")
 
 
-def _create_graphique_choix_rémunération(serie, category_order, title, legend=""):
+def _create_graphique_choix_rémunération(serie, choices, title, legend=""):
     def create_label(value):
-        result = label_pattern.search(value)
-        return f"{result.groups()[0]}-{result.groups()[1]}"
+        return value.replace("_", "-")
+
+    counter = Counter(serie.dropna())
 
     fig = go.Figure()
-    fig.add_trace(
-        trace=go.Histogram(
-            histfunc="count",
-            x=serie,
-        )
-    )
-    fig.update_xaxes(categoryorder="array", categoryarray=category_order)
+    fig.add_trace(trace=go.Bar(x=choices, y=[counter[c] for c in choices]))
     fig.update_layout(
         title_text=title,
         xaxis=dict(
             tickmode="array",
-            tickvals=[val for val in category_order],
-            ticktext=[create_label(val) for val in category_order],
+            tickvals=[val for val in choices],
+            ticktext=[create_label(val) for val in choices],
         ),
     )
     return Graphique(fig, legend)
@@ -41,7 +37,7 @@ def create_graphique_choix_rémunération_matrice_1(data: pd.DataFrame) -> Graph
         + "choisie pour l’autre groupe. Par exemple le choix de la paire 19-1 implique que vous avez "
         + "décidé de donner une rémunération de 19 pour votre groupe et de 1 pour l’autre groupe."
     )
-    category_order_array = [
+    choices = [
         "7_25",
         "8_23",
         "9_21",
@@ -58,7 +54,7 @@ def create_graphique_choix_rémunération_matrice_1(data: pd.DataFrame) -> Graph
     ]
     return _create_graphique_choix_rémunération(
         serie=data["player.matrix1_response"],
-        category_order=category_order_array,
+        choices=choices,
         title="Distribution des fréquences de choix de rémunération pour la matrice 1",
         legend=legend,
     )
@@ -71,7 +67,7 @@ def create_graphique_choix_rémunération_matrice_2(data: pd.DataFrame) -> Graph
         + "choisie pour l’autre groupe. Par exemple le choix de la paire 23-29 implique que vous avez "
         + "décidé de donner une rémunération de 23 pour votre groupe et de 29 pour l’autre groupe."
     )
-    category_order_array = [
+    choices = [
         "11_5",
         "12_7",
         "13_9",
@@ -88,7 +84,7 @@ def create_graphique_choix_rémunération_matrice_2(data: pd.DataFrame) -> Graph
     ]
     return _create_graphique_choix_rémunération(
         serie=data["player.matrix2_response"],
-        category_order=category_order_array,
+        choices=choices,
         title="Distribution des fréquences de choix de rémunération pour la matrice 2",
         legend=legend,
     )
