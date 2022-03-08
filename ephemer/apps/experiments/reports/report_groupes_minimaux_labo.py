@@ -35,6 +35,7 @@ def create_graphique_scores_moyens_endogroupe_exogroupe(
     fig.add_trace(trace)
 
     fig.update_layout(title_text=fig_title)
+    fig.update_yaxes(range=[1, 50])
 
     return Graphique(fig)
 

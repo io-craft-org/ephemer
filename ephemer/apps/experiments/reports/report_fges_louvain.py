@@ -123,6 +123,7 @@ def create_graphique_identification(data: pd.DataFrame) -> Graphique:
     fig.add_trace(trace2)
 
     fig.update_layout(title_text=fig_title)
+    fig.update_yaxes(range=[1, 50])
 
     return Graphique(fig)
 
@@ -160,6 +161,7 @@ def create_graphique_appréciation(data: pd.DataFrame) -> Graphique:
     fig.add_trace(trace2)
 
     fig.update_layout(title_text=fig_title)
+    fig.update_yaxes(range=[1, 50])
 
     return Graphique(fig)
 
