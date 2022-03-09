@@ -6,13 +6,16 @@ from plotly import graph_objs as go
 from .base import compute_bounds, render_graphs, Graphique
 
 
-def compute_mean_on_columns_with_filter(data, columns, filter_name, filter_value):
+def mean_of_selected_columns(data, columns):
     if data.empty:
         return 0
-    df_grouped = data.groupby(filter_name).mean()
-    df_filtered = pd.DataFrame(data=df_grouped, columns=columns)
-    df_transposed = df_filtered.transpose()
-    return df_transposed[filter_value].mean()
+    means_serie = data[columns].mean()
+    return means_serie.mean()
+
+
+def mean_of_selected_columns_with_filter(data, columns, filter_name, filter_value):
+    df_filtered = data[data[filter_name] == filter_value]
+    return mean_of_selected_columns(df_filtered, columns)
 
 
 def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
@@ -43,7 +46,7 @@ def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
         "yes",
     )
     y.append(
-        compute_mean_on_columns_with_filter(
+        mean_of_selected_columns_with_filter(
             data, column_selection, filter_name="player.coupable", filter_value="yes"
         )
     )
@@ -53,7 +56,7 @@ def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
         "no",
     )
     y.append(
-        compute_mean_on_columns_with_filter(
+        mean_of_selected_columns_with_filter(
             data, column_selection, filter_name="player.coupable", filter_value="no"
         )
     )
@@ -101,7 +104,7 @@ def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphi
         "yes",
     )
     y.append(
-        compute_mean_on_columns_with_filter(
+        mean_of_selected_columns_with_filter(
             data, column_selection, filter_name="player.coupable", filter_value="yes"
         )
     )
@@ -111,7 +114,7 @@ def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphi
         "no",
     )
     y.append(
-        compute_mean_on_columns_with_filter(
+        mean_of_selected_columns_with_filter(
             data, column_selection, filter_name="player.coupable", filter_value="no"
         )
     )
@@ -133,6 +136,16 @@ def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphi
     return Graphique(fig)
 
 
+def create_trace(data, column_groups, filter_name, filter_value, trace_name):
+    data_filtered = data[data[filter_name] == filter_value]
+    x = []
+    y = []
+    for label, columns in column_groups.items():
+        x.append(label)
+        y.append(mean_of_selected_columns(data_filtered, columns))
+    return go.Bar(x=x, y=y, name=trace_name)
+
+
 def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     case_4_columns = [
         "player.age_cas4_Entretien",
@@ -147,38 +160,29 @@ def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
         "player.age_cas5_Etat_civil",
     ]
 
+    column_groups = {
+        "Age cas 4": case_4_columns,
+        "Age cas 5": case_5_columns,
+    }
+
     data = pd.DataFrame(
         data, columns=case_4_columns + case_5_columns + ["player.coupable"]
     )
     data = data.dropna()
 
-    def create_trace(data, filter, name):
-        df_grouped = data.groupby("player.coupable").mean()
-
-        x = []
-        y = []
-
-        for case_label, case_columns in {
-            "Age cas 4": case_4_columns,
-            "Age cas 5": case_5_columns,
-        }.items():
-            x.append(case_label)
-
-            if not data.empty:
-                df_filtered = pd.DataFrame(data=df_grouped, columns=case_columns)
-                df_transposed = df_filtered.transpose()
-                serie = df_transposed[filter]
-                y.append(serie.mean())
-            else:
-                y.append(0)
-
-        return go.Bar(x=x, y=y, name=name)
-
     trace_guilty_yes = create_trace(
-        data, filter="yes", name="cas 4 = 18 ans et cas 5 = 17/19 ans"
+        data,
+        column_groups=column_groups,
+        filter_name="player.coupable",
+        filter_value="yes",
+        trace_name="cas 4 = 18 ans et cas 5 = 17/19 ans",
     )
     trace_guilty_no = create_trace(
-        data, filter="no", name="cas 4 = 17/19 ans et cas 5 = 18 ans"
+        data,
+        column_groups=column_groups,
+        filter_name="player.coupable",
+        filter_value="no",
+        trace_name="cas 4 = 17/19 ans et cas 5 = 18 ans",
     )
 
     fig = go.Figure()
@@ -215,32 +219,23 @@ def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     )
     data = data.dropna()
 
-    def create_trace(data, column_groups, filter, name):
-        x = []
-        y = []
-        for label, columns in column_groups.items():
-            x.append(label)
-            if not data.empty:
-                df = pd.DataFrame(data, columns=columns)
-                df = df.transpose()
-                serie = df[filter]
-                y.append(serie.mean())
-            else:
-                y.append(0)
-        return go.Bar(x=x, y=y, name=name)
-
-    data = data.groupby("player.coupable").mean()
-
     column_groups = {
         "Age cas 4": age_cas_4_columns,
         "Age cas 5": age_cas_5_columns,
     }
-
     trace_coupable_yes = create_trace(
-        data, column_groups, filter="yes", name="cas 4 = 18 ans et cas 5 = 17/19 ans"
+        data,
+        column_groups,
+        filter_name="player.coupable",
+        filter_value="yes",
+        trace_name="cas 4 = 18 ans et cas 5 = 17/19 ans",
     )
     trace_coupable_no = create_trace(
-        data, column_groups, filter="no", name="cas 4 = 17/19 ans et cas 5 = 18 ans"
+        data,
+        column_groups,
+        filter_name="player.coupable",
+        filter_value="no",
+        trace_name="cas 4 = 17/19 ans et cas 5 = 18 ans",
     )
 
     fig = go.Figure()
