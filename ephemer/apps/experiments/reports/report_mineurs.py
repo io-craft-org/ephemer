@@ -19,6 +19,7 @@ def mean_of_selected_columns_with_filter(data, columns, filter_name, filter_valu
 
 
 def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
+    fig_title = "Âge attribué pour les cas 1 à 3"
 
     x = []
     y = []
@@ -72,12 +73,13 @@ def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
             ticktext=["connaissance des conséquences", "ignorance des conséquences"],
         ),
     )
-    fig.update_layout(title_text="Âge attribué pour les cas 1 à 3")
+    fig.update_layout(title_text=fig_title)
 
     return Graphique(fig)
 
 
 def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphique:
+    fig_title = "Certitude liée à l’âge attribué pour les cas 1 à 3"
     x = []
     y = []
 
@@ -131,7 +133,7 @@ def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphi
         )
     )
     fig.update_layout(
-        title_text="Certitude liée à l’âge attribué pour les cas 1 à 3",
+        title_text=fig_title,
     )
     return Graphique(fig)
 
@@ -147,6 +149,7 @@ def create_trace(data, column_groups, filter_name, filter_value, trace_name):
 
 
 def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
+    fig_title = "Âge attribué pour les cas 4 et 5"
     case_4_columns = [
         "player.age_cas4_Entretien",
         "player.age_cas4_Photo",
@@ -159,7 +162,6 @@ def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
         "player.age_cas5_test_oss",
         "player.age_cas5_Etat_civil",
     ]
-
     column_groups = {
         "Age cas 4": case_4_columns,
         "Age cas 5": case_5_columns,
@@ -194,35 +196,34 @@ def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     )
 
     fig.update_layout(yaxis_range=[y_lower_bound, y_upper_bound])
-    fig.update_layout(title_text="Âge attribué pour les cas 4 et 5")
+    fig.update_layout(title_text=fig_title)
     return Graphique(fig)
 
 
 def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
-
+    fig_title = "Certitude liée à l’âge attribué pour les cas 4 et 5"
     age_cas_4_columns = [
         "player.confidence_cas4_Entretien",
         "player.confidence_cas4_Photo",
         "player.confidence_cas4_test_oss",
         "player.confidence_cas4_Etat_civil",
     ]
-
     age_cas_5_columns = [
         "player.confidence_cas5_Entretien",
         "player.confidence_cas5_Photo",
         "player.confidence_cas5_test_oss",
         "player.confidence_cas5_Etat_civil",
     ]
+    column_groups = {
+        "Certitude cas 4": age_cas_4_columns,
+        "Certitude cas 5": age_cas_5_columns,
+    }
 
     data = pd.DataFrame(
         data, columns=age_cas_4_columns + age_cas_5_columns + ["player.coupable"]
     )
     data = data.dropna()
 
-    column_groups = {
-        "Certitude cas 4": age_cas_4_columns,
-        "Certitude cas 5": age_cas_5_columns,
-    }
     trace_coupable_yes = create_trace(
         data,
         column_groups,
@@ -245,7 +246,7 @@ def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
         yaxis_range=compute_bounds(trace_coupable_yes.y + trace_coupable_no.y)
     )
     fig.update_layout(
-        title_text="Certitude liée à l’âge attribué pour les cas 4 et 5",
+        title_text=fig_title,
     )
     return Graphique(fig)
 
@@ -253,6 +254,7 @@ def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
 def create_graphique_âge_attribué_en_fonction_sources_info(
     data: pd.DataFrame,
 ) -> Graphique:
+    fig_title = "Âge donné pour l’ensemble des cas en fonction des différentes sources d’information"
     x = []
     y = []
 
@@ -311,7 +313,7 @@ def create_graphique_âge_attribué_en_fonction_sources_info(
     fig.add_trace(trace)
     fig.update_layout(yaxis_range=compute_bounds(y))
     fig.update_layout(
-        title_text="Âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
+        title_text=fig_title,
     )
     return Graphique(fig)
 
@@ -319,6 +321,7 @@ def create_graphique_âge_attribué_en_fonction_sources_info(
 def create_graphique_certitude_âge_en_fonction_sources_info(
     data: pd.DataFrame,
 ) -> Graphique:
+    fig_title = "Certitude liée à l’âge donné pour l’ensemble des cas en fonction des différentes sources d’information"
     x = []
     y = []
 
@@ -377,7 +380,7 @@ def create_graphique_certitude_âge_en_fonction_sources_info(
     fig.add_trace(trace)
     fig.update_layout(yaxis_range=compute_bounds(y))
     fig.update_layout(
-        title_text="Certitude liée à l’âge donné pour l’ensemble des cas en fonction des différentes sources d’information",
+        title_text=fig_title,
     )
     return Graphique(fig)
 
