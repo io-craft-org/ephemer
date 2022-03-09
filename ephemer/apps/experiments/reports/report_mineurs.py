@@ -201,17 +201,17 @@ def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
 def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
 
     age_cas_4_columns = [
-        "player.age_cas4_Entretien",
-        "player.age_cas4_Photo",
-        "player.age_cas4_test_oss",
-        "player.age_cas4_Etat_civil",
+        "player.confidence_cas4_Entretien",
+        "player.confidence_cas4_Photo",
+        "player.confidence_cas4_test_oss",
+        "player.confidence_cas4_Etat_civil",
     ]
 
     age_cas_5_columns = [
-        "player.age_cas5_Entretien",
-        "player.age_cas5_Photo",
-        "player.age_cas5_test_oss",
-        "player.age_cas5_Etat_civil",
+        "player.confidence_cas5_Entretien",
+        "player.confidence_cas5_Photo",
+        "player.confidence_cas5_test_oss",
+        "player.confidence_cas5_Etat_civil",
     ]
 
     data = pd.DataFrame(
@@ -220,8 +220,8 @@ def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     data = data.dropna()
 
     column_groups = {
-        "Age cas 4": age_cas_4_columns,
-        "Age cas 5": age_cas_5_columns,
+        "Certitude cas 4": age_cas_4_columns,
+        "Certitude cas 5": age_cas_5_columns,
     }
     trace_coupable_yes = create_trace(
         data,
