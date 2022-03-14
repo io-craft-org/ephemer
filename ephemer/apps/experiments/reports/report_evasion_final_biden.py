@@ -66,7 +66,7 @@ def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
         trace = go.Scatter(
             x=round_numbers_axis,
             y=group_data["player.A_TX_IMPOT"],
-            marker={"color": color},
+            marker={"color": color, "line": {"color": "black", "width": 1}},
             line={"dash": "dash"},
             name="groupe " + group_name,
         )
