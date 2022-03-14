@@ -103,11 +103,24 @@ def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
     )
 
 
+def create_graphique_taux_redistribution_décidés(data: pd.DataFrame) -> Graphique:
+    return create_graphique_joueur_A(
+        data,
+        column_name="player.A_TX_REDISTRIB",
+        yaxis_title="taux de redistribution %",
+        yaxis_range=[0, 100],
+        fig_title="Taux de redistribution décidé par les joueurs A pour chaque round",
+    )
+
+
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
         csv_name=session.csv,
-        graph_funcs=[create_graphique_taux_imposition_décidés],
+        graph_funcs=[
+            create_graphique_taux_imposition_décidés,
+            create_graphique_taux_redistribution_décidés,
+        ],
     )
 
     return django_render(
