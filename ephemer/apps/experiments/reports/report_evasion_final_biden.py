@@ -113,6 +113,83 @@ def create_graphique_taux_redistribution_décidés(data: pd.DataFrame) -> Graphi
     )
 
 
+def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Graphique:
+    fig_title = "Proportion de joueurs B et C ayant fraudé pour chaque round"
+
+    nb_of_groups = data["player.NUMBER_OF_GROUPS"][0]
+    round_numbers_axis = list(range(1, max(data["subsession.round_number"]) + 1))
+    yaxis_range = [0, 100]
+
+    # Retire les joueurs A
+    data = data[data["player.ROLE"] != "A"]
+
+    # Sélectionne uniquement les colonnes nécessaires
+    data = data[
+        [
+            "player.ROLE",
+            "player.FRAUDE",
+            "player.GROUP_NAME_PARTICIPANT",
+            "subsession.round_number",
+            "group.NUMB_PLAYER_PER_GROUP",
+            "player.NUMBER_OF_GROUPS",
+            "player.B_CHOOSE_GROUPE",
+        ]
+    ]
+
+    # On s'assure que les lignes sont bien triées par round number
+    data = data.sort_values(by="subsession.round_number")
+
+    fig = go.Figure()
+
+    # On ajoute la barre verticale qui indique la phase 2 au round 6
+    margin = 5
+    y_min = yaxis_range[0] - margin
+    y_max = yaxis_range[1] + margin
+    vertical_bar = go.Scatter(
+        x=[3, 3], y=[y_min, y_max], line_color="black", mode="lines", showlegend=False
+    )
+    fig.add_trace(vertical_bar)
+
+    # Ajout de la proportion de fraude pour chaque groupe
+    proportions_fraude = []
+    for group_index in range(1, nb_of_groups + 1):
+        group_data = data[data["player.B_CHOOSE_GROUPE"] == group_index]
+        group_name = pick_value_if_unique(group_data["player.GROUP_NAME_PARTICIPANT"])
+        color = COLORS_MAP[group_name]
+        group_data = group_data.assign(
+            proportion_fraude=group_data["player.FRAUDE"]
+            * 100
+            / (group_data["group.NUMB_PLAYER_PER_GROUP"] - 1)
+        )
+        y = group_data.groupby(by="subsession.round_number").sum()["proportion_fraude"]
+        proportions_fraude.append(y)
+        trace = go.Scatter(
+            x=round_numbers_axis,
+            y=y,
+            marker={"color": color, "line": {"color": "black", "width": 1}},
+            line={"dash": "dash"},
+            name="% fraude groupe " + group_name,
+        )
+        fig.add_trace(trace)
+
+    # Avec les proportions de fraude dans chaque groupe ajout de la proportion générale
+    fig.add_trace(
+        go.Scatter(
+            x=round_numbers_axis,
+            y=[sum(t) / len(proportions_fraude) for t in zip(*proportions_fraude)],
+            line={"color": "black"},
+            mode="lines",
+            name="% fraude",
+        )
+    )
+
+    fig.update_layout(title_text=fig_title)
+    fig.update_yaxes(title_text="Fréquence de fraude %")
+    fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
+
+    return Graphique(figure=fig)
+
+
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
@@ -120,6 +197,7 @@ def render(request, session) -> HttpResponse:
         graph_funcs=[
             create_graphique_taux_imposition_décidés,
             create_graphique_taux_redistribution_décidés,
+            create_graphique_proportion_fraude_joueurs_B_et_C,
         ],
     )
 
