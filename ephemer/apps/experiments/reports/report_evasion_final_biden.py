@@ -35,16 +35,16 @@ def pick_value_if_unique(serie: pd.Series):
     return serie.iloc[0]
 
 
-def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
-    fig_title = "Taux d’imposition décidé par les joueurs A pour chaque round"
-
+def create_graphique_joueur_A(
+    data: pd.DataFrame, column_name, yaxis_title, yaxis_range, fig_title
+) -> Graphique:
     nb_of_groups = data["player.NUMBER_OF_GROUPS"][0]
     round_numbers_axis = list(range(1, max(data["subsession.round_number"]) + 1))
 
     data = data[data["player.ROLE"] == "A"]
     data = data[
         [
-            "player.A_TX_IMPOT",
+            column_name,
             "player.B_CHOOSE_GROUPE",
             "player.GROUP_NAME_PARTICIPANT",
             "subsession.round_number",
@@ -54,8 +54,11 @@ def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
 
     fig = go.Figure()
 
+    margin = 5
+    y_min = yaxis_range[0] - margin
+    y_max = yaxis_range[1] + margin
     vertical_bar = go.Scatter(
-        x=[3, 3], y=[-5, 55], line_color="black", mode="lines", showlegend=False
+        x=[3, 3], y=[y_min, y_max], line_color="black", mode="lines", showlegend=False
     )
     fig.add_trace(vertical_bar)
 
@@ -65,14 +68,14 @@ def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
         color = COLORS_MAP[group_name]
         trace = go.Scatter(
             x=round_numbers_axis,
-            y=group_data["player.A_TX_IMPOT"],
+            y=group_data[column_name],
             marker={"color": color, "line": {"color": "black", "width": 1}},
             line={"dash": "dash"},
             name="groupe " + group_name,
         )
         fig.add_trace(trace)
 
-    medians = data.groupby("subsession.round_number").median()["player.A_TX_IMPOT"]
+    medians = data.groupby("subsession.round_number").median()[column_name]
     fig.add_trace(
         go.Scatter(
             x=round_numbers_axis,
@@ -83,12 +86,21 @@ def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
         )
     )
 
-    margin = 5
     fig.update_layout(title_text=fig_title)
-    fig.update_yaxes(range=[0 - margin, 50 + margin], title_text="taux d'imposition %")
+    fig.update_yaxes(range=[y_min, y_max], title_text=yaxis_title)
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
     return Graphique(figure=fig)
+
+
+def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
+    return create_graphique_joueur_A(
+        data,
+        column_name="player.A_TX_IMPOT",
+        yaxis_title="taux d'imposition %",
+        yaxis_range=[0, 50],
+        fig_title="Taux d’imposition décidé par les joueurs A pour chaque round",
+    )
 
 
 def render(request, session) -> HttpResponse:
