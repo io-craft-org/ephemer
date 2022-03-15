@@ -50,7 +50,8 @@ def add_vertical_bar(figure, round_number, yaxis_range):
 
 
 def add_margin(yaxis_range):
-    margin = 5
+    margin_perc = 5
+    margin = abs(yaxis_range[1] - yaxis_range[0]) * (margin_perc / 100)
     return [yaxis_range[0] - margin, yaxis_range[1] + margin]
 
 
@@ -203,6 +204,64 @@ def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Gra
     return Graphique(figure=fig)
 
 
+def create_graphique_proportions_joueurs_B_par_groupe(data: pd.DataFrame) -> Graphique:
+    fig_title = "Proportion de joueurs B dans chaque groupe et pour chaque tour"
+
+    starting_with_round_number = 1
+    nb_of_groups = data["player.NUMBER_OF_GROUPS"][0]
+    nb_of_rounds = max(data["subsession.round_number"])
+    round_numbers_axis = list(range(starting_with_round_number, nb_of_rounds + 1))
+    yaxis_range = [0, 1]
+    global_number_of_B_players = len(data[data["player.ROLE"] == "B"]) // nb_of_rounds
+
+    data = data[
+        [
+            "subsession.round_number",
+            "player.B_CHOOSE_GROUPE",
+            "group.NUMB_B_PLAYER_PER_AFTER_CHOICE_B",
+            "player.GROUP_NAME_PARTICIPANT",
+        ]
+    ]
+
+    fig = go.Figure()
+
+    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
+
+    for group_index in range(1, nb_of_groups + 1):
+        group_data = data[data["player.B_CHOOSE_GROUPE"] == group_index]
+        group_name = pick_value_if_unique(group_data["player.GROUP_NAME_PARTICIPANT"])
+        color = COLORS_MAP[group_name]
+        y = []
+        for round_number in round_numbers_axis:
+            round_data = group_data[
+                group_data["subsession.round_number"] == round_number
+            ]
+            y.append(
+                pick_value_if_unique(
+                    round_data["group.NUMB_B_PLAYER_PER_AFTER_CHOICE_B"]
+                )
+                / global_number_of_B_players
+            )
+        fig.add_trace(
+            go.Scatter(
+                x=round_numbers_axis,
+                y=y,
+                marker={"color": color, "line": {"color": "black", "width": 1}},
+                line={"dash": "dash"},
+                name="proportion joueurs B groupe " + group_name,
+            )
+        )
+
+    fig.update_layout(title_text=fig_title)
+    fig.update_yaxes(
+        range=add_margin(yaxis_range),
+        title_text="proportion de joueurs B",
+    )
+    fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
+
+    return Graphique(figure=fig)
+
+
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
@@ -211,6 +270,7 @@ def render(request, session) -> HttpResponse:
             create_graphique_taux_imposition_décidés,
             create_graphique_taux_redistribution_décidés,
             create_graphique_proportion_fraude_joueurs_B_et_C,
+            create_graphique_proportions_joueurs_B_par_groupe,
         ],
     )
 
