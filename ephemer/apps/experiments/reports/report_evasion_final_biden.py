@@ -60,7 +60,10 @@ def create_graphique_joueur_A(
     nb_of_groups = data["player.NUMBER_OF_GROUPS"][0]
     round_numbers_axis = list(range(1, max(data["subsession.round_number"]) + 1))
 
+    # Sélectionne les joueurs A uniquement
     data = data[data["player.ROLE"] == "A"]
+
+    # Sélectionne les colonnes nécessaires
     data = data[
         [
             column_name,
@@ -69,12 +72,15 @@ def create_graphique_joueur_A(
             "subsession.round_number",
         ]
     ]
+
+    # On s'assure que les lignes sont bien triées par round number
     data = data.sort_values(by="subsession.round_number")
 
     fig = go.Figure()
 
     add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
 
+    # Ajout des valeurs de la colonne choisie pour chaque groupe
     for group_index in range(1, nb_of_groups + 1):
         group_data = data[data["player.B_CHOOSE_GROUPE"] == group_index]
         group_name = pick_value_if_unique(group_data["player.GROUP_NAME_PARTICIPANT"])
@@ -88,6 +94,7 @@ def create_graphique_joueur_A(
         )
         fig.add_trace(trace)
 
+    # Ajout de la médiane des valeurs de la colonne choisie
     medians = data.groupby("subsession.round_number").median()[column_name]
     fig.add_trace(
         go.Scatter(
