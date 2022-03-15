@@ -35,6 +35,25 @@ def pick_value_if_unique(serie: pd.Series):
     return serie.iloc[0]
 
 
+def add_vertical_bar(figure, round_number, yaxis_range):
+    margin = 5
+    y_min = yaxis_range[0] - margin
+    y_max = yaxis_range[1] + margin
+    vertical_bar = go.Scatter(
+        x=[round_number, round_number],
+        y=[y_min, y_max],
+        line_color="black",
+        mode="lines",
+        showlegend=False,
+    )
+    figure.add_trace(vertical_bar)
+
+
+def add_margin(yaxis_range):
+    margin = 5
+    return [yaxis_range[0] - margin, yaxis_range[1] + margin]
+
+
 def create_graphique_joueur_A(
     data: pd.DataFrame, column_name, yaxis_title, yaxis_range, fig_title
 ) -> Graphique:
@@ -54,13 +73,7 @@ def create_graphique_joueur_A(
 
     fig = go.Figure()
 
-    margin = 5
-    y_min = yaxis_range[0] - margin
-    y_max = yaxis_range[1] + margin
-    vertical_bar = go.Scatter(
-        x=[3, 3], y=[y_min, y_max], line_color="black", mode="lines", showlegend=False
-    )
-    fig.add_trace(vertical_bar)
+    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
 
     for group_index in range(1, nb_of_groups + 1):
         group_data = data[data["player.B_CHOOSE_GROUPE"] == group_index]
@@ -87,7 +100,7 @@ def create_graphique_joueur_A(
     )
 
     fig.update_layout(title_text=fig_title)
-    fig.update_yaxes(range=[y_min, y_max], title_text=yaxis_title)
+    fig.update_yaxes(range=add_margin(yaxis_range), title_text=yaxis_title)
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
     return Graphique(figure=fig)
@@ -141,14 +154,7 @@ def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Gra
 
     fig = go.Figure()
 
-    # On ajoute la barre verticale qui indique la phase 2 au round 6
-    margin = 5
-    y_min = yaxis_range[0] - margin
-    y_max = yaxis_range[1] + margin
-    vertical_bar = go.Scatter(
-        x=[3, 3], y=[y_min, y_max], line_color="black", mode="lines", showlegend=False
-    )
-    fig.add_trace(vertical_bar)
+    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
 
     # Ajout de la proportion de fraude pour chaque groupe
     proportions_fraude = []
@@ -184,7 +190,7 @@ def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Gra
     )
 
     fig.update_layout(title_text=fig_title)
-    fig.update_yaxes(title_text="Fréquence de fraude %")
+    fig.update_yaxes(range=add_margin(yaxis_range), title_text="Fréquence de fraude %")
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
     return Graphique(figure=fig)
