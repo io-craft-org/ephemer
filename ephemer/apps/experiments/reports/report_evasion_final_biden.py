@@ -79,7 +79,7 @@ def create_graphique_joueur_A(
 
     fig = go.Figure()
 
-    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
+    add_vertical_bar(fig, round_number=6, yaxis_range=add_margin(yaxis_range))
 
     # Ajout des valeurs de la colonne choisie pour chaque groupe
     for group_index in range(1, nb_of_groups + 1):
@@ -162,7 +162,7 @@ def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Gra
 
     fig = go.Figure()
 
-    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
+    add_vertical_bar(fig, round_number=6, yaxis_range=add_margin(yaxis_range))
 
     # Ajout de la proportion de fraude pour chaque groupe
     proportions_fraude = []
@@ -225,7 +225,7 @@ def create_graphique_proportions_joueurs_B_par_groupe(data: pd.DataFrame) -> Gra
 
     fig = go.Figure()
 
-    add_vertical_bar(fig, round_number=3, yaxis_range=add_margin(yaxis_range))
+    add_vertical_bar(fig, round_number=6, yaxis_range=add_margin(yaxis_range))
 
     for group_index in range(1, nb_of_groups + 1):
         group_data = data[data["player.B_CHOOSE_GROUPE"] == group_index]
