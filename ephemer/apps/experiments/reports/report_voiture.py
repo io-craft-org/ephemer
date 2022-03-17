@@ -61,22 +61,27 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
     )
 
     fig2 = go.Figure()
-    fig2.add_trace(
-        trace=go.Histogram(
-            histfunc="sum",
-            x=[columns[c] for c in manip_df.columns],
-            y=manip_df.loc["Decideur"].values,
-            name="Décideur",
+
+    if "Decideur" in manip_df.index:
+        fig2.add_trace(
+            trace=go.Histogram(
+                histfunc="sum",
+                x=[columns[c] for c in manip_df.columns],
+                y=manip_df.loc["Decideur"].values,
+                name="Décideur",
+            )
         )
-    )
-    fig2.add_trace(
-        trace=go.Histogram(
-            histfunc="sum",
-            x=[columns[c] for c in manip_df.columns],
-            y=manip_df.loc["Conducteur"].values,
-            name="Conducteur",
+
+    if "Conducteur" in manip_df.index:
+        fig2.add_trace(
+            trace=go.Histogram(
+                histfunc="sum",
+                x=[columns[c] for c in manip_df.columns],
+                y=manip_df.loc["Conducteur"].values,
+                name="Conducteur",
+            )
         )
-    )
+
     fig2.update_layout(
         barmode="group",
         title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants",
