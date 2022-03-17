@@ -248,6 +248,9 @@ def session_results(request, session_id: int):
     if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
+    if not session.experiment.report_script:
+        raise Http404
+
     otree = OTreeConnector(_get_otree_api_uri())
     try:
         response = otree.get_session_results_for_app_as_csv(
