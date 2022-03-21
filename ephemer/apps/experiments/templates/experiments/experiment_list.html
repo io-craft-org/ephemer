@@ -26,6 +26,10 @@
                 <strong>Durée</strong> : {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
                 -
                 <strong>Nombre minimum de participants</strong> : {{ experiment.participant_count }}
+                {% if experiment.maximum_participant_count %}
+                -
+                <strong>Nombre maximum de participants</strong> : {{ experiment.maximum_participant_count }}
+                {% endif %}
                 {% if experiment.participants_per_group %}
                 -
                 <strong>Taille des groupes</strong> : {{ experiment.participants_per_group }}

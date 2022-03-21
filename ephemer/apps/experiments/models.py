@@ -40,8 +40,7 @@ class Experiment(models.Model):
     )
 
     maximum_participant_count = models.PositiveIntegerField(
-        verbose_name="Nombre maximum de participants",
-        default=DEFAULT_MAXIMUM_PARTICIPANT_COUNT,
+        verbose_name="Nombre maximum de participants", null=True
     )
 
     otree_app_name = models.CharField(

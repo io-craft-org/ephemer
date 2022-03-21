@@ -41,6 +41,15 @@ class SessionCreateForm(forms.ModelForm):
                 {"min_value": 1, "label": "Nombre de participants"}
             )
 
+        if experiment.maximum_participant_count:
+            max_value = experiment.maximum_participant_count
+        else:
+            max_value = experiment.DEFAULT_MAXIMUM_PARTICIPANT_COUNT
+        integer_field_kwargs["max_value"] = max_value
+        error_messages[
+            "max_value"
+        ] = f"Le nombre de participants doit être inférieur ou égal à {max_value}."
+
         integer_field_kwargs["widget"] = forms.NumberInput(attrs=number_input_attrs)
         integer_field_kwargs["error_messages"] = error_messages
         self.fields["participant_count"] = forms.IntegerField(**integer_field_kwargs)
