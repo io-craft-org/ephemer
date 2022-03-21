@@ -20,6 +20,8 @@ class Experiment(models.Model):
     configuration.
     """
 
+    DEFAULT_MAXIMUM_PARTICIPANT_COUNT = 1000
+
     objects = ExperimentManager()
 
     title = models.CharField(
@@ -35,6 +37,11 @@ class Experiment(models.Model):
     )
     participants_per_group = models.PositiveIntegerField(
         verbose_name="Nombre de participants par groupe", blank=True, null=True
+    )
+
+    maximum_participant_count = models.PositiveIntegerField(
+        verbose_name="Nombre maximum de participants",
+        default=DEFAULT_MAXIMUM_PARTICIPANT_COUNT,
     )
 
     otree_app_name = models.CharField(

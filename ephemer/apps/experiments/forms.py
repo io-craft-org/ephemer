@@ -17,24 +17,33 @@ class SessionCreateForm(forms.ModelForm):
 
     def __init__(self, *args, experiment: models.Experiment, **kwargs):
         super().__init__(*args, **kwargs)
+        self._configure_participant_count(experiment)
+
+    def _configure_participant_count(self, experiment):
+        number_input_attrs = {}
+        integer_field_kwargs = {}
+        error_messages = {}
+
         if experiment.participants_per_group:
-            number_input = forms.NumberInput(
-                attrs={"step": experiment.participants_per_group}
-            )
-            self.fields["participant_count"] = forms.IntegerField(
-                widget=number_input,
-                min_value=experiment.participants_per_group,
-                error_messages={
-                    "min_value": "Le nombre de participants doit être au minimum de la taille d'un groupe."
-                },
-                label="Nombre de participants",
+            number_input_attrs["step"] = experiment.participants_per_group
+            error_messages[
+                "min_value"
+            ] = "Le nombre de participants doit être au minimum de la taille d'un groupe."
+            integer_field_kwargs.update(
+                {
+                    "min_value": experiment.participants_per_group,
+                    "label": "Nombre de participants",
+                }
             )
         else:
-            self.fields["participant_count"] = forms.IntegerField(
-                min_value=1,
-                error_messages={"min_value": "Il doit y avoir au moins un participant"},
-                label="Nombre de participants",
+            error_messages["min_value"] = "Il doit y avoir au moins un participant"
+            integer_field_kwargs.update(
+                {"min_value": 1, "label": "Nombre de participants"}
             )
+
+        integer_field_kwargs["widget"] = forms.NumberInput(attrs=number_input_attrs)
+        integer_field_kwargs["error_messages"] = error_messages
+        self.fields["participant_count"] = forms.IntegerField(**integer_field_kwargs)
 
     def clean_participant_count(self):
         widget = self.fields["participant_count"].widget
