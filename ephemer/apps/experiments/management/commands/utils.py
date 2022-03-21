@@ -31,6 +31,5 @@ def load_data_from(command, filename):
 
 def is_there_data_already():
     from ephemer.apps.experiments.models import Experiment
-    from django.contrib.auth.models import User
 
-    return Experiment.objects.exists() or User.objects.exists()
+    return Experiment.objects.exists()
