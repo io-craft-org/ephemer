@@ -42,7 +42,7 @@
       "participant_count": 42,
       "experiment": 6,
       "otree_handler": "nexistepas",
-      "pin_code": "59757",
+      "pin_code": "98790",
       "join_in_code": "nemarchepas",
       "csv": "results_com_serielle.csv"
     }
@@ -100,9 +100,9 @@
       "created_on": "2021-11-19T09:35:54.888Z",
       "name": "Session test pour fiscalité appliquée",
       "participant_count": 20,
-      "experiment": 6,
+      "experiment": 7,
       "otree_handler": "nexistepas",
-      "pin_code": "32900",
+      "pin_code": "41562",
       "join_in_code": "nemarchepas",
       "csv": "results_evasion_final_biden.csv"
     }
