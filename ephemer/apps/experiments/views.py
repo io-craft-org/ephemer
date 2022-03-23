@@ -4,7 +4,6 @@ from typing import Tuple
 from urllib.parse import urljoin
 
 import markdown as md
-import pandas as pd
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator

@@ -21,7 +21,6 @@ from django.contrib.auth import views as auth_views
 from django.urls import include, path
 from magicauth.urls import urlpatterns as magicauth_urls
 
-from ephemer.apps.experiments import views as experiments_views
 from ephemer.apps.experiments.urls import urlpatterns as experiments_urls
 from ephemer.apps.home import views as home_views
 

@@ -7,20 +7,13 @@ authors : raphael.marvie@beta.gouv.fr, guillaume.libersat@beta.gouv.fr
 created : 2021-06-01 09:54:36 CEST
 """
 
-import os
 from distutils.core import run_setup
 
-import pytest
 from fabric import task
 
 import ephemer
 
 PACKAGE = f"ephemer-{ephemer.VERSION}.tar.gz"
-
-# TODO make target folder being
-# - prod if branch == main,
-# - develop if branch == develop, and
-# - error otherwise.
 
 
 @task

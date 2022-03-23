@@ -1,7 +1,6 @@
-import json
 import re
 import tempfile
-from unittest.mock import Mock, patch
+from unittest.mock import Mock
 
 import pytest
 from django.contrib.auth.models import User
@@ -9,12 +8,10 @@ from django.urls import reverse
 from ephemer.utils import login
 from model_bakery.recipe import Recipe
 from pytest_django.asserts import assertContains, assertNotContains
-from pytest_mock import mocker
 
 from . import models
 from .otree import exceptions as otree_exceptions
 from .otree import models as otree_models
-from .otree.connector import OTreeConnector
 
 
 ######
