@@ -14,29 +14,29 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
     ]
 
     columns = {
-        "player.pop1_nb1": "2_HOMMES",
-        "player.pop1_nb2": "3_HOMMES",
-        "player.pop1_nb3": "4_HOMMES",
-        "player.pop2_nb1": "2_FEMMES",
-        "player.pop2_nb2": "3_FEMMES",
-        "player.pop2_nb3": "4_FEMMES",
-        "player.pop3_nb1": "2_ENFANTS",
-        "player.pop3_nb2": "3_ENFANTS",
-        "player.pop3_nb3": "4_ENFANTS",
-        "player.pop4_nb1": "2_AGES",
-        "player.pop4_nb2": "3_AGES",
-        "player.pop4_nb3": "4_AGES",
-        "player.pop5_nb1": "2_ENCEINTES",
-        "player.pop5_nb2": "3_ENCEINTES",
-        "player.pop5_nb3": "4_ENCEINTES",
-        "player.pop6_nb1": "2_VOLEURS",
-        "player.pop6_nb2": "3_VOLEURS",
-        "player.pop6_nb3": "4_VOLEURS",
-        "player.pop7_nb1": "2_CADRES",
-        "player.pop7_nb2": "3_CADRES",
-        "player.pop7_nb3": "4_CADRES",
-        "player.pop8_leg1": "FEU_ROUGE",
-        "player.pop8_leg2": "FEU_VERT",
+        "player.pop1_nb1": "2 hommes",
+        "player.pop1_nb2": "3 hommes",
+        "player.pop1_nb3": "4 hommes",
+        "player.pop2_nb1": "2 femmes",
+        "player.pop2_nb2": "3 femmes",
+        "player.pop2_nb3": "4 femmes",
+        "player.pop3_nb1": "2 enfants",
+        "player.pop3_nb2": "3 enfants",
+        "player.pop3_nb3": "4 enfants",
+        "player.pop4_nb1": "2 pers. âgées",
+        "player.pop4_nb2": "3 pers. âgées",
+        "player.pop4_nb3": "4 pers. âgées",
+        "player.pop5_nb1": "2 femmes enceintes",
+        "player.pop5_nb2": "3 femmes enceintes",
+        "player.pop5_nb3": "4 femmes enceintes",
+        "player.pop6_nb1": "2 voleurs",
+        "player.pop6_nb2": "3 voleurs",
+        "player.pop6_nb3": "4 voleurs",
+        "player.pop7_nb1": "2 cadres",
+        "player.pop7_nb2": "3 cadres",
+        "player.pop7_nb3": "4 cadres",
+        "player.pop8_leg1": "feu rouge",
+        "player.pop8_leg2": "feu vert",
     }
     selected_columns = list(columns.keys())
     selected_columns.append("player.treatment")
@@ -58,10 +58,7 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
             y=manip_df.sum(axis="index"),
         )
     )
-    fig.update_layout(
-        barmode="group",
-        title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées",
-    )
+    fig.update_xaxes(tickangle=45)
 
     fig2_title = "Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants"
     fig2 = go.Figure()
@@ -86,10 +83,7 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
             )
         )
 
-    fig2.update_layout(
-        barmode="group",
-        title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants",
-    )
+    fig2.update_xaxes(tickangle=45)
 
     return [
         Graphique(

@@ -3,8 +3,14 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="col-11 mx-auto">
-    <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{session.experiment.title }})</h3>
+    <style>
+        .graph {
+            margin-bottom: 4em;
+        }
+    </style>
+
+    <div class="col-11 mx-auto">
+        <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{ session.experiment.title }})</h3>
 
         <div class="row">
             <div class="col-12 py-5" style="width: 100%; max-width: 1200px;">

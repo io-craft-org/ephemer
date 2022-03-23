@@ -7,7 +7,12 @@ from typing import Optional
 import pandas as pd
 from plotly import graph_objs as go
 
-BASE_LAYOUT = {"font_size": 20, "barmode": "group", "bargap": 0.6}
+BASE_LAYOUT = {
+    "font_size": 20,
+    "barmode": "group",
+    "bargap": 0.6,
+    "margin": dict(t=50, b=50),
+}
 
 
 @dataclass

@@ -13,10 +13,10 @@ def create_graphique_scores_moyens_endogroupe_exogroupe(
     fig_title = "Scores moyens d’identification et d’appréciation concernant l’endogroupe et l’exogroupe"
 
     x_labels = (
-        "Appréciation de l'endogroupe",
-        "Identification à l'endogroupe",
-        "Appréciation de l'exogroupe",
-        "Identification à l'exogroupe",
+        "Appréciation de<br>l'endogroupe",
+        "Identification à<br>l'endogroupe",
+        "Appréciation de<br>l'exogroupe",
+        "Identification à<br>l'exogroupe",
     )
 
     columns = (
@@ -34,7 +34,7 @@ def create_graphique_scores_moyens_endogroupe_exogroupe(
     fig = go.Figure()
     fig.add_trace(trace)
 
-    fig.update_layout(title_text=fig_title)
+    fig.update_xaxes(tickangle=45)
     fig.update_yaxes(range=[1, 50])
 
     return Graphique(fig, title=fig_title)
