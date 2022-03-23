@@ -1,6 +1,6 @@
 from django.core.management.base import BaseCommand
 
-from .utils import (
+from ._utils import (
     copy_directory_content_to_media_root,
     load_data_from,
     is_there_data_already,
