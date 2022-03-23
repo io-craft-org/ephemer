@@ -157,27 +157,6 @@
         <a class="btn btn-danger m-4" href="{% url 'experiments-session-delete' session.pk %}">Supprimer cette session</a>
     </div>
 
-
-    {% if user.is_staff %}
-    <div class="bg-light mx-2 p-4">
-        DEBUG OTREE
-        <ul>
-            <li># de partcipants : {{ otree_session.num_participants }}</li>
-            <li>Lien de participation : {{ otree_session.participant_link }}</li>
-            <li>Participants:
-                <ul>
-                    {% for participant in otree_session.participants %}
-                    <li>
-                        #{{ participant.id_in_session }} / Code: {{ participant.access_code }}
-                    </li>
-                    {% endfor %}
-                </ul>
-            </li>
-        </ul>
-    </div>
-    {% endif %}
-
-
     {% else %}
     <div class="mx-auto text-center py-4">
         {% bs_icon 'hourglass-split' size='5vw'  %}
