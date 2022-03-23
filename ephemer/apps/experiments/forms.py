@@ -65,13 +65,6 @@ class SessionCreateForm(forms.ModelForm):
         return value
 
 
-class SessionJoinForm(forms.Form):
-    code = forms.CharField(max_length=5)
-
-    class Meta:
-        fields = ["name"]
-
-
 class ParticipantJoinSessionForm(forms.Form):
     pin_code = forms.CharField(
         min_length=models.PIN_CODE_LENGTH,

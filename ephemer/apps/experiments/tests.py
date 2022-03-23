@@ -375,13 +375,6 @@ def test_staff_can_delete_session(client):
 
 
 @pytest.mark.django_db
-def test_session_is_joinable_by_anyone(client):
-    session = Recipe(models.Session).make()
-    response = client.get(reverse("experiments-session-join", args=(session.pk,)))
-    assert response.status_code == 200
-
-
-@pytest.mark.django_db
 def test_guest_can_join_session(client):
     pin_code = "12345"
     join_in_code = "abcdef"

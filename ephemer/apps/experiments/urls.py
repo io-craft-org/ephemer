@@ -47,11 +47,6 @@ urlpatterns = [
         name="experiments-session-results-csv",
     ),
     path(
-        r"sessions/<int:session_id>/join",
-        views.session_join,
-        name="experiments-session-join",
-    ),
-    path(
         r"sessions/service-unavailable",
         views.service_unavailable,
         name="experiments-service-unavailable",
