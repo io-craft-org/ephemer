@@ -20,14 +20,13 @@ def _create_graphique_choix_rémunération(serie, choices, title, legend=""):
     fig = go.Figure()
     fig.add_trace(trace=go.Bar(x=choices, y=[counter[c] for c in choices]))
     fig.update_layout(
-        title_text=title,
         xaxis=dict(
             tickmode="array",
             tickvals=[val for val in choices],
             ticktext=[create_label(val) for val in choices],
         ),
     )
-    return Graphique(fig, legend)
+    return Graphique(fig, title=title, legend=legend)
 
 
 def create_graphique_choix_rémunération_matrice_1(data: pd.DataFrame) -> Graphique:
@@ -122,10 +121,9 @@ def create_graphique_identification(data: pd.DataFrame) -> Graphique:
     fig.add_trace(trace1)
     fig.add_trace(trace2)
 
-    fig.update_layout(title_text=fig_title)
     fig.update_yaxes(range=[1, 50])
 
-    return Graphique(fig)
+    return Graphique(fig, title=fig_title)
 
 
 def create_graphique_appréciation(data: pd.DataFrame) -> Graphique:
@@ -160,10 +158,9 @@ def create_graphique_appréciation(data: pd.DataFrame) -> Graphique:
     fig.add_trace(trace1)
     fig.add_trace(trace2)
 
-    fig.update_layout(title_text=fig_title)
     fig.update_yaxes(range=[1, 50])
 
-    return Graphique(fig)
+    return Graphique(fig, title=fig_title)
 
 
 def create_graphique_scores_moyens_généraux(data: pd.DataFrame) -> Graphique:
@@ -224,10 +221,9 @@ def create_graphique_scores_moyens_généraux(data: pd.DataFrame) -> Graphique:
         fig.add_trace(trace)
         all_y_values.extend(y)
 
-    fig.update_layout(title_text=fig_title)
     fig.update_layout(yaxis_range=compute_bounds(all_y_values))
 
-    return Graphique(fig)
+    return Graphique(fig, title=fig_title)
 
 
 def render(request, session) -> HttpResponse:

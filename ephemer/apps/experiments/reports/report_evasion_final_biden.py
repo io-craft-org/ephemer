@@ -107,11 +107,10 @@ def create_graphique_joueur_A(
         )
     )
 
-    fig.update_layout(title_text=fig_title)
     fig.update_yaxes(range=add_margin(yaxis_range), title_text=yaxis_title)
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
-    return Graphique(figure=fig)
+    return Graphique(figure=fig, title=fig_title)
 
 
 def create_graphique_taux_imposition_décidés(data: pd.DataFrame) -> Graphique:
@@ -197,11 +196,10 @@ def create_graphique_proportion_fraude_joueurs_B_et_C(data: pd.DataFrame) -> Gra
         )
     )
 
-    fig.update_layout(title_text=fig_title)
     fig.update_yaxes(range=add_margin(yaxis_range), title_text="Fréquence de fraude %")
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
-    return Graphique(figure=fig)
+    return Graphique(figure=fig, title=fig_title)
 
 
 def create_graphique_proportions_joueurs_B_par_groupe(data: pd.DataFrame) -> Graphique:
@@ -252,14 +250,13 @@ def create_graphique_proportions_joueurs_B_par_groupe(data: pd.DataFrame) -> Gra
             )
         )
 
-    fig.update_layout(title_text=fig_title)
     fig.update_yaxes(
         range=add_margin(yaxis_range),
         title_text="proportion de joueurs B",
     )
     fig.update_xaxes(tick0=1, dtick=1, title_text="rounds")
 
-    return Graphique(figure=fig)
+    return Graphique(figure=fig, title=fig_title)
 
 
 def render(request, session) -> HttpResponse:

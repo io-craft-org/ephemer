@@ -73,9 +73,8 @@ def create_graphique_âge_attribué_cas_1_à_3(data: pd.DataFrame) -> Graphique:
             ticktext=["connaissance des conséquences", "ignorance des conséquences"],
         ),
     )
-    fig.update_layout(title_text=fig_title)
 
-    return Graphique(fig)
+    return Graphique(fig, title=fig_title)
 
 
 def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphique:
@@ -132,10 +131,8 @@ def create_graphique_certitude_sur_âge_cas_1_à_3(data: pd.DataFrame) -> Graphi
             ticktext=["connaissance des conséquences", "ignorance des conséquences"],
         )
     )
-    fig.update_layout(
-        title_text=fig_title,
-    )
-    return Graphique(fig)
+
+    return Graphique(fig, title=fig_title)
 
 
 def create_trace(data, column_groups, filter_name, filter_value, trace_name):
@@ -196,8 +193,8 @@ def create_graphique_âge_attribué_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     )
 
     fig.update_layout(yaxis_range=[y_lower_bound, y_upper_bound])
-    fig.update_layout(title_text=fig_title)
-    return Graphique(fig)
+
+    return Graphique(fig, title=fig_title)
 
 
 def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
@@ -245,10 +242,8 @@ def create_certitude_âge_cas_4_à_5(data: pd.DataFrame) -> Graphique:
     fig.update_layout(
         yaxis_range=compute_bounds(trace_coupable_yes.y + trace_coupable_no.y)
     )
-    fig.update_layout(
-        title_text=fig_title,
-    )
-    return Graphique(fig)
+
+    return Graphique(fig, title=fig_title)
 
 
 def create_graphique_âge_attribué_en_fonction_sources_info(
@@ -312,10 +307,8 @@ def create_graphique_âge_attribué_en_fonction_sources_info(
     fig = go.Figure()
     fig.add_trace(trace)
     fig.update_layout(yaxis_range=compute_bounds(y))
-    fig.update_layout(
-        title_text=fig_title,
-    )
-    return Graphique(fig)
+
+    return Graphique(fig, title=fig_title)
 
 
 def create_graphique_certitude_âge_en_fonction_sources_info(
@@ -379,10 +372,8 @@ def create_graphique_certitude_âge_en_fonction_sources_info(
     fig = go.Figure()
     fig.add_trace(trace)
     fig.update_layout(yaxis_range=compute_bounds(y))
-    fig.update_layout(
-        title_text=fig_title,
-    )
-    return Graphique(fig)
+
+    return Graphique(fig, title=fig_title)
 
 
 def render(request, session) -> HttpResponse:

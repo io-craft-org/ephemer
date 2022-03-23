@@ -47,6 +47,9 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
 
     manip_df = manip_df.groupby("player.treatment").sum()
 
+    fig_title = (
+        "Nombre de choix de sacrifier les piétons en fonction des situations présentées"
+    )
     fig = go.Figure()
     fig.add_trace(
         trace=go.Histogram(
@@ -60,6 +63,7 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
         title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées",
     )
 
+    fig2_title = "Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants"
     fig2 = go.Figure()
 
     if "Decideur" in manip_df.index:
@@ -87,7 +91,16 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
         title_text="Nombre de choix de sacrifier les piétons en fonction des situations présentées selon le rôle joué par les participants",
     )
 
-    return [Graphique(fig), Graphique(fig2)]
+    return [
+        Graphique(
+            fig,
+            title=fig_title,
+        ),
+        Graphique(
+            fig2,
+            title=fig2_title,
+        ),
+    ]
 
 
 def render(request, session) -> HttpResponse:

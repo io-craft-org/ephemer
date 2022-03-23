@@ -13,6 +13,7 @@ BASE_LAYOUT = {"font_size": 20, "barmode": "group", "bargap": 0.6}
 @dataclass
 class Graphique:
     figure: go.Figure
+    title: str
     legend: Optional[str] = None
 
 
@@ -62,6 +63,7 @@ def render_graphs(csv_name, graph_funcs):
                         graph.figure.to_image(format="png", width=1200)
                     ).decode("utf-8"),
                     "legend": graph.legend,
+                    "title": graph.title,
                 }
             )
     return graphs

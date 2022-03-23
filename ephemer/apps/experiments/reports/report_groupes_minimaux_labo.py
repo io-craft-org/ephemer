@@ -37,7 +37,7 @@ def create_graphique_scores_moyens_endogroupe_exogroupe(
     fig.update_layout(title_text=fig_title)
     fig.update_yaxes(range=[1, 50])
 
-    return Graphique(fig)
+    return Graphique(fig, title=fig_title)
 
 
 def _create_graphique_choix_rémunération(serie, choices, title, legend=""):
@@ -49,14 +49,13 @@ def _create_graphique_choix_rémunération(serie, choices, title, legend=""):
     fig = go.Figure()
     fig.add_trace(trace=go.Bar(x=choices, y=[counter[c] for c in choices]))
     fig.update_layout(
-        title_text=title,
         xaxis=dict(
             tickmode="array",
             tickvals=[val for val in choices],
             ticktext=[create_label(val) for val in choices],
         ),
     )
-    return Graphique(fig, legend)
+    return Graphique(fig, title=title, legend=legend)
 
 
 def create_graphique_choix_rémunération_matrice_1(data: pd.DataFrame) -> Graphique:
