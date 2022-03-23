@@ -6,13 +6,13 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0018_reportdatamanipulation_data_name'),
+        ("experiments", "0018_reportdatamanipulation_data_name"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='reportdatamanipulation',
-            name='func',
-            field=models.CharField(choices=[('mean', 'Moyenne')], max_length=255),
+            model_name="reportdatamanipulation",
+            name="func",
+            field=models.CharField(choices=[("mean", "Moyenne")], max_length=255),
         ),
     ]

@@ -3,8 +3,10 @@ import pytest
 from django.conf import settings
 from django.test import override_settings
 from django.urls import reverse
-from ephemer.utils import login
 from pytest_django.asserts import assertRedirects
+
+from ephemer.utils import login
+
 
 ####
 # sending message to team

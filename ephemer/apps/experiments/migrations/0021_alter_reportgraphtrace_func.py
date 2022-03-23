@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0020_session_participant_count'),
+        ("experiments", "0020_session_participant_count"),
     ]
 
     operations = [
         migrations.AlterField(
-            model_name='reportgraphtrace',
-            name='func',
-            field=models.CharField(blank=True, choices=[('avg', 'Moyenne')], max_length=255, null=True),
+            model_name="reportgraphtrace",
+            name="func",
+            field=models.CharField(
+                blank=True, choices=[("avg", "Moyenne")], max_length=255, null=True
+            ),
         ),
     ]

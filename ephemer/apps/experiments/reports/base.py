@@ -1,5 +1,5 @@
-from dataclasses import dataclass
 import base64
+from dataclasses import dataclass
 from math import ceil
 from numbers import Number
 from typing import Optional

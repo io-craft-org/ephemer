@@ -1,5 +1,5 @@
-from collections import defaultdict
 import csv
+from collections import defaultdict
 
 from django.http import HttpResponse
 from django.shortcuts import render as dj_render

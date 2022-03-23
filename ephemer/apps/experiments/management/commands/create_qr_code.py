@@ -1,10 +1,10 @@
 import os
 from urllib.parse import urljoin
 
-from django.conf import settings
-from django.urls import reverse
-from django.core.management.base import BaseCommand
 import qrcode
+from django.conf import settings
+from django.core.management.base import BaseCommand
+from django.urls import reverse
 
 from ephemer.apps import experiments
 

@@ -6,13 +6,15 @@ from django.db import migrations, models
 class Migration(migrations.Migration):
 
     dependencies = [
-        ('experiments', '0024_alter_session_pin_code'),
+        ("experiments", "0024_alter_session_pin_code"),
     ]
 
     operations = [
         migrations.AddField(
-            model_name='experiment',
-            name='participants_per_group',
-            field=models.PositiveIntegerField(blank=True, null=True, verbose_name='Nombre de participants par groupe'),
+            model_name="experiment",
+            name="participants_per_group",
+            field=models.PositiveIntegerField(
+                blank=True, null=True, verbose_name="Nombre de participants par groupe"
+            ),
         ),
     ]

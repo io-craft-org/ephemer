@@ -1,10 +1,11 @@
-from django.http import HttpResponse
-from django.shortcuts import render as django_render
-import pandas as pd
-from plotly import graph_objs as go
 from typing import List
 
-from .base import render_graphs, Graphique
+import pandas as pd
+from django.http import HttpResponse
+from django.shortcuts import render as django_render
+from plotly import graph_objs as go
+
+from .base import Graphique, render_graphs
 
 
 def create_graphiques(data: pd.DataFrame) -> List[Graphique]:

@@ -5,10 +5,10 @@ from unittest.mock import Mock
 import pytest
 from django.contrib.auth.models import User
 from django.urls import reverse
-from ephemer.utils import login
 from model_bakery.recipe import Recipe
 from pytest_django.asserts import assertContains, assertNotContains
 
+from ephemer.utils import login
 from . import models
 from .otree import exceptions as otree_exceptions
 from .otree import models as otree_models

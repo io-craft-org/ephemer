@@ -1,9 +1,9 @@
+import pandas as pd
 from django.http import HttpResponse
 from django.shortcuts import render as django_render
-import pandas as pd
 from plotly import graph_objs as go
 
-from .base import compute_bounds, render_graphs, Graphique
+from .base import Graphique, compute_bounds, render_graphs
 
 
 def mean_of_selected_columns(data, columns):

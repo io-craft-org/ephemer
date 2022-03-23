@@ -4,10 +4,10 @@ from django.contrib import messages
 from django.shortcuts import redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import FormView, TemplateView
-from ephemer.apps.home.forms import RegisterForm
 from magicauth.next_url import NextUrlMixin
 from magicauth.send_token import SendTokenMixin
 
+from ephemer.apps.home.forms import RegisterForm
 from .forms import ContactForm
 
 

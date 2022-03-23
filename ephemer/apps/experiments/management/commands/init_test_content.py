@@ -3,12 +3,7 @@ import logging
 from django.core.management.base import BaseCommand
 from django.db.utils import IntegrityError
 
-
-from ._utils import (
-    copy_directory_content_to_media_root,
-    load_data_from,
-)
-
+from ._utils import copy_directory_content_to_media_root, load_data_from
 
 LOGGER = logging.getLogger(__name__)
 

@@ -1,12 +1,12 @@
-from collections import Counter
 import re
+from collections import Counter
 
+import pandas as pd
 from django.http import HttpResponse
 from django.shortcuts import render as django_render
-import pandas as pd
 from plotly import graph_objs as go
 
-from .base import compute_bounds, render_graphs, Graphique
+from .base import Graphique, compute_bounds, render_graphs
 
 label_pattern = re.compile("([0-9]+)_([0-9]+)")
 
