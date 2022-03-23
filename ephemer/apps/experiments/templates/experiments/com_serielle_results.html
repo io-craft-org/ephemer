@@ -10,7 +10,7 @@
         }
 
         .initial-message {
-            max-width: 26em;
+            max-width: 35em;
             text-align: justify;
             position: sticky;
             top: 10em;
@@ -28,7 +28,7 @@
 
         tbody td {
             padding: 1em 2em;
-            max-width: 26em;
+            max-width: 35em;
             text-align: justify;
         }
 
@@ -44,7 +44,7 @@
 
         <div class="row justify-content-center">
             <div class="col-6 initial-message-container">
-                <div class="initial-message">
+                <div class="initial-message mx-auto">
                     <h4>Message initial</h4>
                     <p>{{ initial_message }}</p>
                 </div>
@@ -65,7 +65,7 @@
                                      class="accordion-collapse collapse"
                                      aria-labelledby="heading{{ group.id }}" data-bs-parent="#groups-accordion">
                                     <div class="accordion-body">
-                                        <table>
+                                        <table class="mx-auto">
                                             <thead>
                                             <td>Nb relais</td>
                                             <td>Message relayé</td>
