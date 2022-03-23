@@ -49,14 +49,6 @@ def _get_otree_api_uri():
     return urljoin(settings.OTREE_HOST, settings.OTREE_API_PATH)
 
 
-def validate_participants_per_group(experiment, session_form):
-    participant_count = session_form.cleaned_data.get("participant_count")
-    return (
-        experiment.participants_per_group is None
-        or participant_count % experiment.participants_per_group == 0
-    )
-
-
 @login_required
 def session_create(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
@@ -259,18 +251,6 @@ def session_results(request, session_id: int):
         "ephemer.apps.experiments.reports." + session.experiment.report_script
     )
     return report_script.render(request, session)
-
-
-def session_join(request, session_id):
-    session = get_object_or_404(models.Session, pk=session_id)
-
-    form = forms.SessionJoinForm()
-
-    return render(
-        request,
-        template_name="experiments/session_join.html",
-        context={"session": session, "form": form},
-    )
 
 
 def participant_join_session(request):
