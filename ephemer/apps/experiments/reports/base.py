@@ -1,5 +1,4 @@
 from dataclasses import dataclass
-import base64
 from math import ceil
 from numbers import Number
 from typing import Optional
@@ -56,11 +55,13 @@ def render_graphs(csv_name, graph_funcs):
             result = [result]
         for graph in result:
             graph.figure.update_layout(**BASE_LAYOUT)
+            div_str = graph.figure.to_html(
+                include_plotlyjs=False,
+                full_html=False,
+            )
             graphs.append(
                 {
-                    "image": base64.b64encode(
-                        graph.figure.to_image(format="png", width=1200)
-                    ).decode("utf-8"),
+                    "graph_div": div_str,
                     "legend": graph.legend,
                 }
             )

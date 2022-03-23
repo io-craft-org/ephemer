@@ -3,18 +3,32 @@
 {% load bootstrap_icons %}
 
 {% block content %}
-<div class="col-11 mx-auto">
-    <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{session.experiment.title }})</h3>
 
-    <div class="row">
-        <div class="col-12 py-5" style="width: 100%; max-width: 1200px;">
-            {% for graph in graphs %}
-            <img class="graph" src="data:image/png;charset=utf-8;base64,{{ graph.image }}">
-                {% if graph.legend %}
-                    <p>{{ graph.legend }}</p>
-                {% endif %}
-            {% endfor %}
+    <script type="text/javascript" src="/static/js/plotly.min.js"></script>
+
+    <style>
+        .graph {
+            border: solid 2px lightgrey;
+            border-radius: 12px;
+            margin: 2em 0;
+            padding: 1em;
+        }
+    </style>
+
+    <div class="col-11 mx-auto">
+        <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{ session.experiment.title }})</h3>
+
+        <div class="row">
+            <div class="col-12 py-5" style="width: 100%; max-width: 1200px;">
+                {% for graph in graphs %}
+                    <div class="graph">
+                        {{ graph.graph_div|safe }}
+                        {% if graph.legend %}
+                            <p>{{ graph.legend }}</p>
+                        {% endif %}
+                    </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
-</div>
 {% endblock %}
