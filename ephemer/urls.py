@@ -27,12 +27,6 @@ from ephemer.apps.home import views as home_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", home_views.Home.as_view(), name="home"),
-    path(
-        "register-or-login/",
-        home_views.RegisterOrLogin.as_view(),
-        name="register-or-login",
-    ),
-    path("register/", home_views.RegisterView.as_view(), name="register"),
     path("logout/", auth_views.LogoutView.as_view(), name="logout"),
     path("faq", home_views.faq, name="home-faq"),
     path("guide", home_views.guide, name="home-guide"),
