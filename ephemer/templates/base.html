@@ -73,12 +73,6 @@
                         </li>
                     </ul>
 
-
-                    <!--
-                         <li class="container">
-                         
-                         </li>
-                    -->
                     <div id="user-info" class="pe-2">
 
                         {% if user.is_authenticated %}
@@ -95,11 +89,7 @@
 
                             </a>
                             <ul class="dropdown-menu text-small shadow" aria-labelledby="dropdownUser2">
-                                <!-- 
-                                     <li><a class="dropdown-item" href="#">Nouveau Projet...</a></li>
-                                     <li><a class="dropdown-item" href="#">Profil</a></li>
-                                     <li><hr class="dropdown-divider"></li>
-                                -->
+
                                 <li><a class="dropdown-item" href="{% url 'logout' %}">Déconnexion</a></li>
 
                                 <li><hr class="dropdown-divider"></li>
