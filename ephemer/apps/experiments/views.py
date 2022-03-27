@@ -183,13 +183,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
     return HttpResponse(status=200)
 
 
-@login_required
-def session_results_as_csv(request, session_id: int):
-    """Get raw results of a sesssion, as CSV"""
-    session = get_object_or_404(models.Session, pk=session_id)
-    if (not request.user.is_staff) and (session.created_by != request.user):
-        raise Http404
-
+def _maybe_fetch_csv_from_otree_server(session):
     otree = OTreeConnector(_get_otree_api_uri())
     try:
         response = otree.get_session_results_for_app_as_csv(
@@ -208,9 +202,20 @@ def session_results_as_csv(request, session_id: int):
 
         session.csv = filepath
         session.save()
-    else:
-        if not session.csv:
-            return HttpResponse(status=404)
+
+
+@login_required
+def session_results_as_csv(request, session_id: int):
+    """Get raw results of a sesssion, as CSV"""
+    session = get_object_or_404(models.Session, pk=session_id)
+
+    if (not request.user.is_staff) and (session.created_by != request.user):
+        raise Http404
+
+    _maybe_fetch_csv_from_otree_server(session)
+
+    if not session.csv:
+        raise Http404
 
     return FileResponse(open(session.csv, "rb"))
 
@@ -225,27 +230,10 @@ def session_results(request, session_id: int):
     if not session.experiment.report_script:
         raise Http404
 
-    otree = OTreeConnector(_get_otree_api_uri())
-    try:
-        response = otree.get_session_results_for_app_as_csv(
-            session.otree_handler, session.experiment.otree_app_name
-        )
-    except otree_exceptions.OTreeNotAvailable:
-        response = None
+    _maybe_fetch_csv_from_otree_server(session)
 
-    base_dir = models.get_csv_path()
-    os.makedirs(base_dir, exist_ok=True)
-    filepath = os.path.join(base_dir, f"{session.id}.csv")
-
-    if response:
-        with open(filepath, "wb") as f:
-            f.write(response.content)
-
-        session.csv = filepath
-        session.save()
-    else:
-        if not session.csv:
-            return HttpResponse(status=404)
+    if not session.csv:
+        raise Http404
 
     report_script = importlib.import_module(
         "ephemer.apps.experiments.reports." + session.experiment.report_script
