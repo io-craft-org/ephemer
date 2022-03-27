@@ -52,6 +52,8 @@ class Experiment(models.Model):
 
     report_script = models.CharField(max_length=200, blank=True, null=True)
 
+    slug = models.CharField(max_length=30)
+
     def get_absolute_url(self):
         return reverse(
             "experiments-experiment-detail", kwargs={"experiment_id": self.pk}

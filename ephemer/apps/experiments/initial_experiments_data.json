@@ -11,7 +11,8 @@
       "otree_app_name": "groupes_minimaux_labo",
       "notice": "Les_groupes_et_leurs_relations.pdf",
       "image": "Les_groupes_et_leurs_relations.png",
-      "report_script": "report_groupes_minimaux_labo"
+      "report_script": "report_groupes_minimaux_labo",
+      "slug": "rapports_intergroupes"
     }
   },
   {
@@ -26,7 +27,8 @@
       "otree_app_name": "mineurs_age_v2",
       "notice": "La_prise_en_charge_des_jeunes_non-accompagnes.pdf",
       "image": "",
-      "report_script": "report_mineurs"
+      "report_script": "report_mineurs",
+      "slug": "jeunes_non_accompagnés"
     }
   },
   {
@@ -41,7 +43,8 @@
       "otree_app_name": "voiture",
       "notice": "Dilemmes_moraux_et_nouvelles_technologies.pdf",
       "image": "Dilemmes_moraux_et_nouvelles_technologies.png",
-      "report_script": "report_voiture"
+      "report_script": "report_voiture",
+      "slug": "dilemnes_moraux"
     }
   },
   {
@@ -56,7 +59,8 @@
       "otree_app_name": "FGES_Louvain",
       "notice": "Efficacite_collective.pdf",
       "image": "Efficacite_collective.png",
-      "report_script": "report_fges_louvain"
+      "report_script": "report_fges_louvain",
+      "slug": "efficacité_collective"
     }
   },
   {
@@ -72,7 +76,8 @@
       "otree_app_name": "com_serielle",
       "notice": "Rumeurs_et_infoxs.pdf",
       "image": "",
-      "report_script": "report_com_serielle"
+      "report_script": "report_com_serielle",
+      "slug": "rumeurs_et_infoxs"
     }
   },
   {
@@ -89,7 +94,8 @@
       "otree_app_name": "evasion_FINAL_BIDEN",
       "notice": "Fiscalite_appliquée_et_rapport_à_l_impôt.pdf",
       "image": "",
-      "report_script": "report_evasion_final_biden"
+      "report_script": "report_evasion_final_biden",
+      "slug": "fiscalité_appliquée"
     }
   }
 ]
