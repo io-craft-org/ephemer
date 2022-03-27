@@ -17,7 +17,7 @@
   },
   {
     "model": "experiments.experiment",
-    "pk": 3,
+    "pk": 2,
     "fields": {
       "title": "La prise en charge des jeunes non accompagnés",
       "goals": "Cette expérience vise à interpeller les étudiants sur les questions liées à la prise en charge des jeunes migrants non accompagnés. L’intervention réalisée porte plus particulièrement sur la problématique de la détermination de l’âge de ces jeunes et sur la manière dont celle-ci peut être influencée par la connaissance des conséquences de cette évaluation sur la prise en charge des jeunes.",
@@ -33,7 +33,7 @@
   },
   {
     "model": "experiments.experiment",
-    "pk": 4,
+    "pk": 3,
     "fields": {
       "title": "Dilemnes moraux et nouvelles technologies",
       "goals": "Cette expérience vise à interpeller les participants sur les questions éthiques qui sous-tendent le développement des nouvelles technologies. L’expérience est focalisée sur la question des voitures autonomes.",
@@ -49,7 +49,7 @@
   },
   {
     "model": "experiments.experiment",
-    "pk": 5,
+    "pk": 4,
     "fields": {
       "title": "Efficacité collective, penser le groupe et son fonctionnement",
       "goals": "L’objectif de cette expérience est d’interpeller les participants sur le concept d’efficacité collective et son lien avec la productivité d’un groupe.",
@@ -65,7 +65,7 @@
   },
   {
     "model": "experiments.experiment",
-    "pk": 6,
+    "pk": 5,
     "fields": {
       "title": "Rumeurs et infoxs",
       "goals": "Cette expérimentation vise à interpeller les participants sur leur rapport à l’information et à sa diffusion. Plus précisément, il s’agit de sensibiliser les participants aux processus impliqués dans la déformation de l’information et la naissance des rumeurs et infox (i.e., fake news) au travers d’une expérimentation mobilisant le paradigme des communications avec relais (Allport & Postman, 1945).",
@@ -82,7 +82,7 @@
   },
   {
     "model": "experiments.experiment",
-    "pk": 7,
+    "pk": 6,
     "fields": {
       "title": "Fiscalité appliquée et rapport à l'impôt",
       "goals": "Il apparaît dans la littérature que le fait d’être confronté à un dilemme fiscal tend à réduire l’honnêteté et les préoccupations éthiques en matière de fiscalité. Cela peut s’expliquer par un excès de confiance initial dans la propension des individus à respecter les règles fiscales. Cette expérience permet de discuter l’implication de cette réduction sur le comportement éthique des futurs contribuables, notamment en ce qui concerne le compromis à faire entre éthique et avantages financiers. L’objectif de cette intervention est de placer les participants dans une simulation fiscale afin d’étudier l’impact de l’exposition à des dilemmes fiscaux sur leurs attitudes à l’égard de la fiscalité. Plus précisément, il s’agit d’observer l’influence des décisions fiscales auxquelles ils sont confrontés sur leur niveau actuel et futur de respect des obligations fiscales.",
