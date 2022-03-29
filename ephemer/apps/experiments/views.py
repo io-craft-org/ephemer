@@ -6,6 +6,7 @@ from urllib.parse import urljoin
 import markdown as md
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
+from django.core.files.base import ContentFile
 from django.core.paginator import Paginator
 from django.http import FileResponse, HttpResponse, JsonResponse
 from django.shortcuts import Http404, get_object_or_404, redirect, render
@@ -192,15 +193,11 @@ def _maybe_fetch_csv_from_otree_server(session):
     except otree_exceptions.OTreeNotAvailable:
         response = None
 
-    base_dir = models.get_csv_path()
-    os.makedirs(base_dir, exist_ok=True)
-    filepath = os.path.join(base_dir, f"{session.id}.csv")
-
     if response:
-        with open(filepath, "wb") as f:
-            f.write(response.content)
-
-        session.csv = filepath
+        local_path = models.get_csv_local_path()
+        filename = f"{session.id}.csv"
+        filepath = os.path.join(local_path, filename)
+        session.csv.save(name=filepath, content=ContentFile(response.content))
         session.save()
 
 
@@ -217,7 +214,7 @@ def session_results_as_csv(request, session_id: int):
     if not session.csv:
         raise Http404
 
-    return FileResponse(open(session.csv, "rb"))
+    return FileResponse(session.csv)
 
 
 @login_required

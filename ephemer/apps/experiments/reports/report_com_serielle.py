@@ -10,26 +10,25 @@ def render(request, session) -> HttpResponse:
     initial_message = ""
     groups = defaultdict(dict)
 
-    with open(session.csv, "r") as csv_file:
+    session.csv.open("r")
+    csv_reader = csv.reader(session.csv)
+    title_row = csv_reader.__next__()
+    columns_index = {value: index for index, value in enumerate(title_row)}
 
-        csv_reader = csv.reader(csv_file)
-        title_row = csv_reader.__next__()
-        columns_index = {value: index for index, value in enumerate(title_row)}
+    for row in csv_reader:
+        if not initial_message:
+            row_initial_message = row[columns_index["group.initial_message"]]
+            if row_initial_message:
+                initial_message = row_initial_message
 
-        for row in csv_reader:
-            if not initial_message:
-                row_initial_message = row[columns_index["group.initial_message"]]
-                if row_initial_message:
-                    initial_message = row_initial_message
+        row_message = row[columns_index["group.message"]]
+        if not row_message:
+            continue
 
-            row_message = row[columns_index["group.message"]]
-            if not row_message:
-                continue
-
-            group_id = row[columns_index["group.id_in_subsession"]]
-            round_number = row[columns_index["subsession.round_number"]]
-            if round_number not in groups[group_id]:
-                groups[group_id][round_number] = row_message
+        group_id = row[columns_index["group.id_in_subsession"]]
+        round_number = row[columns_index["subsession.round_number"]]
+        if round_number not in groups[group_id]:
+            groups[group_id][round_number] = row_message
 
     groups_for_context = []
     groups_counter = 1

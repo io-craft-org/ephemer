@@ -27,7 +27,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "59757",
       "join_in_code": "kolirade",
-      "csv": "results_mineurs.csv"
+      "csv": "sessions/exports/results_mineurs.csv"
     }
   },
   {
@@ -41,7 +41,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "98790",
       "join_in_code": "nemarchepas",
-      "csv": "results_com_serielle.csv"
+      "csv": "sessions/exports/results_com_serielle.csv"
     }
   },
   {
@@ -55,7 +55,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "45918",
       "join_in_code": "nemarchepas",
-      "csv": "results_voiture.csv"
+      "csv": "sessions/exports/results_voiture.csv"
     }
   },
   {
@@ -69,7 +69,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "78291",
       "join_in_code": "nemarchepas",
-      "csv": "results_fges_louvain.csv"
+      "csv": "sessions/exports/results_fges_louvain.csv"
     }
   },
   {
@@ -83,7 +83,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "32900",
       "join_in_code": "nemarchepas",
-      "csv": "results_groupes_minimaux_labo.csv"
+      "csv": "sessions/exports/results_groupes_minimaux_labo.csv"
     }
   },
   {
@@ -97,7 +97,7 @@
       "otree_handler": "nexistepas",
       "pin_code": "41562",
       "join_in_code": "nemarchepas",
-      "csv": "results_evasion_final_biden.csv"
+      "csv": "sessions/exports/results_evasion_final_biden.csv"
     }
   }
 ]

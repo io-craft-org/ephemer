@@ -229,7 +229,7 @@ def create_graphique_scores_moyens_généraux(data: pd.DataFrame) -> Graphique:
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
-        csv_name=session.csv,
+        csv_file=session.csv,
         graph_funcs=[
             create_graphique_choix_rémunération_matrice_1,
             create_graphique_choix_rémunération_matrice_2,

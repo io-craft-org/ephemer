@@ -261,7 +261,7 @@ def create_graphique_proportions_joueurs_B_par_groupe(data: pd.DataFrame) -> Gra
 def render(request, session) -> HttpResponse:
 
     graphs = render_graphs(
-        csv_name=session.csv,
+        csv_file=session.csv,
         graph_funcs=[
             create_graphique_taux_imposition_décidés,
             create_graphique_taux_redistribution_décidés,

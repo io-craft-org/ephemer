@@ -1,3 +1,4 @@
+import os
 import random
 
 from django.conf import settings
@@ -70,8 +71,16 @@ def generate_pin():
     return f"{random.randrange(1, 10**PIN_CODE_LENGTH):0{PIN_CODE_LENGTH}}"
 
 
+def get_csv_local_path():
+    return "sessions/exports"
+
+
 def get_csv_path():
-    return f"{settings.MEDIA_ROOT}/sessions/exports/"
+    return os.path.join(settings.MEDIA_ROOT, get_csv_local_path())
+
+
+def get_upload_path(instance, original_filename):
+    return os.path.join(get_csv_local_path(), original_filename)
 
 
 class Session(models.Model):
@@ -93,8 +102,7 @@ class Session(models.Model):
         unique=True, max_length=PIN_CODE_LENGTH, default=generate_pin
     )
     join_in_code = models.CharField(default="", max_length=50)
-    csv = models.FilePathField(
-        path=get_csv_path,
+    csv = models.FileField(
+        upload_to=get_upload_path,
         null=True,
-        blank=True,
     )

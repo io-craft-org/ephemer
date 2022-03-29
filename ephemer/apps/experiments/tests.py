@@ -1,3 +1,4 @@
+import os
 import re
 import tempfile
 from unittest.mock import Mock
@@ -796,7 +797,7 @@ def test_session_csv_cache(client, mocker):
 
     session = models.Session.objects.all()[0]
     assert response.status_code == 404
-    assert session.csv is None
+    assert not session.csv
 
 
 ########################################################################
@@ -823,7 +824,7 @@ def test_session_results_for_app_and_csv_data(client, report_script, csv_filenam
             models.Session,
             created_by=user,
             experiment=experiment,
-            csv=models.get_csv_path() + csv_filename,
+            csv=os.path.join(models.get_csv_local_path(), csv_filename),
         ).make()
         response = client.get(
             reverse("experiments-session-results", args=(session.pk,))

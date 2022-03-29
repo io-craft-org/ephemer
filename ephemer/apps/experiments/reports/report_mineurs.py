@@ -378,7 +378,7 @@ def create_graphique_certitude_âge_en_fonction_sources_info(
 
 def render(request, session) -> HttpResponse:
     graphs = render_graphs(
-        csv_name=session.csv,
+        csv_file=session.csv,
         graph_funcs=[
             create_graphique_âge_attribué_cas_1_à_3,
             create_graphique_certitude_sur_âge_cas_1_à_3,

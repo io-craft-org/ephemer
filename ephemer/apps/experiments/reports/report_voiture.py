@@ -99,7 +99,7 @@ def create_graphiques(data: pd.DataFrame) -> List[Graphique]:
 
 
 def render(request, session) -> HttpResponse:
-    graphs = render_graphs(csv_name=session.csv, graph_funcs=[create_graphiques])
+    graphs = render_graphs(csv_file=session.csv, graph_funcs=[create_graphiques])
 
     return django_render(
         request,
