@@ -25,9 +25,12 @@ class Graphique:
 def compute_bounds(
     values,
     zero_lower_bound: Optional[bool] = None,
-    minimal_range: Number = 1,
+    minimal_range: Number = None,
     precision: Number = 0.1,
 ):
+    if not minimal_range:
+        minimal_range_percent_of_max = 10
+        minimal_range = max(values) * minimal_range_percent_of_max / 100
     if zero_lower_bound:
         lower_bound = 0
         max_value = max(values)
@@ -38,8 +41,8 @@ def compute_bounds(
         diff = max(max_value - min_value, minimal_range)
         upper_bound = min_value + diff * (1 + 15 / 55)
         lower_bound = min_value - diff * 30 / 55
-    if minimal_range:
-        upper_bound = max(upper_bound, lower_bound + minimal_range)
+
+    upper_bound = max(upper_bound, lower_bound + minimal_range)
 
     def round_at_precision(n):
         return ceil(n / precision) * precision
