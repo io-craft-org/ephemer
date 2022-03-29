@@ -79,6 +79,13 @@ def get_csv_path():
     return os.path.join(settings.MEDIA_ROOT, get_csv_local_path())
 
 
+def make_csv_filename(session):
+    return "{exp_slug}_{timestamp}.csv".format(
+        exp_slug=session.experiment.slug,
+        timestamp=session.created_on.strftime("%Y%m%d_%H%M%S"),
+    )
+
+
 def get_upload_path(instance, original_filename):
     return os.path.join(get_csv_local_path(), original_filename)
 

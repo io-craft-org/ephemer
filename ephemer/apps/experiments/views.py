@@ -214,7 +214,7 @@ def session_results_as_csv(request, session_id: int):
     if not session.csv:
         raise Http404
 
-    return FileResponse(session.csv)
+    return FileResponse(session.csv, filename=models.make_csv_filename(session))
 
 
 @login_required
