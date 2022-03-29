@@ -810,6 +810,9 @@ def test_session_csv_cache(client, mocker):
         ["report_com_serielle", "results_com_serielle.csv"],
         ["report_com_serielle", "results_com_serielle_empty.csv"],
         ["report_fges_louvain", "results_fges_louvain.csv"],
+        ["report_voiture", "results_voiture.csv"],
+        ["report_groupes_minimaux_labo", "results_groupes_minimaux_labo.csv"],
+        ["report_evasion_final_biden", "results_evasion_final_biden.csv"],
     ],
 )
 @pytest.mark.django_db
