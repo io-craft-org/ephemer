@@ -25,7 +25,7 @@ class Graphique:
 def compute_bounds(
     values,
     zero_lower_bound: Optional[bool] = None,
-    minimal_range: Optional[Number] = None,
+    minimal_range: Number = 1,
     precision: Number = 0.1,
 ):
     if zero_lower_bound:
@@ -35,7 +35,7 @@ def compute_bounds(
     else:
         min_value = min(values)
         max_value = max(values)
-        diff = max_value - min_value
+        diff = max(max_value - min_value, minimal_range)
         upper_bound = min_value + diff * (1 + 15 / 55)
         lower_bound = min_value - diff * 30 / 55
     if minimal_range:
