@@ -50,6 +50,10 @@ def _get_otree_api_uri():
     return urljoin(settings.OTREE_HOST, settings.OTREE_API_PATH)
 
 
+def get_otree_connector():
+    return OTreeConnector(_get_otree_api_uri())
+
+
 @login_required
 def session_create(request, experiment_id):
     experiment = get_object_or_404(models.Experiment, pk=experiment_id)
@@ -58,7 +62,7 @@ def session_create(request, experiment_id):
         form = forms.SessionCreateForm(request.POST, experiment=experiment)
         if form.is_valid():
             participant_count = form.cleaned_data.get("participant_count")
-            otree = OTreeConnector(_get_otree_api_uri())
+            otree = get_otree_connector()
             try:
                 otree_session = otree.create_session(
                     experiment.otree_app_name,
@@ -118,7 +122,7 @@ def session_detail(request, session_id):
 
     otree_session = None
 
-    otree = OTreeConnector(_get_otree_api_uri())
+    otree = get_otree_connector()
     try:
         otree_session = otree.get_session(session.otree_handler)
     except otree_exceptions.OTreeNotAvailable:
@@ -155,7 +159,7 @@ def session_participants_state_json(request, session_id: int):
     if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
-    otree = OTreeConnector(_get_otree_api_uri())
+    otree = get_otree_connector()
     try:
         session_participants = otree.get_session_participants(session.otree_handler)
     except otree_exceptions.OTreeNotAvailable:
@@ -175,7 +179,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
     if (not request.user.is_staff) and (session.created_by != request.user):
         raise Http404
 
-    otree = OTreeConnector(_get_otree_api_uri())
+    otree = get_otree_connector()
     try:
         response = otree.session_advance_participant(participant_code)
     except otree_exceptions.OTreeNotAvailable:
@@ -185,7 +189,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
 
 
 def _maybe_fetch_csv_from_otree_server(session):
-    otree = OTreeConnector(_get_otree_api_uri())
+    otree = get_otree_connector()
     try:
         response = otree.get_session_results_for_app_as_csv(
             session.otree_handler, session.experiment.otree_app_name
