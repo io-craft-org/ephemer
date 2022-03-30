@@ -40,7 +40,7 @@ class Experiment(models.Model):
     )
 
     maximum_participant_count = models.PositiveIntegerField(
-        verbose_name="Nombre maximum de participants", null=True
+        verbose_name="Nombre maximum de participants", blank=True, null=True
     )
 
     otree_app_name = models.CharField(
@@ -53,7 +53,7 @@ class Experiment(models.Model):
 
     report_script = models.CharField(max_length=200, blank=True, null=True)
 
-    slug = models.CharField(max_length=30)
+    slug = models.CharField(max_length=30, blank=True, null=True)
 
     def get_absolute_url(self):
         return reverse(
