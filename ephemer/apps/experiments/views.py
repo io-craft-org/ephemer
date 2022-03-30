@@ -51,7 +51,11 @@ def _get_otree_api_uri():
 
 
 def get_otree_connector():
-    return OTreeConnector(_get_otree_api_uri())
+    try:
+        api_key = settings.OTREE_REST_KEY
+    except AttributeError:
+        api_key = None
+    return OTreeConnector(_get_otree_api_uri(), api_key)
 
 
 @login_required

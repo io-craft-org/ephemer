@@ -13,8 +13,9 @@ logger = logging.getLogger(__name__)
 class OTreeConnector:
     """Connector to talk to OTree5 through its REST API"""
 
-    def __init__(self, api_uri):
+    def __init__(self, api_uri, api_key):
         self.api_uri = api_uri
+        self.api_key = api_key
 
     def _get(self, endpoint, json_data={}, json_response=True):
         return self._call(requests.get, endpoint, json_data, json_response)
@@ -24,10 +25,14 @@ class OTreeConnector:
 
     def _call(self, caller, endpoint, json_data={}, json_response=True):
         url = self.api_uri + "/" + endpoint
+        headers = {}
+
+        if self.api_key:
+            headers["otree-rest-key"] = self.api_key
 
         try:
             logger.info(f"{caller.__name__.upper()} {url}")
-            resp = caller(url, json=json_data)
+            resp = caller(url, json=json_data, headers=headers)
         except Exception as error:
             # XXX Maybe we could report what happened
             logger.error(error)
