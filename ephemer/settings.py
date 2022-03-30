@@ -181,10 +181,9 @@ MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
 INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 # OTREE Configuration
-OTREE_HOST = "http://localhost:8001"
+OTREE_HOST = "http://localhost:8001"  # Emplacement du serveur ephemer-otree
 OTREE_API_PATH = "/api"
-OTREE_REST_KEY = "foobar"
+OTREE_REST_KEY = "foobar"  # Clé secrète de l'API otree. À placer également dans la configuration de ephemer-otree
 
 # EPHEMER Configuration
-# Le hostname est utilisé pour créer le QR code.
-EPHEMER_HOSTNAME = "http://localhost:8000"
+EPHEMER_HOSTNAME = "http://localhost:8000"  # L'emplacement public de ce serveur. Permet de générer un QR code pour la page d'accès des participants
