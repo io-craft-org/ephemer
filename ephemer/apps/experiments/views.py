@@ -183,7 +183,7 @@ def session_advance_participant(request, session_id: int, participant_code: str)
 
     otree = get_otree_connector()
     try:
-        response = otree.session_advance_participant(participant_code)
+        otree.session_advance_participant(participant_code)
     except otree_exceptions.OTreeNotAvailable:
         return HttpResponse(status=500)
 
