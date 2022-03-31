@@ -57,7 +57,6 @@ class OTreeConnector:
 
     def create_session(self, app_name, num_participants):
         """Create a new session"""
-        # XXX Handle session configuration
         data = self._post(
             "sessions",
             {
