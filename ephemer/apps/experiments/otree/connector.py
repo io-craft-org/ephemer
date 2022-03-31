@@ -77,16 +77,13 @@ class OTreeConnector:
             handler=session_id,
             join_in_code="/".split(data["session_wide_url"])[-1],
             num_participants=data["num_participants"],
-            participants=[
-                Participant.from_otree(p_data) for p_data in data["participants"]
-            ],
+            participants=self._make_participants(data["participants"]),
         )
 
     def get_session_participants(self, session_id):
         """Return current participant details of a session"""
         data = self._get(f"sessions/{session_id}/participants")
-
-        return [Participant.from_otree(p_data) for p_data in data]
+        return self._make_participants(data)
 
     def session_advance_participant(self, participant_code):
         """Advance a given participant"""
@@ -97,6 +94,11 @@ class OTreeConnector:
         return self._get(
             f"sessions/{session_id}/export/app/{app_name}", json_response=False
         )
+
+    def _make_participants(self, data):
+        participants = [Participant.from_otree(p_data) for p_data in data]
+        participants.sort(key=lambda participant: participant.id_in_session)
+        return participants
 
 
 def get_next_participant_code(otree_host, session_wide_code):
