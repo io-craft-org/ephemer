@@ -312,7 +312,6 @@ def maybe_get_participant_code(request, session):
 
 
 def participant_session(request, pin_code):
-    # FIXME: clean the untrusted PIN code
     session = get_object_or_404(models.Session, pin_code=pin_code)
 
     from .otree.connector import get_next_participant_code
