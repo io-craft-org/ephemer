@@ -34,7 +34,6 @@ class OTreeConnector:
             logger.info(f"{caller.__name__.upper()} {url}")
             resp = caller(url, json=json_data, headers=headers)
         except Exception as error:
-            # XXX Maybe we could report what happened
             logger.error(error)
             raise OTreeNotAvailable(error)
 
