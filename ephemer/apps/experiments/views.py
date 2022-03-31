@@ -75,8 +75,6 @@ def session_create(request, experiment_id):
             except otree_exceptions.OTreeNotAvailable:
                 return redirect("experiments-service-unavailable")
 
-            # FIXME Should handle backend error here
-
             session = form.save(commit=False)
             session.otree_handler = otree_session.handler
             session.join_in_code = otree_session.join_in_code
