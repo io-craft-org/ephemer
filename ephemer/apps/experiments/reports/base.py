@@ -58,6 +58,10 @@ def filter_valid_participants(data: pd.DataFrame) -> pd.DataFrame:
 
 def render_graphs(csv_file, graph_funcs):
     data = filter_valid_participants(pd.read_csv(filepath_or_buffer=csv_file))
+
+    if len(data) == 0:
+        return []
+
     graphs = []
     for func in graph_funcs:
         result = func(data)

@@ -12,18 +12,22 @@
     <div class="col-11 mx-auto">
         <h3 class="fw-bold">Résultat de l'expérience {{ session.name }} ({{ session.experiment.title }})</h3>
 
-        <div class="row">
-            <div class="col-12 py-5" style="width: 100%; max-width: 1200px;">
-                {% for graph in graphs %}
-                    <div class="graph">
-                        <h3>{{ graph.title }}</h3>
-                        <img src="data:image/png;charset=utf-8;base64,{{ graph.image }}">
-                        {% if graph.legend %}
-                            <p>{{ graph.legend }}</p>
-                        {% endif %}
-                    </div>
-                {% endfor %}
+        {% if graphs %}
+            <div class="row">
+                <div class="col-12 py-5" style="width: 100%; max-width: 1200px;">
+                    {% for graph in graphs %}
+                        <div class="graph">
+                            <h3>{{ graph.title }}</h3>
+                            <img src="data:image/png;charset=utf-8;base64,{{ graph.image }}">
+                            {% if graph.legend %}
+                                <p>{{ graph.legend }}</p>
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
-        </div>
+        {% else %}
+            <p class="col-6 mx-auto">Il n'y a pas encore de résultats à présenter pour cette session.</p>
+        {% endif %}
     </div>
 {% endblock %}
