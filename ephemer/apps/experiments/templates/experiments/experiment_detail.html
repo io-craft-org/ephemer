@@ -29,6 +29,16 @@
             {{ experiment.duration_min }} minute{{ experiment.duration_min|pluralize }}
         </span>
     </p>
+
+    <div class="d-flex justify-content-center m-2">
+        <a class="btn btn-primary" href="{% url 'experiments-session-create' experiment.pk %}">
+            {% bs_icon 'sliders' size='16px' extra_classes='align-middle me-1' %}
+            <span class="align-middle">
+                Configurer et démarrer l'expérience
+            </span>
+        </a>
+    </div>
+
     <div class="mb-2 bg-light rounded rounded-4 p-4 fs-4">
         <h4>
             <span class="align-middle fw-bolder">Objectifs</span>
@@ -48,16 +58,6 @@
         <p>→ Plus d’informations sont disponibles sur la <a href="{% get_media_prefix %}{{ experiment.notice }}">notice de l'expérience</a></p>
         {% endif %}
     </div>
-
-    <div class="d-flex justify-content-end m-2">
-        <a class="btn btn-primary" href="{% url 'experiments-session-create' experiment.pk %}">
-            {% bs_icon 'sliders' size='16px' extra_classes='align-middle me-1' %}
-            <span class="align-middle">
-                Configurer et démarrer l'expérience
-            </span>
-        </a>
-    </div>
-
 
 </div>
 {% endblock %}
