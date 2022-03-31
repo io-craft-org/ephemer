@@ -314,6 +314,7 @@ def maybe_get_participant_code(request, session):
 def participant_session(request, pin_code):
     session = get_object_or_404(models.Session, pin_code=pin_code)
 
+    # FIXME: This import must stay here because of the timing of patch in the tests.
     from .otree.connector import get_next_participant_code
 
     context = {}
