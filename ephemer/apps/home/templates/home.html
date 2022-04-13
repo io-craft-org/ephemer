@@ -27,7 +27,11 @@
         
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
             <a href="{% url 'experiments-participant-join-session' %}" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Rejoindre une session</a>
-                <a href="#get-started" type="button" class="btn btn-outline-secondary btn-lg px-4">Créer une expérience</a>
+            <a href="{% if user.is_authenticated %}{% url 'experiments-experiment-list' %}{% else %}#get-started{% endif %}"
+               type="button"
+               class="btn {% if user.is_authenticated %}btn-primary{% else %}btn-outline-secondary{% endif %} btn-lg px-4">
+                Créer une expérience
+            </a>
       </div>
 
       <p class="text-center">Plus d’informations dans <a href="{% url 'home-guide' %}">notre guide d'utilisation</a>.</p>
