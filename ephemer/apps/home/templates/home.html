@@ -26,9 +26,8 @@
         </p>
         
         <div class="d-grid gap-2 d-sm-flex justify-content-sm-center mb-5">
-            <a href="{% url 'experiments-participant-join-session' %}" type="button" class="btn btn-primary btn-lg px-4 me-sm-3">Rejoindre une session</a>
+            <a href="{% url 'experiments-participant-join-session' %}" class="btn btn-primary btn-lg px-4 me-sm-3">Rejoindre une session</a>
             <a href="{% if user.is_authenticated %}{% url 'experiments-experiment-list' %}{% else %}#get-started{% endif %}"
-               type="button"
                class="btn {% if user.is_authenticated %}btn-primary{% else %}btn-outline-secondary{% endif %} btn-lg px-4">
                 Créer une expérience
             </a>
@@ -64,7 +63,9 @@
         </ul>
         </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-            <a href="{% url 'magicauth-login' %}" type="button" class="btn btn-outline-primary btn-lg px-4">S'inscrire pour démarrer une expérience</a>
+            <a href="{% url 'magicauth-login' %}" class="btn btn-outline-primary btn-lg px-4">
+                S'inscrire pour démarrer une expérience
+            </a>
         </div>
     </div>
 </div>
