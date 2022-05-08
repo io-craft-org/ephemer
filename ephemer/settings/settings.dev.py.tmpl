@@ -1,0 +1,20 @@
+#!/bin/env python3
+
+from common import *
+
+DEBUG = True
+
+SECRET_KEY = "blah"
+
+# SECURITY WARNING: don't run with debug turned on in production!
+ALLOWED_HOSTS = ["*"]  # FIXME: Should be changed before production
+
+INTERNAL_IPS = ["127.0.0.1", "localhost"]
+
+MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
+
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+
+
+

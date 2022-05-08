@@ -19,15 +19,6 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
 
-# SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-yd!l1k_i2mxkasc=6n&906z+63a%0$*4v*iir-wb*@&*4qrefg"
-
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
-
-ALLOWED_HOSTS = ["*"]  # FIXME: Should be changed before production
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -156,9 +147,6 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 # EMAIL
 EMAIL_FROM = "Ephemer <no-reply@ephemer.fr>"
-EMAIL_BACKEND = (
-    "django.core.mail.backends.console.EmailBackend"  # FIXME: toggle if production
-)
 
 TEAM_EMAILS = ()
 
@@ -175,10 +163,6 @@ MAGICAUTH_TOKEN_DURATION_SECONDS = 60 * 60 * 4
 # Session Settings
 SESSION_EXPIRE_AT_BROWSER_CLOSE = False
 SESSION_COOKIE_AGE = 60 * 60  # 1h
-
-# DJDT FIXME: move to dev settings
-MIDDLEWARE += ("debug_toolbar.middleware.DebugToolbarMiddleware",)
-INTERNAL_IPS = ["127.0.0.1", "localhost"]
 
 # OTREE Configuration
 OTREE_HOST = "http://localhost:8001"  # Emplacement du serveur ephemer-otree
